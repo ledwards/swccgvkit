@@ -18,6 +18,7 @@ gem 'sqlite3-ruby', :require => 'sqlite3'
 # gem 'nokogiri', '1.4.1'
 # gem 'sqlite3-ruby', :require => 'sqlite3'
 # gem 'aws-s3', :require => 'aws/s3'
+gem "devise", "1.1.rc0"
 
 # Bundle gems for certain environments:
 # gem 'rspec', :group => :test
@@ -33,7 +34,8 @@ gem "rspec-mocks",        ">= 2.0.0.beta.10", :git => "git://github.com/rspec/rs
 gem 'webrat'
 gem 'database_cleaner'
 gem 'cucumber-rails'
-gem 'cucumber', '0.7.3'
+gem 'cucumber', '0.8.1'
+gem 'gherkin'
 gem 'spork'
 gem 'launchy'
 gem "autotest"
