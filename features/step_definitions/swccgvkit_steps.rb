@@ -1,3 +1,5 @@
+require File.expand_path(File.dirname(__FILE__) + '/../../config/environment')
+
 Given /^that I am logged out$/ do
   if user_signed_in?
     @user.log_out

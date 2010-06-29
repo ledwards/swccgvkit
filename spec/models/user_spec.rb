@@ -22,7 +22,7 @@ describe User do
   end
   
   it "is not valid with mismatched passwords" do
-      user = User.new(:email => "darthvader@empire.com", :password => "noooooooooooooooo", :password_confirmation => "iwantthemalive")
-      user.should_not be_valid
-    end  
+    user = User.new(:email => "darthvader@empire.com", :password => "noooooooooooooooo", :password_confirmation => "iwantthemalive")
+    user.should_not be_valid
+  end
 end

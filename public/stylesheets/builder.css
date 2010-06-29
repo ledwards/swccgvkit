@@ -1,0 +1,224 @@
+@charset "utf-8";
+/* CSS Document */
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td { margin:0; padding:0; }
+* html body{  overflow:hidden; } 
+
+a { font: 11px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-serif; color: #ffffff; text-decoration: none; }
+a:hover { color: #ffde71;}
+img { border: none }
+body { background: #1b1b1b; padding-top: 4px;}
+#container { width: 98%; margin: 0 auto 0 auto; padding-top: 75px;}
+h1,h2 { font: 18px/20px "Lucida Sans",Helvetica, Arial, sans-serif; color: #ffde71; letter-spacing: -1px; font-weight: 700; text-align: center; }
+	
+div.header {z-index: 5; position: relative; width: auto; height: 65px; top: 0px; margin-bottom: 15px; padding-left: 15px; padding-bottom: 10px;
+			border-bottom: 1px solid #333; margin-top: -10px; background: #242424;}
+div.left, div.right {background: #434343 url(/images/box_bottom.gif) left bottom no-repeat; position: relative; font: 11px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-serif; color: #898989; padding: 38px 10px 15px 10px; width: 263px;}
+div.left { min-height: 50px; float: left;  margin-right: 20px; margin-left: 30px;  margin-bottom: 35px; }
+div.right { min-height: 25px; float: right;  margin-left: 20px; margin-right: 30px;  margin-bottom: 35px; }
+div.center { width: auto; text-align: center;  position: relative; margin: 0 298px 0 298px;}
+div.left h1, div.right h1{ position: absolute; top: 0; left: 0; background: url(/images/box_header.gif) top left no-repeat; height: 21px; font: 9px/20px 'Lucida Grande','Lucida Sans Unicode',Verdana, sans-serif; letter-spacing: 1px; font-weight: bold; color: #f0f0f0; display: block; text-transform: uppercase; width: 100%; text-align: center; }
+div.center h1{ display: none }
+div.right form { clear: none; display: inline;}
+div.right img {margin-top: -2px; float: left;}
+
+a#logo { 
+		background:transparent url(/images/vkit_logo_sm.gif) no-repeat scroll left top;
+		border:medium none;
+		float:left;
+		font-size:0;
+		height:69px;
+		margin-top:6px;
+		text-indent:-9009px;
+		width:241px;
+		z-index:90;
+}
+
+#search { float: left; max-width: 420px; margin: 30px 0 0 15px; }
+
+#notice_box {
+	background:transparent url(/images/notice.png) no-repeat left top;
+	position: relative;
+	float: right;
+	margin-top: -3px;
+	z-index: 3;
+	text-align: center;
+	font: 11px "Lucida Grande", "Lucida Sans Unicode", Verdana; color: #ffde71; 
+	width: 200px;
+	margin-top: 30px;
+	padding-right: 30px;
+	padding-top: 6px;
+	height: 23px;
+	margin: 28px 20px 0 0;
+}
+
+#notice_box a {margin-left: 5px;}
+div#notice_box p {float: left; margin: 0 0 0 12px; text-align: left;}
+div#notice_box img {float: left; margin: 0 -5px 0 10px;}
+
+p#links {
+	color:#666666;
+	position:absolute;
+	right:265px;
+	top:31px;
+}
+p#links a { line-height: 22px }
+
+div.cart, div.saved_cardlists {}
+
+div.saved_cardlists h3 {font: 9px/16px 'Lucida Grande','Lucida Sans Unicode',Verdana, sans-serif; letter-spacing: 1px; text-transform: uppercase; padding-bottom: 2px; border-bottom: 1px dotted #737373; color: #fff; margin-bottom: 10px; font-weight: bold;}
+div.cart {}
+
+div.cart a{color: #ffffff;}
+div.cart a:hover {border-bottom: none;}
+
+div.left ul li, div.right ul li {
+	list-style: none;
+    margin-left: 15px;    
+}
+
+div.auto_complete {
+          width: 312px !important;
+          background: #434343 url(/images/autocomplete_bottom.gif) left bottom no-repeat !important;
+		  font: 11px 'Lucida Grande','Lucida Sans Unicode',Verdana, sans-serif;
+		  color: #CCCCCC;
+		  padding: 7px;
+		  border: none !important;
+        }
+		div.auto_complete strong { color: #fff}
+		
+        div.auto_complete ul {
+		  background: none;
+          margin:0;
+          padding:0;
+          width:100% !important;
+          list-style-type:none;
+		  border: none !important;
+        }
+        div.auto_complete ul li {
+          margin: 3px 0;
+		  padding: 7px 3px 0px 3px !important;
+		  background: #434343;
+		  border: none;
+		  height: 40px !important;
+		  cursor: pointer;
+        }
+        div.auto_complete ul li.selected {
+          background: #1b1b1b !important;
+        }
+	
+.card-thumbnail {
+	float: left;
+	height: 55px;
+	margin-right: 5px;
+	margin-top: -1px;
+}
+
+.add-to-cart-button input {size: 5px;}
+
+.saved_cardlists ul { list-style: none; margin-left: -10px;}
+.saved_cardlists li { margin-bottom: 10px; color: #CCCCCC}
+.saved_cardlists img {margin-bottom: -6px; margin-right: 3px; }
+
+.search-result img {
+	float: left;
+	height: 35px;
+	margin-right: 5px;
+}
+
+.search-result p {
+	text-align: left;
+}
+
+.saved_cardlists td {
+	padding: 15px;
+	background-color: #cccccc;
+	vertical-align: top;
+}
+
+#saved_cardlists {
+	width: 200px;
+}
+
+/* These can be used to style alternating search result entries */
+
+.list-line-even {
+}
+
+.list-line-odd {
+}
+
+.search-results { text-align: center; margin: 0px; min-height: 450px;}
+.search-result-wrapper { width: 345px; text-align: center; margin: 0 auto; font: 11px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-serif;
+	color: #898989; height: 32px; padding: 5px; background: url(/images/search_result_bg.gif) top left no-repeat; margin-bottom: 5px; }
+
+#autocomplete-thumbnail { float: left; width: 25px; margin: 0 10px;   }
+#autocomplete-thumbnail input, #auto-complete-thumbnail img {
+	float: left;
+	height: 35px;
+}
+.results-thumbnail { float: left; width: 25px; margin: -2px 10px; }
+.results-thumbnail input {
+	float: left;
+	height: 35px;
+}
+.results-name { float: left; width: 240px; margin: 0 5px; text-align: left;  font: 11px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-serif; color: #CCCCCC}
+.results-add { float: left; width: 20px; padding-top: 6px;  }
+#cart form { display: inline; width: 84px; }
+.cart_item { color: #FFFFFF;  clear: both; vertical-align: middle; height: 25px; }
+.cart_item input { width: 20px; font: 11px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-serif; font-weight: 700; color:#666666; float: left; margin-right: 9px;}
+.cart_item img { float: left; margin-right: 5px; }
+#current_item { color: #ffde71 }
+
+input.button { border: none; background: url(/images/button.png) 0px 0px no-repeat;
+	font-family: "Lucida Grande","Lucida Sans Unicode",Arial,Verdana,sans-serif;
+	font-size: 12px; color: #fad575;  padding-bottom: 7px; text-align: center;
+	height:30px; width: 84px; vertical-align: middle; }
+
+input.button:hover { background-position: 0px -29px; color: #fff; cursor: pointer; }
+
+#login, #register {margin: 5px; }
+.login-register-header {margin-top: 15px; margin-bottom: 15px;}
+#login_button, #register_button {display: block; margin: 0 auto; clear: both;}
+.text-field {display: block; margin: 0 auto; clear: both; text-align: center;}
+#login input.text-field, #register input.text-field, #welcome_login .text-field {
+	background:transparent url(/images/login_box_bg.png) no-repeat scroll left top;
+	border:medium none;
+	color:#CCCCCC;
+	display:block;
+	font-family:"Lucida Grande","Lucida Sans Unicode",Verdana;
+	font-size:10px;
+	font-size-adjust:none;
+	font-stretch:normal;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:normal;
+	height:27px;
+	letter-spacing:1px;
+	line-height:normal;
+	margin:0 auto;
+	margin-bottom:-5px;
+	overflow:hidden;
+	padding:6px 0;
+	text-align:center;
+	width:222px;
+}
+.button-container {margin: 0 auto; float: left;}
+#advanced_search { width: 345px; text-align: center; margin: 0 auto;
+	font: 11px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-serif;
+	color: #898989; height: 6px; padding: 5px;
+	background: url(/images/advanced_search.gif) top left no-repeat; margin-bottom: 5px; }
+#footer {width: 200px; margin: 0 auto; margin-top: 20px; padding-bottom: 25px; border-top-width:2px; border-top-style:solid; border-top-color:#ccc;}
+
+.prototip .darkgrey .content { background: #555 !important; }
+
+#welcome_logo { text-align: center; }
+#welcome_login, #welcome_signup { background-color: #434343; width: 300px; margin: 10px auto; padding: 10px; }
+.hidden { display: none; }
+label { font: 11px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-serif; color: #ffde71; text-decoration: none; }
+#remember_me { text-align: center; }
+#login_links { text-align: right; margin-top: 10px;} 
+#welcome_login p, #welcome_signup p { margin-top: 10px; }
+#login_links p { margin-top: 0px; }
+
+#errors { text-align: center; font: 14px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-serif; color: red; }
