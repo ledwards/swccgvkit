@@ -16,16 +16,17 @@ Feature: user signs up
 	    Examples:
 	      | email           | password   |
 	      | testing@man.net | secretpass |
-	      | foo@bar.com     | fr33z3     |
+	      | foo@bar.com     | bazbazbaz  |
 	    
 	Scenario Outline: Logging in
 	    Given I am not authenticated
+			And there is a user with email address "<email>" and password "<password>"
 	    When I go to login
-	    And I fill in "session_email" with "<email>"
-	    And I fill in "session_password" with "<password>"
+	    And I fill in "user_email" with "<email>"
+	    And I fill in "user_password" with "<password>"
 	    And I press "Sign in"
 	    Then I should see "Welcome"
 
 	    Examples:
-	      | email               | password |
-	      | admin@swccgvkit.com | password |
+	      | email       | password  |
+	      | foo@bar.com | bazbazbaz |

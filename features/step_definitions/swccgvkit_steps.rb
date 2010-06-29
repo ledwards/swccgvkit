@@ -6,6 +6,10 @@ Given /^that I am logged out$/ do
   end
 end
 
+Given /^there is a user with email address "([^"]*)" and password "([^"]*)"$/ do |arg1, arg2|
+  User.create(:email => arg1, :password => arg2, :password_confirmation => arg2)
+end
+
 When /^I create an account$/ do
   visit sign_up_path
   fill_in "Email address", :with => "darthvader@galacticempire.com"
