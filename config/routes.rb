@@ -28,6 +28,8 @@ Swccgvkit::Application.routes.draw do |map|
   #       get :sold
   #     end
   #   end
+  
+  resources :cards
 
   # Sample resource route with sub-resources:
   #   resources :products do
