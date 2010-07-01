@@ -6,5 +6,10 @@
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Daley', :city => cities.first)
 
+Role.create(:name => "owner")
+admin_role = Role.create(:name => "admin")
+Role.create(:name => "card admin")
+
 admin = User.new(:email => "admin@swccgvkit.com", :password => "password", :password_confirmation => "password")
+admin.roles << admin_role
 admin.save!
