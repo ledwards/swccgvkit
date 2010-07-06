@@ -1,2 +1,19 @@
-<h1>Cards#index</h1>
-<p>Find me in app/views/cards/index.html.erb</p>
+<div id="image_header">
+	<%= image_tag "card_database.gif", {:alt => "Card Database", :id => ""} %>
+</div>
+
+<div id="notice">
+	<%= flash[:notice]%>
+</div>
+
+<div id="cards">
+	<ul>
+	<% for card in @cards %>
+		<li>
+			<%= link_to card.title, edit_card_path(card) %>
+		</li>
+	<% end %>
+	</ul>
+
+	<p><%= link_to 'New card', new_card_path %></p>
+</div>

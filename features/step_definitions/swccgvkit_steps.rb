@@ -18,13 +18,18 @@ When /^I create an account$/ do
   click_button "Join us!"
 end
 
-Given /^I am logged in as a user with the "([^"]*)" role$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
-  # admin = User.new(:email => "testadmin", :password => "test", :password_confirmation => "test")
-  # Cancan role syntax here
-  # admin.save!
+Given /^There is a role called "([^"]*)"$/ do |arg1|
+  role = Role.find_by_name(arg1) || Role.new(:name => arg1)
+  role.save!
 end
 
-Given /^there is a card with title "([^"]*)" and gametext "([^"]*)"$/ do |arg1, arg2|
-  card = Card.create(:title => arg1, :gametext => arg2, :expansion => "Hoth", :card_type => "Effect")
+Given /^I am logged in as a user with the "([^"]*)" role$/ do |arg1|
+  admin = User.new(:email => "testadmin@swccgvkit.com", :password => "test", :password_confirmation => "test")
+  admin_role = Role.find_by_name(arg1)
+  admin.roles << admin_role
+  admin.save!
+end
+
+Given /^there is a card with title "([^"]*)"$/ do |arg1|
+  card = Card.create(:title => arg1, :gametext => "", :expansion => "Hoth", :card_type => "Effect")
 end

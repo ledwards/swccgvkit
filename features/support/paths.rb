@@ -21,7 +21,7 @@ module NavigationHelpers
       '/cards/new'
     
     when /^edit card 1$/
-      '/edit/cards/1'
+      '/cards/1/edit'
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

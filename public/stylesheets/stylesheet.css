@@ -222,3 +222,8 @@ label { font: 11px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-seri
 #login_links p { margin-top: 0px; }
 
 #errors { text-align: center; font: 14px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-serif; color: red; }
+
+#image_header { text-align: center; }
+#card_form { width: 250px; margin: 0 auto; }
+#card_form p { margin: 10px; }
+#cards { margin: 10px; }

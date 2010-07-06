@@ -1,2 +1,37 @@
-<h1>Cards#new</h1>
-<p>Find me in app/views/cards/new.html.erb</p>
+<div id="image_header">
+	<%= image_tag "card_database.gif", {:alt => "Card Database", :id => ""} %>
+</div>
+
+<div id="card_form">
+	<% form_for(@card) do |f| %>
+	  <%= f.error_messages %>
+
+	  <p>
+	    <%= f.label :title %><br />
+	    <%= f.text_field :title %>
+	  </p>
+	  <p>
+	    <%= f.label :side %><br />
+	    <%= f.text_field :side %>
+	  </p>
+	  <p>
+	    <%= f.label :expansion %><br />
+	    <%= f.text_field :expansion %>
+	  </p>
+	  <p>
+	    <%= f.label :uniqueness %><br />
+	    <%= f.text_field :uniqueness %>
+	  </p>
+	  <p>
+	    <%= f.label :card_type %><br />
+	    <%= f.text_field :card_type %>
+	  </p>
+	  <p>
+	    <%= f.label :subtype %><br />
+	    <%= f.text_field :subtype %>
+	  </p>
+	  <p>
+	    <%= f.submit "Create", :class => "button" %>
+	  </p>
+	<% end %>
+</div>
