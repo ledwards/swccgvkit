@@ -20,7 +20,7 @@ module NavigationHelpers
     when /^new card$/
       '/cards/new'
     
-    when /^edit card 1$/
+    when /^edit a card$/
       '/cards/1/edit'
 
     # Add more mappings here.

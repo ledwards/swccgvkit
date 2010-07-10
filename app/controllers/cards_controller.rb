@@ -1,4 +1,7 @@
 class CardsController < ApplicationController
+  
+  load_and_authorize_resource
+  
   def index
     @cards = Card.all
   end

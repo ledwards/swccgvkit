@@ -6,6 +6,12 @@
 	<%= flash[:notice]%>
 </div>
 
+<p>Currently logged in as: <%= current_user.email %></p>
+	<p>Roles:</p>
+	<% current_user.roles.each do |role| %>
+	 	<p><%= role.name  %></p>
+	<% end %>
+
 <div id="cards">
 	<ul>
 	<% for card in @cards %>

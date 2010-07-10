@@ -23,11 +23,16 @@ Given /^There is a role called "([^"]*)"$/ do |arg1|
   role.save!
 end
 
-Given /^I am logged in as a user with the "([^"]*)" role$/ do |arg1|
-  admin = User.new(:email => "testadmin@swccgvkit.com", :password => "test", :password_confirmation => "test")
-  admin_role = Role.find_by_name(arg1)
+Given /^There is a user with the email address "([^"]*)" and the "([^"]*)" role$/ do |arg1, arg2|
+  admin = User.new(:email => arg1, :password => "password", :password_confirmation => "password")
+  admin_role = Role.find_by_name(arg2)
   admin.roles << admin_role
   admin.save!
+end
+
+Given /^There is a user with the email address "([^"]*)"$/ do |arg1|
+  user = User.new(:email => arg1, :password => "password", :password_confirmation => "password")
+  user.save!
 end
 
 Given /^there is a card with title "([^"]*)"$/ do |arg1|

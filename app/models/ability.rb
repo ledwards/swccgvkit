@@ -2,17 +2,20 @@ class Ability
   include CanCan::Ability
   
   def initialize(user)
-    user ||= User.new
+    can :read, Card
     
     if user.has_role? "owner"
       can :manage, :all
-    elsif user.has_role? "admin"
-      can :manage, :cards
-      can :manage, :users
-    elsif user.has_role? "card_admin"
-      can :manage, :cards
-    else
-      can :read, :cards
     end
+    
+    if user.has_role? "admin"
+      can :manage, Card
+      can :manage, User
+    end
+    
+    if user.has_role? "card_admin"
+      can :manage, Card
+    end
+    
   end
 end

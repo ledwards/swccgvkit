@@ -5,9 +5,9 @@ Feature: admin manages cards
 	And edit cards
 	So that the list of cards will always be up to date
 	
-	Scenario: create new cards
+	Scenario: admin creates new cards
 		Given There is a role called "admin" 
-		And I am logged in as a user with the "admin" role
+		And There is a user with the email address "testadmin@swccgvkit.com" and the "admin" role
 		When I go to new card
 		And I fill in "card_title" with "Huge Explosion"
 		And I fill in "card_card_type" with "Interrupt"
@@ -15,12 +15,29 @@ Feature: admin manages cards
 		And I press "Create"
 		Then I should see "Card was successfully created."
 	
-	Scenario: edit cards
+	Scenario: admin edits cards
 		Given There is a role called "admin"
-		And I am logged in as a user with the "admin" role
+		And There is a user with the email address "testadmin@swccgvkit.com" and the "admin" role
 		And there is a card with title "Huge Explosion"
-		When I go to edit card 1
-		And show me the page
-		And I fill in "card_expansion" with "Death Star IV"
+		When I go to login
+		And I fill in "user_email" with "testadmin@swccgvkit.com"
+		And I fill in "user_password" with "password"
+		And I press "Sign in"
+		And I go to edit a card
+		And I fill in "card_title" with "It's ok, I'm an admin"
 		And I press "Save"
 		Then I should see "Card was successfully updated."
+		
+	Scenario: user fails to edits cards
+		Given There is a user with the email address "regularuser@swccgvkit.com"
+		And there is a card with title "Huge Explosion"
+		When I go to login
+		And I fill in "user_email" with "testadmin@swccgvkit.com"
+		And I fill in "user_password" with "password"
+		And I press "Sign in"
+		And I go to edit a card
+		And show me the page
+		And I fill in "card_title" with "I should not be allowed to do this"
+		And I press "Save"
+		And show me the page
+		Then I should see "Not authorized"
