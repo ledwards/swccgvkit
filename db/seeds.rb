@@ -13,3 +13,10 @@ Role.create(:name => "card admin")
 admin = User.new(:email => "admin@swccgvkit.com", :password => "password", :password_confirmation => "password")
 admin.roles << admin_role
 admin.save!
+
+card_data_files = ["script/lightside.cdf", "script/darkside.cdf"]
+
+card_data_files.each do |current_file|
+  file = File.new(current_file,"r") #do both files
+  cards = Card.get_cards_from_card_file(current_file)
+end

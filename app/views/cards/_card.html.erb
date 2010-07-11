@@ -1,0 +1,27 @@
+<div class="card" id="<%= card.id %>">
+	<h3><%= card.formatted_title %></h3>
+	<p>Expansion: <%= card.expansion %></p>
+	<p>Side: <%= card.side %></p>
+	</p>
+	<p>
+		Card Image:
+		<span class="<%= card.has_card_image? ? 'yes' : 'no' %>">
+			<%= card.has_card_image? ? 'Yes' : 'No' %>
+		</span>
+		|
+		Virtual Slip Image:
+		<span class="<%= card.has_vslip_image? ? 'yes' : 'no' %>">
+			<%= card.has_vslip_image? ? 'Yes' : 'No' %>
+		</span>
+	</p>
+	<p>
+		Last Updated: <%= card.updated_at %>
+	</p>
+	<%= link_to "[Show]", card_path(card) %>
+	<% if can?(:edit, card) %>
+		<%= link_to "[Edit]", edit_card_path(card) %>
+	<% end %>
+	<% if can?(:delete, card) %>
+		<%= link_to '[Delete]', card, :confirm => 'Are you sure?', :method => :delete  %>
+	<% end %>
+</div>

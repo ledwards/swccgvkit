@@ -4,8 +4,8 @@
 body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td { margin:0; padding:0; }
 * html body{  overflow:hidden; } 
 
-a { font: 11px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-serif; color: #ffffff; text-decoration: none; }
-a:hover { color: #ffde71;}
+a { font: 11px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-serif; color: #FFDE71; text-decoration: none; }
+a:hover { color: #ffffff;}
 img { border: none }
 body { background: #1b1b1b; padding-top: 4px;}
 #container { width: 98%; margin: 0 auto 0 auto; padding-top: 75px;}
@@ -227,3 +227,15 @@ label { font: 11px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-seri
 #card_form { width: 250px; margin: 0 auto; }
 #card_form p { margin: 10px; }
 #cards { margin: 10px; }
+#cards p { font: 11px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-serif; color: white; text-decoration: none; }
+#cards .card { margin-top: 10px; margin-bottom: 10px; }
+.no { color: red; }
+h3 { color: #FFDE71; }
+
+div#card_details { margin: 25px auto; width: 800px; }
+div#card_details h1 { margin-bottom: 25px; }
+div#card_details p { font: 12px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-serif; color: #ffffff; }
+div#card_details h2 { text-align: left; margin-top: 10px; margin-bottom: 10px; }
+
+div#left { float: left; width: 350px;}
+div#right { float: right; width: 400px; }

@@ -42,5 +42,8 @@ module Swccgvkit
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
+    
+    # Hack to make Paperclip work with Rails 3
+    Paperclip::Railtie.insert
   end
 end

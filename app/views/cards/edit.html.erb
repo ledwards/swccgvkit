@@ -3,8 +3,8 @@
 </div>
 
 <div id="card_form">
-	<%= form_for(@card) do |f| %>
-	  <%= f.error_messages %>
+	<%= form_for @card, :html => { :multipart => true } do |f| %>
+		<%= render :partial => "shared/error_messages", :locals => { :target => @card } %>
 
 	  <p>
 	    <%= f.label :title %><br />
@@ -29,6 +29,22 @@
 	  <p>
 	    <%= f.label :subtype %><br />
 	    <%= f.text_field :subtype %>
+	  </p>
+	  <p>
+	    <%= f.label :card_image %><br />
+	    <%= f.file_field :card_image %>
+	  </p>
+	  <p>
+	    <%= f.label :vslip_image %><br />
+	    <%= f.file_field :vslip_image %>
+	  </p>
+	  <p>
+	    <%= f.label :card_back_image %><br />
+	    <%= f.file_field :card_back_image %>
+	  </p>
+	  <p>
+	    <%= f.label :vslip_back_image %><br />
+	    <%= f.file_field :vslip_back_image %>
 	  </p>
 	  <p>
 	    <%= f.submit "Save", :class => "button" %>

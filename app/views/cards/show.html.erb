@@ -1,2 +1,30 @@
-<h1>Cards#show</h1>
-<p>Find me in app/views/cards/show.html.erb</p>
+<div id="card_details">
+
+	<h1>
+		<%= @card.formatted_title %>
+		<% if can?(:edit, @card) %>
+			<%= link_to "[Edit]", edit_card_path(@card) %>
+		<% end %>
+	</h1>
+
+	<div id="left">
+		<%= image_tag @card.card_image.url(:full_size) %>
+	</div>
+
+	<div id="right">
+		<h2>Details</h2>
+		<p>Side: <%= @card.side %></p>
+		<p>Expansion: <%= @card.expansion %></p>
+		<p>Lore:</p>
+		<p><%= @card.lore %></p>
+		<p>Gametext:</p>
+		<p><%= @card.gametext %></p>
+		<p>Virtual Slip:</p>
+		<p><%= image_tag @card.vslip_image.url(:full_size) if @card.has_vslip_image? %></p>
+		<p><%= image_tag @card.vslip_back_image.url(:full_size) if @card.has_vslip_back_image? %></p>
+		<br />
+		<p>Created: <%= @card.created_at %></p>
+		<p>Last Modified: <%= @card.updated_at %></p>
+	</div>
+	
+</div>

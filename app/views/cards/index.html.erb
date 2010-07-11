@@ -6,20 +6,10 @@
 	<%= flash[:notice]%>
 </div>
 
-<p>Currently logged in as: <%= current_user.email %></p>
-	<p>Roles:</p>
-	<% current_user.roles.each do |role| %>
-	 	<p><%= role.name  %></p>
-	<% end %>
-
 <div id="cards">
-	<ul>
+	<p><%= link_to 'Add a card', new_card_path %></p>
 	<% for card in @cards %>
-		<li>
-			<%= link_to card.title, edit_card_path(card) %>
-		</li>
+			<%= render :partial => "card", :object => card %>
 	<% end %>
-	</ul>
-
-	<p><%= link_to 'New card', new_card_path %></p>
+	<p><%= link_to 'Add a card', new_card_path %></p>
 </div>
