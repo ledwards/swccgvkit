@@ -1,0 +1,21 @@
+<div id="search">	
+	<div class="button_container">	
+		<%= form_tag :url => { :action => "search" }, :remote => true,
+			:loading => "Element.show('spinner'); $('notice').update('Searching...')", 
+			:success => "Element.hide('spinner');" do %>
+				<%= text_field :search, :html => {
+					:size => 32,
+					:value => "Search for cards"
+				},
+				:method => :get %>	
+			<%= submit_tag "Search", :class => "button" %>
+		<% end %>
+	</div>
+	<div class="button_container">
+		<%= form_tag :url => { :action => "browse"}, :remote => true,
+			:loading => "Element.show('spinner'); $('notice').update('Searching...')", 
+			:success => "Element.hide('spinner');" do %>
+			<%= submit_tag "Browse", :class => "button" %>	
+		<% end %>
+  	</div>
+</div>

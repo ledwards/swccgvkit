@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation
   
   has_and_belongs_to_many :roles
+  has_many :cardlists
   
   def has_role?(role)
     return self.roles.include?(Role.find_by_name role)

@@ -1,0 +1,15 @@
+<h1>Saved Cardlists</h1>
+<div id="cardlists">
+	<% if @cardlists.empty? %>
+  		<h2>No saved cardlists</h2>
+ 	<% else %>
+		<ul>
+		 	<%= render :partial => "cardlist", :collection => @cardlists %>
+		</ul>
+	<% end %>
+	<div class = "button_container">
+		<%= form_tag :url => { :action => "new_cardlist" }, :remote => true do %>
+			<%= submit_tag "New", :class => "button" %>
+		<% end %>
+	</div>
+</div>
