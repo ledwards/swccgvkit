@@ -1,9 +1,9 @@
 Swccgvkit::Application.routes.draw do |map|
   devise_for :users
 
-  get "home/index"
-  get "home/about"
-  get "home/settings"
+  get "home/index", :as => :home
+  get "home/about", :as => :about
+  get "home/settings", :as => :settings
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

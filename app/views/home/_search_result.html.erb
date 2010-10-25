@@ -1,0 +1,24 @@
+<div class = "search-result-wrapper">
+	<%= form_tag :url => { :action => :add_to_cart, :id => search_result }, :remote => true,
+						:loading => "Element.show('spinner'); $('notice').update('Adding card...');", 
+						:complete => "Element.hide('spinner');"	do %>
+  
+		<div id = <%= search_result.id.to_s -%> class = "results-thumbnail">
+			<%= image_submit_tag search_result.card_image.url -%>
+		</div>
+
+		<div class = "results-name">
+			<%= link_to search_result.truncated_title(40),
+				:url => {:action => "add_to_cart", :id => search_result}, :remote => true,
+				:loading => "Element.show('spinner'); $('notice').update('Adding card...');", 
+				:complete => "Element.hide('spinner');" -%>
+			<br />
+			<%= search_result.expansion -%> <%= search_result.side -%>
+		</div>
+	
+		<div class = "results-add">
+			<%= image_submit_tag "/images/add.png", :class => "add-to-decklist-button" -%>
+		</div>
+	
+	<% end %>
+</div>

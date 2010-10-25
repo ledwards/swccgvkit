@@ -22,6 +22,6 @@
 		<%= link_to "[Edit]", edit_card_path(card) %>
 	<% end %>
 	<% if can?(:delete, card) %>
-		<%= link_to '[Delete]', card, :confirm => 'Are you sure?', :method => :delete  %>
+		<%= link_to '[Delete]', card, :confirm => 'Are you sure? This will remove the card from all decklists as well.', :method => :delete  %>
 	<% end %>
 </div>

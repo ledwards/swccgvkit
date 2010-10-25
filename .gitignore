@@ -3,3 +3,7 @@ db/*.sqlite3
 log/*.log
 tmp/**/*
 config/s3.yml
+public/images/vslips/*
+public/images/vslips/**/*
+public/images/cards/*
+public/images/cards/**/*

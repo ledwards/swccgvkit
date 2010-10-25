@@ -14,19 +14,21 @@
 # admin.roles << admin_role
 # admin.save!
 
-#!/usr/bin/env ruby
-require 'config/environment'
-
 counter = 1
 files = ["#{RAILS_ROOT}/db/lightside.cdf", "#{RAILS_ROOT}/db/darkside.cdf"]
-# url_root = "/images/cards"
-# file_ext = ".gif"
 
-dry = false
+vslip_url_root = "http://www.swccgvkit.com/images/vslips"
+vslip_url_root = "http://www.swccgvkit.com/images/cards"
+#url_root = "#{RAILS_ROOT}/public/images/vslips/"
+
+image_file_ext = ".gif"
+vslip_file_ext = ".png"
+
+dry = true
 
 files.each do |curfile|
-  file = File.new(curfile,"r") #do both files
-  while (line=file.gets)
+  file = File.new(curfile,"r")
+  while (line = file.gets)
     
     characteristics = []
     attributes = []
@@ -44,6 +46,7 @@ files.each do |curfile|
     # image_front_url = nil
     # image_back_url = nil
     # image_url = nil
+    vslip_url = nil
     
     ferocity = nil
     power = nil
@@ -60,13 +63,12 @@ files.each do |curfile|
     lore = nil
     destiny = nil
     
-    regexp1 = /card\s"(.*?)"\s"([<>ï]*)(.*)\(([^V]*)\)\\n(\S*)\s(.*?)\[(.*)\]\s?\\nSet:\s(.*?)\\n/ #Basic card info
+    regexp1 = /card\s"(.*?)"\s"([<>@]*)(.*)\(([^V]*)\)\\n(\S*)\s(.*?)\[(.*)\]\s?\\nSet:\s(.*?)\\n/ #Basic card info
     
     if not regexp1.match(line).nil?
       image_url,uniqueness,title,destiny,side,type,rarity,expansion = regexp1.match(line).captures
       
-      # Type and subtype
-      
+      # Type and subtype     
       if not /(.*)\s-\s(.*):(.*)/.match(type).nil?
         subtype = /(.*)\s-\s(.*):(.*)/.match(type).captures[1]
         characteristics << /(.*)\s-\s(.*):(.*)/.match(type).captures[2]
@@ -94,22 +96,32 @@ files.each do |curfile|
       #         image_back_url = url_root + '/reb' + file_ext
       #       end
       
-       # format uniqueness for HTML/XML
-      uniqueness.gsub!('ï','&bull;')
+      # set vslip image
+      unless image_url.include?("TWOSIDED")
+        vslip_url = vslip_url_root + image_url.gsub("/t_","/") + vslip_file_ext
+        image_url = image_url_root + image_url + file_ext
+      end
+      
+      # card image, card back image, vslip image, vslip back image
+      # Need to move the vslips into their v1-6 folders
+      # actually dont be stupid, pull all the cards up a level, maybe split LS/DS but put all expansions in same folder
+      
+      # format uniqueness for HTML/XML
+      # Note that a find and replace for ï -> @ was performed first since ruby doesn't seem to like the ï character
+      uniqueness.gsub!('@','&bull;')      
       uniqueness.gsub!('<>',"&#9671;")
-      title.gsub!('ï','') #for combo cards like ïAbyssin Ornament & ïWounded Wookiee
+      title.gsub!('@','') #for combo cards like ïAbyssin Ornament & ïWounded Wookiee
+      
       title.strip!
       type.strip!
 
       # debug output
-      #puts "#{counter}: #{uniqueness} #{title} (#{destiny})"
+      #puts "#{counter}: #{uniqueness} #{title} (#{destiny}); #{side} #{type}"
       #puts image_front_url, image_back_url
-      #puts side
-      #puts type
-      if subtype
-        subtype.strip!
+      #if subtype
+        #subtype.strip!
         #puts subtype
-      end
+      #end
       #puts expansion, rarity
     
       # ATTRIBUTES #
@@ -186,9 +198,7 @@ files.each do |curfile|
         lore = regexp3.match(line).captures[0].sub('\n','')
         #puts lore
       end
-      
-      #puts
-      
+            
       regexp4 = /Text: (.*)"/
       if not regexp4.match(line).nil?
         gametext = regexp4.match(line).captures[0].sub('\n','')
@@ -246,26 +256,26 @@ files.each do |curfile|
       # write to DB #
       ###############
       
-      if dry
-        #puts 'Dry run complete'
-      else
+      if dry #&& expansion.include?("virtual")
+        #puts vslip_url
+      elsif expansion.include?("virtual")
         # Disabled parameters
         # :image_front_url => image_front_url,
         # :image_back_url => image_back_url,
         begin
-          this_card = Card.new(:id => counter,
+          this_card = Card.new(
                       :title => title,
+                      :side => side,
                       :lore => lore,
                       :gametext => gametext,
-                      :side => side,
-                      :expansion => expansion,
                       :rarity => rarity,
                       :uniqueness => uniqueness,
-                      :card_characteristics => [],
                       :card_type => type,
-                      :subtype => subtype
+                      :subtype => subtype,
+                      :expansion => expansion
                       )
-          this_card.save
+          # upload image in vslip_url to S3
+          this_card.save!
           
           for c in characteristics
             if existing_characteristic = CardCharacteristic.find_by_name(c)
@@ -332,31 +342,19 @@ files.each do |curfile|
             a = CardAttribute.create :name => "Forfeit", :value => forfeit.to_i
             this_card.card_attributes << a
           end
+          
+          this_card.save!
         
         rescue
-          #puts "Error with card #{title}"
-          
+          puts "Error with card #{counter} #{title}"
         end
-        
       end
-
-      
-      #puts
-      #puts
-      
-      #puts title
-      
     end
-    
     counter = counter +1
   end
-  
   file.close
-  
   #puts curfile
 end
-
-
 
 # script fixes
   # characteristics sometimes have leading and trailing spaces

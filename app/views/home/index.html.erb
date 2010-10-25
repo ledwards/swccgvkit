@@ -4,7 +4,7 @@
 		<p id="notice">Welcome, <%= current_user.email %></p>
 	</div>
 	
-	<a href id="logo">SWCCG vkit Online - Create custom virtual card cutouts for Star Wars CCG.</a>
+	<a href id="logo">SWCCG vkit Online - Create custom virtual card pages for Star Wars CCG.</a>
 	
 	<%= render :partial => "search_pane" %>
 	
@@ -25,5 +25,7 @@
 
 <div class="center">
 	<h1>Search Results</h1>	
-	<div class="search_results" id ="search_results"></div>
+	<div class="search_results" id ="search_results">
+		<%= render :partial => "search_result", :collection => @cards %>
+	</div>
 </div>
