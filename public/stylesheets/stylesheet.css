@@ -216,8 +216,8 @@ label { font: 11px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-seri
 #errors { text-align: center; font: 14px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-serif; color: red; }
 
 #image_header { text-align: center; }
-#card_form { width: 250px; margin: 0 auto; }
-#card_form p { margin: 10px; }
+#card_form { width: 800px; margin: 0 auto; }
+#card_form p { margin: 10px 0px; }
 #cards { margin: 10px; }
 #cards p { font: 11px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-serif; color: white; text-decoration: none; }
 #cards .card { margin-top: 10px; margin-bottom: 10px; }
@@ -233,3 +233,36 @@ div#left { float: left; width: 350px;}
 div#right { float: right; width: 400px; }
 
 div.left h2 { margin-bottom: 20px; }
+
+dt { font: 11px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-serif; color: #FFDE71; text-decoration: none; }
+dd { font: 11px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-serif; color: white; text-decoration: none; margin-bottom: 15px;}
+dd img { margin-top: 15px; }
+
+#attributes dt, #characteristics dt { display: inline; }
+#attributes dd, #characteristics dd { display: inline; }
+
+#card_details div#attributes, #card_details div#characteristics { margin-bottom: 10px; }
+#card_form div#characteristics p, #card_form div#attributes p { margin: 0px 0px 0px 10px; }
+
+input.radio { margin-right: 5px; }
+label.radio_label { margin-right: 5px; }
+div#card_form_footer { clear:both; text-align: center; padding-top: 25px; }
+
+#card_form #attributes input {
+	width: 18px;
+	margin-bottom: 5px;
+}
+
+#card_form #attributes, #card_form #characteristics {
+	margin-top: 10px;
+}
+
+#card_form #attributes {
+	float: left;
+}
+#card_form #characteristics {
+	float: right;
+}
+#card_form #right img {
+	margin: 20px 0px 30px 0px;
+}

@@ -6,25 +6,26 @@
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Daley', :city => cities.first)
 
-# Role.create(:name => "owner")
-# admin_role = Role.create(:name => "admin")
-# Role.create(:name => "card admin")
-# 
-# admin = User.new(:email => "admin@swccgvkit.com", :password => "password", :password_confirmation => "password")
-# admin.roles << admin_role
-# admin.save!
+dry = false
+
+if !dry
+  # Role.create(:name => "owner")
+  # admin_role = Role.create(:name => "admin")
+  # Role.create(:name => "card admin")
+  # admin = User.new(:email => "admin@swccgvkit.com", :password => "password", :password_confirmation => "password")
+  # admin.roles << admin_role
+  # admin.save!
+end
 
 counter = 1
 files = ["#{RAILS_ROOT}/db/lightside.cdf", "#{RAILS_ROOT}/db/darkside.cdf"]
 
-vslip_url_root = "http://www.swccgvkit.com/images/vslips"
-vslip_url_root = "http://www.swccgvkit.com/images/cards"
+vslip_url_root = "http://stuff.ledwards.com/starwars"
+image_url_root = "http://www.swccgvkit.com/images/cards"
 #url_root = "#{RAILS_ROOT}/public/images/vslips/"
 
 image_file_ext = ".gif"
 vslip_file_ext = ".png"
-
-dry = true
 
 files.each do |curfile|
   file = File.new(curfile,"r")
@@ -43,10 +44,6 @@ files.each do |curfile|
     rarity = nil
     expansion = nil
     subtype = nil
-    # image_front_url = nil
-    # image_back_url = nil
-    # image_url = nil
-    vslip_url = nil
     
     ferocity = nil
     power = nil
@@ -62,6 +59,11 @@ files.each do |curfile|
     gametext = nil
     lore = nil
     destiny = nil
+    
+    image_front_url = nil
+    image_back_url = nil
+    image_url = nil
+    vslip_url = nil
     
     regexp1 = /card\s"(.*?)"\s"([<>@]*)(.*)\(([^V]*)\)\\n(\S*)\s(.*?)\[(.*)\]\s?\\nSet:\s(.*?)\\n/ #Basic card info
     
@@ -98,8 +100,11 @@ files.each do |curfile|
       
       # set vslip image
       unless image_url.include?("TWOSIDED")
-        vslip_url = vslip_url_root + image_url.gsub("/t_","/") + vslip_file_ext
-        image_url = image_url_root + image_url + file_ext
+        if expansion.downcase.include?("virtual")
+#          vslip_url = vslip_url_root + image_url.gsub("/t_","/").gsub("starwars/-","") + vslip_file_ext
+            vslip_url = vslip_url_root + '/' + side.downcase + '/' + title.downcase.gsub("(v)","").gsub(" ","").gsub("'","").gsub("(","").gsub(")","").gsub(":","").gsub("?","").gsub("!","").gsub("-","").gsub(",","") + vslip_file_ext
+        end
+        image_url = image_url_root + image_url + image_file_ext
       end
       
       # card image, card back image, vslip image, vslip back image
@@ -108,9 +113,10 @@ files.each do |curfile|
       
       # format uniqueness for HTML/XML
       # Note that a find and replace for ï -> @ was performed first since ruby doesn't seem to like the ï character
-      uniqueness.gsub!('@','&bull;')      
-      uniqueness.gsub!('<>',"&#9671;")
-      title.gsub!('@','') #for combo cards like ïAbyssin Ornament & ïWounded Wookiee
+      uniqueness.gsub!('@','•')
+      uniqueness.gsub!('<>',"◇")
+      uniquess = "" if uniqueness.nil?
+      title.gsub!('@','') #for combo cards like •Abyssin Ornament & •Wounded Wookiee
       
       title.strip!
       type.strip!
@@ -256,9 +262,10 @@ files.each do |curfile|
       # write to DB #
       ###############
       
-      if dry #&& expansion.include?("virtual")
-        #puts vslip_url
-      elsif expansion.include?("virtual")
+      if dry && expansion.downcase.include?("virtual")
+        puts vslip_url
+      elsif expansion.downcase.include?("virtual")
+        puts "Importing cards from .cdf files"
         # Disabled parameters
         # :image_front_url => image_front_url,
         # :image_back_url => image_back_url,
@@ -275,15 +282,15 @@ files.each do |curfile|
                       :expansion => expansion
                       )
           # upload image in vslip_url to S3
-          this_card.save!
+          #this_card.save!
           
           for c in characteristics
-            if existing_characteristic = CardCharacteristic.find_by_name(c)
+            if existing_characteristic = CardCharacteristic.find_by_name(c.strip)
               ##puts "EXISTING CHARACTERISTIC: #{existing_characteristic.name}"
               this_card.card_characteristics << existing_characteristic
-            else
+            elsif !c.empty?
               ##puts "NEW CHARACTERISTIC: #{c}"
-              new_card_characteristic = CardCharacteristic.create(:name => c)
+              new_card_characteristic = CardCharacteristic.create(:name => c.strip)
               this_card.card_characteristics << new_card_characteristic
             end
           end
@@ -342,6 +349,21 @@ files.each do |curfile|
             a = CardAttribute.create :name => "Forfeit", :value => forfeit.to_i
             this_card.card_attributes << a
           end
+          
+          begin
+            this_card.vslip_image = open(URI.parse(vslip_url)) if vslip_url
+          rescue
+            "Vslip url failed for #{vslip_url}"
+          end
+          
+          begin
+            this_card.card_image = open(URI.parse(image_url)) if image_url
+          rescue
+            "Card image url failed for #{image_url}"
+          end
+          
+          # this_card.vslip_back_image = open(URI.parse(vslip_back_url)) if vslip_back_url
+          # this_card.card_back_image = open(URI.parse(image_back_url)) if image_back_url
           
           this_card.save!
         

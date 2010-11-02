@@ -22,24 +22,27 @@ class CardsController < ApplicationController
 
     if @card.save
       flash[:notice] = 'Card was successfully created.'
-      redirect_to("/cards")
+      redirect_to cards_path
     else
-      render :action => "new"
+      redirect_to new_card_path
     end
   end
 
   def update
     @card = Card.find(params[:id])
-
+    
     if @card.update_attributes(params[:card])
       flash[:notice] = 'Card was successfully updated.'
-      redirect_to("/cards")
+      redirect_to card_path(@card)
     else
-      render :action => "edit"
+      redirect_to cards_path
     end
   end
 
   def destroy
+  end
+  
+  def upload_vslip_image
   end
 
 end

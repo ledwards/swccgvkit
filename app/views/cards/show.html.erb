@@ -1,30 +1,56 @@
 <div id="card_details">
-
-	<h1>
-		<%= @card.formatted_title %>
-		<% if can?(:edit, @card) %>
-			<%= link_to "[Edit]", edit_card_path(@card) %>
-		<% end %>
-	</h1>
-
 	<div id="left">
-		<%= image_tag @card.card_image.url(:full_size) %>
+		<h2>
+			<%= @card.formatted_title %>
+			<% if can?(:edit, @card) %>
+				<%= link_to "[Edit]", edit_card_path(@card) %>
+			<% end %>
+		</h2>
+		
+		<dt>Card Type:</dt>
+		<dd><%= @card.card_type_and_subtype %></dd>
+		
+		<dt>Expansion:</dt>
+		<dd><%= @card.expansion %></dd>
+		
+		<dt>Side:</dt>
+		<dd><%= @card.side %></dd>
+		
+		<dt>Lore:</dt>
+		<dd><%= @card.lore %></dd>
+		
+		<dt>Gametext:</dt>
+		<dd><%= @card.gametext %></dd>
+		
+		<div id="attributes">
+			<% @card.card_attributes.each do |attribute| %>
+				<p>
+				<dt><%= attribute.name %>:<dt>
+				<dd><%= attribute.value %><dd>
+				</p>
+			<% end %>
+		</div>
+		
+		<div id="characteristics">
+			<dt>Characteristics:</dt>
+			<dd><%= @card.card_characteristics.map(&:name).join(', ') %></dd>
+		</div>
+		
 	</div>
-
 	<div id="right">
-		<h2>Details</h2>
-		<p>Side: <%= @card.side %></p>
-		<p>Expansion: <%= @card.expansion %></p>
-		<p>Lore:</p>
-		<p><%= @card.lore %></p>
-		<p>Gametext:</p>
-		<p><%= @card.gametext %></p>
-		<p>Virtual Slip:</p>
-		<p><%= image_tag @card.vslip_image.url(:full_size) if @card.has_vslip_image? %></p>
-		<p><%= image_tag @card.vslip_back_image.url(:full_size) if @card.has_vslip_back_image? %></p>
-		<br />
-		<p>Created: <%= @card.created_at %></p>
-		<p>Last Modified: <%= @card.updated_at %></p>
+		<dd><%= image_tag @card.card_image.url(:full_size) %></dd>
+		<dd><%= image_tag @card.card_back_image.url(:full_size) if @card.has_card_back_image? %></dd>
+		
+		<% if @card.has_vslip_image? %>
+			<dt>Virtual Slip:</dt>
+			<dd><%= image_tag @card.vslip_image.url(:full_size) %></dd>
+			<dd><%= image_tag @card.vslip_back_image.url(:full_size) if @card.has_vslip_back_image? %></dd>
+		<% end %>
+		
+		<dt>Created:</dt>
+		<dd><%= @card.created_at %></dd>
+		
+		<dt>Last Modified:</dt>
+		<dd><%= @card.updated_at %></dd>
 	</div>
-	
 </div>

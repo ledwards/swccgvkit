@@ -5,49 +5,108 @@
 <div id="card_form">
 	<%= form_for @card, :html => { :multipart => true } do |f| %>
 		<%= render :partial => "shared/error_messages", :locals => { :target => @card } %>
-
-	  <p>
-	    <%= f.label :title %><br />
-	    <%= f.text_field :title %>
-	  </p>
-	  <p>
-	    <%= f.label :side %><br />
-	    <%= f.text_field :side %>
-	  </p>
-	  <p>
-	    <%= f.label :expansion %><br />
-	    <%= f.text_field :expansion %>
-	  </p>
-	  <p>
-	    <%= f.label :uniqueness %><br />
-	    <%= f.text_field :uniqueness %>
-	  </p>
-	  <p>
-	    <%= f.label :card_type %><br />
-	    <%= f.text_field :card_type %>
-	  </p>
-	  <p>
-	    <%= f.label :subtype %><br />
-	    <%= f.text_field :subtype %>
-	  </p>
-	  <p>
-	    <%= f.label :card_image %><br />
-	    <%= f.file_field :card_image %>
-	  </p>
-	  <p>
-	    <%= f.label :vslip_image %><br />
-	    <%= f.file_field :vslip_image %>
-	  </p>
-	  <p>
-	    <%= f.label :card_back_image %><br />
-	    <%= f.file_field :card_back_image %>
-	  </p>
-	  <p>
-	    <%= f.label :vslip_back_image %><br />
-	    <%= f.file_field :vslip_back_image %>
-	  </p>
-	  <p>
-	    <%= f.submit "Save", :class => "button" %>
-	  </p>
+		
+		<div id="left">
+		  <p>
+		    <%= f.label :title %><br />
+		    <%= f.text_field :title %>
+		  </p>
+		  <p>
+		    <%= f.label :side %><br/>
+				<%= f.radio_button "side", "Light", :class => "radio" %><%= f.label :light, :class => "radio_label" %>
+				<%= f.radio_button "side", "Dark", :class => "radio" %><%= f.label :dark, :class => "radio_label" %><br/>
+		  </p>
+		  <p>
+		    <%= f.label :expansion %> <%= link_to "[+]", "#" %><br />
+				<%= select :card, :expansion, Card.expansions %>
+		  </p>
+		  <p>
+		    <%= f.label :type %> <%= link_to "[+]", "#" %><br />
+				<%= select :card, :card_type, Card.card_types %>
+		  </p>
+			<% unless Card.subtypes_for(@card.card_type).count == 1 %>
+			  <p>
+			    <%= f.label :subtype %> <%= link_to "[+]", "#" %><br />
+					<%= select :card, :subtype, Card.subtypes_for(@card.card_type) %>
+			  </p>
+			<% end %>
+		  <p>
+		    <%= f.label :uniqueness %> <%= link_to "[+]", "#" %><br />
+				<%= select :card, :uniqueness, Card.uniquenesses %>
+		  </p>
+		
+			<% unless @card.lore.nil? %>
+				<p>
+			    <%= f.label :lore %><br />
+					<%= text_area :card, :lore, :rows => "4" %>
+			  </p>
+			<% end %>
+			
+			<% unless @card.gametext.nil? %>
+			 	 <p>
+			    <%= f.label :gametext %><br />
+					<%= text_area :card, :gametext, :rows => "12" %>
+			  </p>
+			<% end %>
+			
+			<div id="characteristics">
+				<%= f.label :characteristics %><br />
+				<% Card.card_characteristics_for(@card.card_type).each do |cc| %>
+					<p>
+						<%= check_box_tag "card[card_characteristic_ids][]", cc.id, @card.card_characteristics.include?(cc) %>
+						<%= f.label cc.name, cc.name %>
+					</p>
+				<% end %>
+				<p><%= link_to "[Add new characteristic]", "#" %></p>
+			</div>
+			<div id="attributes">
+				<%= f.label :attributes %><br />
+				<%= f.fields_for :card_attributes do |ff| %>
+					<p>
+						<%= ff.hidden_field :name %>
+						<%= link_to "[x]", "#" %>
+						<%= ff.label :value, "#{ff.object.name}:" %>
+						<%= ff.text_field :value %>
+					</p>
+				<% end %>
+				<p><%= link_to "[Add new attribute]", "#" %></p>
+			</div>
+		</div>
+		
+		<div id="right">
+			<p>
+		    <%= f.label :card_image %><br />
+		    <%= f.file_field :card_image %>
+				<%= image_tag @card.card_image.url %><br />
+		  </p>
+			<% if @card.is_flippable? %>
+			  <p>
+			    <%= f.label :card_back_image %><br />
+			    <%= f.file_field :card_back_image %>
+					<%= image_tag @card.card_back_image.url %><br />
+			  </p>
+			<% end %>
+			<% if @card.is_virtual? %>
+			  <p>
+			    <%= f.label :vslip_image %><br />
+			    <%= f.file_field :vslip_image %>
+					<%= image_tag @card.vslip_image.url %><br />
+			  </p>
+				<% if @card.is_flippable? %>
+				  <p>
+				    <%= f.label :vslip_back_image %><br />
+				    <%= f.file_field :vslip_back_image %>
+						<%= image_tag @card.vslip_back_image.url %><br />
+				  </p>
+				<% end %>
+			<% end %>
+		</div>
+	
+		<div id="card_form_footer">
+		  <p>
+		    <%= f.submit "Save", :class => "button" %>
+				<%= link_to "Cancel", card_path(@card) %>
+		  </p>
+		</div>
 	<% end %>
 </div>
