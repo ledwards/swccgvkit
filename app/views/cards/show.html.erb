@@ -1,3 +1,5 @@
+<% @card.rarity %>
+
 <div id="card_details">
 	<div id="left">
 		<h2>
@@ -25,8 +27,8 @@
 		<div id="attributes">
 			<% @card.card_attributes.each do |attribute| %>
 				<p>
-				<dt><%= attribute.name %>:<dt>
-				<dd><%= attribute.value %><dd>
+					<dt><%= attribute.name %>:<dt>
+					<dd><%= attribute.value %><dd>
 				</p>
 			<% end %>
 		</div>
@@ -38,6 +40,7 @@
 		
 	</div>
 	<div id="right">
+		<dt>Card Image:</dt>
 		<dd><%= image_tag @card.card_image.url(:full_size) %></dd>
 		<dd><%= image_tag @card.card_back_image.url(:full_size) if @card.has_card_back_image? %></dd>
 		

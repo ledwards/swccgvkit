@@ -75,26 +75,26 @@
 		
 		<div id="right">
 			<p>
-		    <%= f.label :card_image %><br />
+		    <%= f.label :card_image %>
 		    <%= f.file_field :card_image %>
 				<%= image_tag @card.card_image.url %><br />
 		  </p>
 			<% if @card.is_flippable? %>
 			  <p>
-			    <%= f.label :card_back_image %><br />
+			    <%= f.label :card_back_image %>
 			    <%= f.file_field :card_back_image %>
 					<%= image_tag @card.card_back_image.url %><br />
 			  </p>
 			<% end %>
 			<% if @card.is_virtual? %>
 			  <p>
-			    <%= f.label :vslip_image %><br />
+			    <%= f.label :vslip_image %>
 			    <%= f.file_field :vslip_image %>
 					<%= image_tag @card.vslip_image.url %><br />
 			  </p>
 				<% if @card.is_flippable? %>
 				  <p>
-				    <%= f.label :vslip_back_image %><br />
+				    <%= f.label :vslip_back_image %>
 				    <%= f.file_field :vslip_back_image %>
 						<%= image_tag @card.vslip_back_image.url %><br />
 				  </p>

@@ -263,6 +263,11 @@ div#card_form_footer { clear:both; text-align: center; padding-top: 25px; }
 #card_form #characteristics {
 	float: right;
 }
+
 #card_form #right img {
 	margin: 20px 0px 30px 0px;
+}
+
+#card_form #right label {
+	margin-right: 15px;
 }

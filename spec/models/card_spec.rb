@@ -29,7 +29,7 @@ describe Card do
     @card.should_not be_valid
   end
   
-  it "is unique among title, side, andexpansion" do
+  it "is unique among title, side, and expansion" do
   end
   
   describe "#method_missing" do    
@@ -58,4 +58,80 @@ describe Card do
     end
   end
   
+  describe "#attach_remote_card_image" do
+    it "attaches an image from a remote url as the specified attachment" do
+      @card.save!
+      @card.attach_remote_card_image("http://swccgpc.com/gallery/var/albums/Premiere/Dark-Side/darthvader.gif")
+      @card.has_card_image?.should be_true
+    end
+  end
+  
+  describe "#has_card_image?" do
+    it "is true if there is a valid card image" do
+      @card.save!
+      @card.card_image = File.open("#{Rails.root}/spec/fixtures/test.jpg")
+      @card.has_card_image?.should be_true
+    end
+    it "is false if there is an invalid card image" do
+      @card.has_card_image?.should be_false
+    end
+  end
+  
+  describe "#has_card_back_image?" do
+    it "is true if there is a valid card back image" do
+      @card.save!
+      @card.card_back_image = File.open("#{Rails.root}/spec/fixtures/test.jpg")
+      @card.has_card_back_image?.should be_true
+    end
+    it "is false if there is an invalid card image" do
+      @card.has_card_back_image?.should be_false
+    end
+  end
+  
+  describe "#has_vslip_image?" do
+    it "is true if there is a valid vslip image" do
+      @card.save!
+      @card.vslip_image = File.open("#{Rails.root}/spec/fixtures/test.jpg")
+      @card.has_vslip_image?.should be_true
+    end
+    it "is false if there is an invalid card image" do
+      @card.has_vslip_image?.should be_false
+    end
+  end
+  
+  describe "#has_vslip_back_image?" do
+    it "is true if there is a valid vslip back image" do
+      @card.save!
+      @card.vslip_back_image = File.open("#{Rails.root}/spec/fixtures/test.jpg")
+      @card.has_vslip_image?.should be_true
+    end
+    it "is false if there is an invalid card image" do
+      @card.has_vslip_back_image?.should be_false
+    end
+  end
+  
+  describe "#attach_remote_card_back_image" do
+    it "attaches an image from a remote url as the specified attachment" do
+      @card.save!
+      @card.attach_remote_card_back_image("http://swccgpc.com/gallery/var/albums/Premiere/Dark-Side/darthvader.gif")
+      @card.has_card_back_image?.should be_true
+    end
+  end
+  
+  describe "#attach_remote_vslip_image" do
+    it "attaches a vslip image from a remote url as the specified attachment" do
+      @card.save!
+      @card.attach_remote_vslip_image("http://swccgpc.com/gallery/var/albums/Premiere/Dark-Side/darthvader.gif")
+      @card.has_vslip_image?.should be_true
+    end
+  end
+  
+  describe "#attach_remote_vslip_back_image" do
+    it "attaches a vslip back image from a remote url as the specified attachment" do
+      @card.save!
+      @card.attach_remote_vslip_back_image("http://swccgpc.com/gallery/var/albums/Premiere/Dark-Side/darthvader.gif")
+      @card.has_vslip_back_image?.should be_true
+    end
+  end
+
 end

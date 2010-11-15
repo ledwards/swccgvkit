@@ -7,27 +7,31 @@ class Card < ActiveRecord::Base
   accepts_nested_attributes_for :card_attributes
   
   has_attached_file :card_image,
+    :default_url => "/images/missing.png",
     :styles => { :full_size => "350", :thumbnail =>"100" },
     :storage => :s3,
-    :s3_credentials => "#{RAILS_ROOT}/config/s3.yml",
+    :s3_credentials => "#{Rails.root}/config/s3.yml",
     :path => "card_images/:id/:style.:extension"
     
   has_attached_file :vslip_image,
+    :default_url => "/images/missing.png",
     :styles => { :full_size => "350" },
     :storage => :s3,
-    :s3_credentials => "#{RAILS_ROOT}/config/s3.yml",
+    :s3_credentials => "#{Rails.root}/config/s3.yml",
     :path => "vslip_images/:id/:style.:extension"
     
   has_attached_file :card_back_image,
+    :default_url => "/images/missing.png",
     :styles => { :full_size => "350", :thumbnail =>"100" },
     :storage => :s3,
-    :s3_credentials => "#{RAILS_ROOT}/config/s3.yml",
+    :s3_credentials => "#{Rails.root}/config/s3.yml",
     :path => "card_back_images/:id/:style.:extension"
     
   has_attached_file :vslip_back_image,
+    :default_url => "/images/missing.png",
     :styles => { :full_size => "350" },
     :storage => :s3,
-    :s3_credentials => "#{RAILS_ROOT}/config/s3.yml",
+    :s3_credentials => "#{Rails.root}/config/s3.yml",
     :path => "vslip_back_images/:id/:style.:extension"
     
   scope :virtual, lambda {
@@ -36,24 +40,45 @@ class Card < ActiveRecord::Base
   
   before_save :enforce_consistency_of_string_values
   
+  def attach_remote_card_image(url)
+    self.card_image = open(URI.parse(url))
+    self.save!
+  end
+  
+  def attach_remote_card_back_image(url)
+    self.card_back_image = open(URI.parse(url))
+    self.save!
+  end
+  
+  def attach_remote_vslip_image(url)
+    self.vslip_image = open(URI.parse(url))
+    self.save!
+  end
+  
+  def attach_remote_vslip_back_image(url)
+    self.vslip_back_image = open(URI.parse(url))
+    self.save!
+  end
+  
   def enforce_consistency_of_string_values
     self.subtype = nil if self.subtype.nil? || self.subtype.empty?
+    self.uniqueness = "" if self.uniqueness.nil?
   end
   
   def has_card_image?
-    !card_image_file_name.nil?
+    card_image.url != "/images/missing.png"
   end
 
   def has_card_back_image?
-    !card_back_image_file_name.nil?
+    card_back_image.url != "/images/missing.png"
   end
 
   def has_vslip_image?
-    !vslip_image_file_name.nil?
+    vslip_image.url != "/images/missing.png"
   end
   
   def has_vslip_back_image?
-    !vslip_back_image_file_name.nil?
+    vslip_back_image.url != "/images/missing.png"
   end
   
   def is_virtual?
@@ -65,7 +90,7 @@ class Card < ActiveRecord::Base
   end
 
   def formatted_title
-    "#{uniqueness}#{title}".html_safe
+    "#{uniqueness}#{title}".gsub("& ","& #{uniqueness}")
   end
   
   def card_type_and_subtype
@@ -74,6 +99,10 @@ class Card < ActiveRecord::Base
 
   def truncated_title(trunc_length)
     title.length > trunc_length ? "#{title.first(trunc_length)}..." : title
+  end
+  
+  def title_for_url
+    title.downcase.gsub('&','%26').gsub(/[^0-9a-z]/i, '')
   end
   
   def self.expansions

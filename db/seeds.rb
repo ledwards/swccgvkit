@@ -9,20 +9,20 @@
 dry = false
 
 if !dry
-  # Role.create(:name => "owner")
-  # admin_role = Role.create(:name => "admin")
-  # Role.create(:name => "card admin")
-  # admin = User.new(:email => "admin@swccgvkit.com", :password => "password", :password_confirmation => "password")
-  # admin.roles << admin_role
-  # admin.save!
+  Role.create(:name => "owner")
+  admin_role = Role.create(:name => "admin")
+  Role.create(:name => "card admin")
+  admin = User.new(:email => "admin@swccgvkit.com", :password => "password", :password_confirmation => "password")
+  admin.roles << admin_role
+  admin.save!
 end
 
 counter = 1
-files = ["#{RAILS_ROOT}/db/lightside.cdf", "#{RAILS_ROOT}/db/darkside.cdf"]
+files = ["#{Rails.root}/db/lightside.cdf", "#{Rails.root}/db/darkside.cdf"]
 
 vslip_url_root = "http://stuff.ledwards.com/starwars"
 image_url_root = "http://www.swccgvkit.com/images/cards"
-#url_root = "#{RAILS_ROOT}/public/images/vslips/"
+#url_root = "#{Rails.root}/public/images/vslips/"
 
 image_file_ext = ".gif"
 vslip_file_ext = ".png"
@@ -85,18 +85,18 @@ files.each do |curfile|
       
       # set back image
       
-      # if not image_url.scan(/TWOSIDED/).empty?
-      #         image_url.sub!('/TWOSIDED/','')
-      #         root, front, back = /(.*\/)(.*)\/(.*)/.match(image_url).captures
-      #         image_front_url = url_root + '/' + root + front + file_ext
-      #         image_back_url = url_root + '/' + root + 't_' + back + file_ext
-      #       elsif side == 'Dark'
-      #         image_front_url = url_root + image_url + file_ext
-      #         image_back_url = url_root + '/imp' + file_ext
-      #       elsif side == 'Light'
-      #         image_front_url = url_root + image_url + file_ext
-      #         image_back_url = url_root + '/reb' + file_ext
-      #       end
+      if not image_url.scan(/TWOSIDED/).empty?
+              image_url.sub!('/TWOSIDED/','')
+              root, front, back = /(.*\/)(.*)\/(.*)/.match(image_url).captures
+              image_front_url = url_root + '/' + root + front + file_ext
+              image_back_url = url_root + '/' + root + 't_' + back + file_ext
+            elsif side == 'Dark'
+              image_front_url = url_root + image_url + file_ext
+              image_back_url = url_root + '/imp' + file_ext
+            elsif side == 'Light'
+              image_front_url = url_root + image_url + file_ext
+              image_back_url = url_root + '/reb' + file_ext
+            end
       
       # set vslip image
       unless image_url.include?("TWOSIDED")
@@ -113,8 +113,11 @@ files.each do |curfile|
       
       # format uniqueness for HTML/XML
       # Note that a find and replace for ï -> @ was performed first since ruby doesn't seem to like the ï character
+      
       uniqueness.gsub!('@','•')
-      uniqueness.gsub!('<>',"◇")
+      uniqueness.gsub!('<>',"◊")
+      # uniqueness.gsub!('@','&bull;')
+      # uniqueness.gsub!('<>',"&loz;")
       uniquess = "" if uniqueness.nil?
       title.gsub!('@','') #for combo cards like •Abyssin Ornament & •Wounded Wookiee
       
