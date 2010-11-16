@@ -7,6 +7,8 @@ describe Card do
     @power4 = CardAttribute.create(:name => "Power", :value => "4")
     @armor5 = CardAttribute.create(:name => "Armor", :value => "5")
     @card.card_attributes << @power4
+    
+    @test_image = File.open("#{Rails.root}/spec/fixtures/test.jpg")
   end
   
   it "is valid with valid attributes" do
@@ -69,7 +71,7 @@ describe Card do
   describe "#has_card_image?" do
     it "is true if there is a valid card image" do
       @card.save!
-      @card.card_image = File.open("#{Rails.root}/spec/fixtures/test.jpg")
+      @card.card_image = @test_image
       @card.has_card_image?.should be_true
     end
     it "is false if there is an invalid card image" do
@@ -80,7 +82,7 @@ describe Card do
   describe "#has_card_back_image?" do
     it "is true if there is a valid card back image" do
       @card.save!
-      @card.card_back_image = File.open("#{Rails.root}/spec/fixtures/test.jpg")
+      @card.card_back_image = @test_image
       @card.has_card_back_image?.should be_true
     end
     it "is false if there is an invalid card image" do
@@ -91,7 +93,7 @@ describe Card do
   describe "#has_vslip_image?" do
     it "is true if there is a valid vslip image" do
       @card.save!
-      @card.vslip_image = File.open("#{Rails.root}/spec/fixtures/test.jpg")
+      @card.vslip_image = @test_image
       @card.has_vslip_image?.should be_true
     end
     it "is false if there is an invalid card image" do
@@ -102,8 +104,8 @@ describe Card do
   describe "#has_vslip_back_image?" do
     it "is true if there is a valid vslip back image" do
       @card.save!
-      @card.vslip_back_image = File.open("#{Rails.root}/spec/fixtures/test.jpg")
-      @card.has_vslip_image?.should be_true
+      @card.vslip_back_image = @test_image
+      @card.has_vslip_back_image?.should be_true
     end
     it "is false if there is an invalid card image" do
       @card.has_vslip_back_image?.should be_false

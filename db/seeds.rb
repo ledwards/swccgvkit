@@ -10,7 +10,8 @@ files.each do |curfile|
   file = File.new(curfile,"r")
   while (line = file.gets)
     importer = CardImporter.new
-    importer.import(line)
+    card = importer.import(line)
+    card.save!
   end
   file.close
 end

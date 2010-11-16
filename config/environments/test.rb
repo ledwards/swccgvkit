@@ -9,6 +9,7 @@ Swccgvkit::Application.configure do
 
   # Log error messages when you accidentally call methods on nil.
   config.whiny_nils = true
+  config.active_support.deprecation = :stderr
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
@@ -29,4 +30,6 @@ Swccgvkit::Application.configure do
   # This is necessary if your schema can't be completely dumped by the schema dumper,
   # like if you have constraints or database-specific column types
   # config.active_record.schema_format = :sql
+  Paperclip.options[:command_path] = "/opt/local/bin"
+  
 end

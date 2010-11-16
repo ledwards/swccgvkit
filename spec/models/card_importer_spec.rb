@@ -88,25 +88,21 @@ describe CardImporter do
       it "has a card image url" do
         @objective.save!
         @objective.has_card_image?.should be_true
-        @objective.card_image.url.should =~ /amazon/
       end
       
       it "has a virtual slip image" do
         @objective.save!
         @objective.has_vslip_image?.should be_true
-        @objective.vslip_image.url.should =~ /amazon/
       end
     
       it "has a card back image" do
         @objective.save!
         @objective.has_card_back_image?.should be_true
-        @objective.card_back_image.url.should =~ /amazon/
       end
     
       it "has a virtual slip back image" do
         @objective.save!
         @objective.has_vslip_back_image?.should be_true
-        @objective.vslip_back_image.url.should =~ /amazon/
       end
     end
     
@@ -144,7 +140,6 @@ describe CardImporter do
       it "has a card image url" do
         @character.save!
         @character.has_card_image?.should be_true
-        @character.card_image.url.should =~ /amazon/
       end
       
     end
