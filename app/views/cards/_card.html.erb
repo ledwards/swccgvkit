@@ -8,11 +8,27 @@
 		<span class="<%= card.has_card_image? ? 'yes' : 'no' %>">
 			<%= card.has_card_image? ? 'Yes' : 'No' %>
 		</span>
-		|
-		Virtual Slip Image:
-		<span class="<%= card.has_vslip_image? ? 'yes' : 'no' %>">
-			<%= card.has_vslip_image? ? 'Yes' : 'No' %>
-		</span>
+		<% if card.is_virtual? %>
+			|
+			Virtual Slip Image:
+			<span class="<%= card.has_vslip_image? ? 'yes' : 'no' %>">
+				<%= card.has_vslip_image? ? 'Yes' : 'No' %>
+			</span>
+		<% end %>
+		<% if card.is_flippable? %>
+			|
+			Card Back Image:
+			<span class="<%= card.has_card_back_image? ? 'yes' : 'no' %>">
+				<%= card.has_card_back_image? ? 'Yes' : 'No' %>
+			</span>
+		<% end %>
+		<% if card.is_virtual? && card.is_flippable? %>
+			|
+			Virtual Slip Back Image:
+			<span class="<%= card.has_vslip_back_image? ? 'yes' : 'no' %>">
+				<%= card.has_vslip_back_image? ? 'Yes' : 'No' %>
+			</span>
+		<% end %>
 	</p>
 	<p>
 		Last Updated: <%= card.updated_at %>

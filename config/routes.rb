@@ -1,4 +1,4 @@
-Swccgvkit::Application.routes do
+Swccgvkit::Application.routes.draw do |map|
   devise_for :users
 
   get "home/index", :as => :home

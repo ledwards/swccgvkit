@@ -75,6 +75,10 @@ describe CardImporter do
         @objective = @card_importer.import(@line)        
       end
       
+      after do
+        @file.rewind
+      end
+      
       it "returns a card that is both an Objective and virtual" do
         @objective.is_virtual?.should be_true
         @objective.is_flippable?.should be_true
@@ -113,6 +117,10 @@ describe CardImporter do
         @character = @card_importer.import(@line)        
       end
       
+      after do
+        @file.rewind
+      end
+      
       it "returns a card that is a Character" do
         @character.card_type.should == "Character"
       end
@@ -141,6 +149,26 @@ describe CardImporter do
         @character.save!
         @character.has_card_image?.should be_true
       end
+    end
+    
+    describe "When the card is in Jabba's Palace" do
+      before do
+        4.times { @line = @file.gets }
+        @card_importer = CardImporter.new
+        @jp_card = @card_importer.import(@line)        
+      end
+      
+      after do
+        @file.rewind
+      end
+      
+      it "has the expansion Jabba's Palace" do
+        @jp_card.expansion.should == "Jabba's Palace"
+      end
+      
+      it "has a valid card image" do
+        @jp_card.has_card_image?.should be_true
+      end
       
     end
   end
@@ -150,6 +178,10 @@ describe CardImporter do
       @card_importer = CardImporter.new
       @file = File.new('spec/fixtures/import_test.cdf', 'r')
       4.times { @line = @file.gets }
+    end
+    
+    after do
+      @file.rewind
     end
     
     it "returns an attribute found in the given line" do
@@ -163,15 +195,131 @@ describe CardImporter do
       ca = @card_importer.find_attribute("Foobar", @line)
       ca.should be_nil
     end
-    
   end
   
-  describe "#import_file" do
-    it "creates a log file in development or test mode" do
+  describe "#card_image_url" do
+    before do
+      @card_importer = CardImporter.new
+      @file = File.new('spec/fixtures/import_test.cdf', 'r')
+      line = @file.gets
+      @card = @card_importer.import(line)
     end
     
-    it "does not create a log file in production mode" do
+    after do
+      @file.rewind
     end
     
+    it "returns a string url for the given card" do
+      @card_importer.send(:card_image_url).should == "http://swccgpc.com/gallery/var/albums/Endor/Light-Side/a280sharpshooterrifle.gif" 
+      line = @file.gets
+      line = @file.gets #skip invalid
+      @card = @card_importer.import(line)
+      @card_importer.send(:card_image_url).should == "http://swccgpc.com/gallery/var/albums/Virtual-Block-4/Dark-Side/huntdownanddestroythejedi.gif" 
+      line = @file.gets
+      @card = @card_importer.import(line)
+      @card_importer.send(:card_image_url).should == "http://swccgpc.com/gallery/var/albums/Reflections/Reflections-II/Light-Side/dashrendar.gif" 
+      line = @file.gets
+      @card = @card_importer.import(line)
+      @card_importer.send(:card_image_url).should == "http://swccgpc.com/gallery/var/albums/Jabbas-Palace/Light-Side/attark.gif" 
+    end
+  end
+  
+  describe "#card_back_image_url" do
+    before do
+      @card_importer = CardImporter.new
+      @file = File.new('spec/fixtures/import_test.cdf', 'r')
+      line = @file.gets
+      @card = @card_importer.import(line)
+    end
+    
+    after do
+      @file.rewind
+    end
+    
+    it "returns a string url for the given card" do
+      @card_importer.send(:card_back_image_url).should be_nil 
+      line = @file.gets
+      line = @file.gets #skip invalid
+      @card = @card_importer.import(line)
+      @card_importer.send(:card_back_image_url).should == "http://swccgpc.com/gallery/var/albums/Virtual-Block-4/Dark-Side/theirfirehasgoneoutoftheuniverse.gif" 
+      line = @file.gets
+      @card = @card_importer.import(line)
+      @card_importer.send(:card_back_image_url).should be_nil 
+      line = @file.gets
+      @card = @card_importer.import(line)
+      @card_importer.send(:card_back_image_url).should be_nil 
+    end
+  end
+  
+  describe "#vslip_image_url" do
+    before do
+      @card_importer = CardImporter.new
+      @file = File.new('spec/fixtures/import_test.cdf', 'r')
+      line = @file.gets
+      @card = @card_importer.import(line)
+    end
+    
+    after do
+      @file.rewind
+    end
+    
+    it "returns a string url for the given card" do
+      @card_importer.send(:vslip_image_url).should be_nil 
+      line = @file.gets
+      line = @file.gets #skip invalid
+      @card = @card_importer.import(line)
+      @card_importer.send(:vslip_image_url).should == "http://stuff.ledwards.com/starwars/dark/huntdownanddestroythejedi.png" 
+      line = @file.gets
+      @card = @card_importer.import(line)
+      @card_importer.send(:vslip_image_url).should be_nil 
+      line = @file.gets
+      @card = @card_importer.import(line)
+      @card_importer.send(:vslip_image_url).should be_nil 
+    end
+  end
+  
+  describe "#vslip_back_image_url" do
+    before do
+      @card_importer = CardImporter.new
+      @file = File.new('spec/fixtures/import_test.cdf', 'r')
+      line = @file.gets
+      @card = @card_importer.import(line)
+    end
+    
+    after do
+      @file.rewind
+    end
+    
+    it "returns a string url for the given card" do
+      @card_importer.send(:vslip_back_image_url).should be_nil 
+      line = @file.gets
+      line = @file.gets #skip invalid
+      @card = @card_importer.import(line)
+      @card_importer.send(:vslip_back_image_url).should == "http://stuff.ledwards.com/starwars/dark/theirfirehasgoneoutoftheuniverse.png" 
+      line = @file.gets
+      @card = @card_importer.import(line)
+      @card_importer.send(:vslip_back_image_url).should be_nil 
+      line = @file.gets
+      @card = @card_importer.import(line)
+      @card_importer.send(:vslip_back_image_url).should be_nil 
+    end
+  end
+  
+  
+  describe "import_file" do
+    it "calls import for each line of the file" do
+      CardImporter.should_receive(:new).exactly(6).times
+      CardImporter.import_file('spec/fixtures/import_test.cdf')
+    end
+    
+    it "logs errors on the model" do
+      Rails.logger.should_receive(:error)
+      CardImporter.import_file('spec/fixtures/import_test.cdf')
+    end
+    
+    it "saves valid cards" do
+      CardImporter.import_file('spec/fixtures/import_test.cdf')
+      Card.all.length.should == 5
+    end
   end
 end

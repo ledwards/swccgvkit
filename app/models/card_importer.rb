@@ -10,10 +10,7 @@ class CardImporter
     card_type_re = /(.*)\s-\s(\w*)(:*\s*.*)/
     icons_re = /Icons: (.+?)\\n/
     gametext_re = /Text: (.*)"/
-    obj_gametext_re = /\\n\\n(.*)"/
-    
-    vslip_url_root = "http://stuff.ledwards.com/starwars"
-    vslip_file_ext = ".png"    
+    obj_gametext_re = /\\n\\n(.*)"/ 
 
     characteristics = []
     
@@ -48,59 +45,32 @@ class CardImporter
         @card.uniqueness.gsub!('<>','◊')
         @card.title.gsub!('@','') #for unique combo cards who have residual uniquenesses in them
       end
-            
-      if @card.is_flippable?
-        front, back = @card.title.split('/')
-        image_url = "http://swccgpc.com/gallery/var/albums/#{@card.expansion.gsub(' ','-')}/#{@card.side}-Side/#{front.downcase.gsub('&','%26').gsub(/[^0-9a-z]/i, '')}.gif"
-        image_back_url = "http://swccgpc.com/gallery/var/albums/#{@card.expansion.gsub(' ','-')}/#{@card.side}-Side/#{back.gsub(' (V)','').downcase.gsub('&','%26').gsub(/[^0-9a-z]/i, '')}.gif"
-        [image_url, image_back_url].each {|u| u.gsub!('Reflections', 'Reflections/Reflections') if @card.expansion =~ /Reflections/}
-        begin
-          @card.card_image = open(URI.parse(image_url))
-        rescue
-          puts "Card image url #{image_url} failed for #{@card.id}: #{@card.title}"
-        end
-        begin
-          @card.card_back_image = open(URI.parse(image_back_url))
-        rescue
-          puts "Card back image url #{image_back_url} failed for #{@card.id}: #{@card.title}"
-        end
-        
-        if @card.is_virtual?
-          vslip_url = vslip_url_root + '/' + @card.side.downcase + '/' + front.downcase.gsub(" ","").gsub("'","").gsub("(","").gsub(")","").gsub(":","").gsub("?","").gsub("!","").gsub("-","").gsub(",","") + vslip_file_ext
-          vslip_back_url = vslip_url_root + '/' + @card.side.downcase + '/' + back.downcase.gsub(" ","").gsub("'","").gsub("(","").gsub(")","").gsub(":","").gsub("?","").gsub("!","").gsub("-","").gsub(",","") + vslip_file_ext
-          vslip_back_url.gsub!("v.png",".png")
-          
-          begin
-            @card.vslip_image = open(URI.parse(vslip_url))
-          rescue
-            puts "V-slip url #{vslip_url} failed for #{@card.id}: #{@card.title}"
-          end
-          begin
-            @card.vslip_back_image = open(URI.parse(vslip_back_url))
-          rescue
-            puts "V-slip back url #{vslip_back_url} failed for #{@card.id}: #{@card.title}"
-          end
-        end
-
-      else
-        image_url = "http://swccgpc.com/gallery/var/albums/#{@card.expansion.gsub(' ','-')}/#{@card.side}-Side/#{@card.title.downcase.gsub('&','%26').gsub(/[^0-9a-z]/i, '')}.gif"
-        image_url.gsub!('Reflections', 'Reflections/Reflections') if @card.expansion =~ /Reflections/
-        
-        begin
-          @card.card_image = open(URI.parse(image_url))
-        rescue
-          puts "Card image url #{image_url} failed for #{@card.id}: #{@card.title}"
-        end
-        
-        if @card.is_virtual?
-          vslip_url = vslip_url_root + '/' + @card.side.downcase + '/' + @card.title.downcase.gsub("(v)","").gsub(" ","").gsub("'","").gsub("(","").gsub(")","").gsub(":","").gsub("?","").gsub("!","").gsub("-","").gsub(",","") + vslip_file_ext
-          begin
-            @card.vslip_image = open(URI.parse(vslip_url))
-          rescue
-            puts "V-slip url #{vslip_url} failed for #{@card.id}: #{@card.title}"
-          end
-        end
+       
+      
+      begin
+        @card.card_image = open(URI.parse(self.card_image_url))
+      rescue
+        Rails.logger.error "Card image url #{self.card_image_url || 'nil'} failed for #{@card.id}: #{@card.title}" if @card.valid?
       end
+      
+      begin
+        @card.card_back_image = open(URI.parse(self.card_back_image_url)) if @card.is_flippable?
+      rescue
+        Rails.logger.error "Card back image url #{self.card_back_image_url || 'nil'} failed for #{@card.id}: #{@card.title}" if @card.valid?
+      end
+      
+      begin
+        @card.vslip_image = open(URI.parse(self.vslip_image_url))
+      rescue
+        Rails.logger.error "V-slip url #{self.vslip_image_url || 'nil'} failed for #{@card.id}: #{@card.title}" if @card.valid?
+      end
+      
+      begin
+        @card.vslip_back_image = open(URI.parse(self.vslip_back_image_url))
+      rescue
+        Rails.logger.error "V-slip back url #{self.vslip_back_image_url || 'nil'} failed for #{@card.id}: #{@card.title}" if @card.valid?
+      end
+      
       
       attribute_names = ["Ferocity", "Power", "Ability", "Politics", "Armor", "Maneuever", "Hyperspeed", "Landspeed", "Deploy", "Forfeit"]
       attributes = []
@@ -154,7 +124,71 @@ class CardImporter
     end
   end
   
-  def import_file(file)
+  def self.import_file(filename)
+    file = File.new(filename,"r")
+    while (line = file.gets)
+      importer = CardImporter.new
+      card = importer.import(line)
+      card.save! unless card.nil?
+      Rails.logger.error card.errors.full_messages if card.errors
+    end
+    file.close
+  end
+  
+  protected
+  
+  def card_image_url
+    if @card.is_flippable?
+      filename = @card.title.split('/').first
+    else
+      filename = @card.title
+    end
+    image_url = "http://swccgpc.com/gallery/var/albums/#{@card.expansion.gsub(' ', '-').gsub(/'/, '')}/#{@card.side}-Side/#{filename.downcase.gsub('&','%26').gsub(/[^0-9a-z]/i, '')}.gif"
+    image_url.gsub!('Reflections', 'Reflections/Reflections') if @card.expansion =~ /Reflections/
+ 
+    image_url
+  end
+  
+  def card_back_image_url
+    if @card.is_flippable?
+      filename = @card.title.split('/').last
+      image_url = "http://swccgpc.com/gallery/var/albums/#{@card.expansion.gsub(' ', '-').gsub(/'/, '')}/#{@card.side}-Side/#{filename.downcase.gsub('(V)','').gsub('(v)','').gsub('&','%26').gsub(/[^0-9a-z]/i, '')}.gif"
+      image_url.gsub!('Reflections', 'Reflections/Reflections') if @card.expansion =~ /Reflections/
+    end
+    
+    image_url
+  end
+  
+  def vslip_image_url
+    if @card.is_virtual?
+      vslip_image_url_root = "http://stuff.ledwards.com/starwars"
+      vslip_file_ext = ".png"
+      front, back = @card.title.split('/')
+    
+      if @card.is_flippable?
+        front, back = @card.title.split('/')
+        vslip_image_url = vslip_image_url_root + '/' + @card.side.downcase + '/' + front.downcase.gsub(" ","").gsub("'","").gsub("(","").gsub(")","").gsub(":","").gsub("?","").gsub("!","").gsub("-","").gsub(",","") + vslip_file_ext
+      else
+        vslip_image_url = vslip_image_url_root + '/' + @card.side.downcase + '/' + @card.title.downcase.gsub(" ","").gsub("'","").gsub("(","").gsub(")","").gsub(":","").gsub("?","").gsub("!","").gsub("-","").gsub(",","") + vslip_file_ext
+      end
+    end
+
+    vslip_image_url
+  end
+  
+  def vslip_back_image_url
+    if @card.is_virtual?
+      vslip_image_url_root = "http://stuff.ledwards.com/starwars"
+      vslip_file_ext = ".png"    
+      front, back = @card.title.split('/')
+    
+      if @card.is_flippable?
+        front, back = @card.title.split('/')
+        vslip_back_image_url = vslip_image_url_root + '/' + @card.side.downcase + '/' + back.downcase.gsub('(V)','').gsub('(v)','').gsub(" ","").gsub("'","").gsub("(","").gsub(")","").gsub(":","").gsub("?","").gsub("!","").gsub("-","").gsub(",","") + vslip_file_ext
+      end
+    end
+     
+    vslip_back_image_url
   end
   
 end
