@@ -305,21 +305,24 @@ describe CardImporter do
     end
   end
   
-  
-  describe "import_file" do
+  describe "#import_file" do
+    before do
+      @importer = CardImporter.new
+    end
+    
     it "calls import for each line of the file" do
-      CardImporter.should_receive(:new).exactly(6).times
-      CardImporter.import_file('spec/fixtures/import_test.cdf')
+      @importer.should_receive(:import).exactly(6).times
+      @importer.import_file('spec/fixtures/import_test.cdf')
+    end
+    
+    it "imports a card for each line of the file" do
+      @importer.import_file('spec/fixtures/import_test.cdf')
+      Card.count.should == 4
     end
     
     it "logs errors on the model" do
-      Rails.logger.should_receive(:error)
-      CardImporter.import_file('spec/fixtures/import_test.cdf')
-    end
-    
-    it "saves valid cards" do
-      CardImporter.import_file('spec/fixtures/import_test.cdf')
-      Card.all.length.should == 5
+      Rails.logger.should_receive(:error).exactly(4).times
+      @importer.import_file('spec/fixtures/import_test.cdf')
     end
   end
 end

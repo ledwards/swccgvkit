@@ -19,4 +19,7 @@ Swccgvkit::Application.configure do
   
   #Deprecation warnings
   config.active_support.deprecation :log
+  
+  Paperclip.options[:command_path] = "/opt/local/bin"
+  Paperclip.options[:swallow_stderr] = false
 end

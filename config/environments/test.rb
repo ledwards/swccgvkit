@@ -31,5 +31,5 @@ Swccgvkit::Application.configure do
   # like if you have constraints or database-specific column types
   # config.active_record.schema_format = :sql
   Paperclip.options[:command_path] = "/opt/local/bin"
-  
+  Paperclip.options[:swallow_stderr] = false
 end

@@ -5,7 +5,18 @@ class CardImporter
     @card = Card.new
   end
   
+  def import_file(filename)
+    file = File.open(filename,"r")
+    while (line = file.gets)
+      @card = import(line)
+      @card.save! unless @card.nil?
+      Rails.logger.error @card.errors.full_messages unless @card.nil?
+    end
+    file.close
+  end
+  
   def import(card_string)
+    @card = Card.new
     card_re = /card\s"(.*?)"\s"([<>@]*)(.*)\(([^V]*)\)\\n(\S*)\s(.*?)\[(.*)\]\s?\\nSet:\s(.*?)\\n/
     card_type_re = /(.*)\s-\s(\w*)(:*\s*.*)/
     icons_re = /Icons: (.+?)\\n/
@@ -50,25 +61,25 @@ class CardImporter
       begin
         @card.card_image = open(URI.parse(self.card_image_url))
       rescue
-        Rails.logger.error "Card image url #{self.card_image_url || 'nil'} failed for #{@card.id}: #{@card.title}" if @card.valid?
+        Rails.logger.info "Card image url #{self.card_image_url || 'nil'} failed for #{@card.id}: #{@card.title}" if @card.valid?
       end
       
       begin
         @card.card_back_image = open(URI.parse(self.card_back_image_url)) if @card.is_flippable?
       rescue
-        Rails.logger.error "Card back image url #{self.card_back_image_url || 'nil'} failed for #{@card.id}: #{@card.title}" if @card.valid?
+        Rails.logger.info "Card back image url #{self.card_back_image_url || 'nil'} failed for #{@card.id}: #{@card.title}" if @card.valid?
       end
       
       begin
         @card.vslip_image = open(URI.parse(self.vslip_image_url))
       rescue
-        Rails.logger.error "V-slip url #{self.vslip_image_url || 'nil'} failed for #{@card.id}: #{@card.title}" if @card.valid?
+        Rails.logger.info "V-slip url #{self.vslip_image_url || 'nil'} failed for #{@card.id}: #{@card.title}" if @card.valid?
       end
       
       begin
         @card.vslip_back_image = open(URI.parse(self.vslip_back_image_url))
       rescue
-        Rails.logger.error "V-slip back url #{self.vslip_back_image_url || 'nil'} failed for #{@card.id}: #{@card.title}" if @card.valid?
+        Rails.logger.info "V-slip back url #{self.vslip_back_image_url || 'nil'} failed for #{@card.id}: #{@card.title}" if @card.valid?
       end
       
       
@@ -122,17 +133,6 @@ class CardImporter
     else
       return nil
     end
-  end
-  
-  def self.import_file(filename)
-    file = File.new(filename,"r")
-    while (line = file.gets)
-      importer = CardImporter.new
-      card = importer.import(line)
-      card.save! unless card.nil?
-      Rails.logger.error card.errors.full_messages if card.errors
-    end
-    file.close
   end
   
   protected
