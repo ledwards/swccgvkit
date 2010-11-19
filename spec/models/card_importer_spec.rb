@@ -1,34 +1,38 @@
 require 'spec_helper'
 
 describe CardImporter do
+  before :all do
+    @file = File.new('spec/fixtures/import_test.cdf', 'r')
+    @valid_line = @file.readline
+    @invalid_line = @file.readline
+    @vobj_line = @file.readline
+    @character_line = @file.readline
+    @jp_line = @file.readline
+    @card_importer = CardImporter.new   
+  end
+  
   describe "#new" do
     it "should initialize a new card" do
-      card_importer = CardImporter.new
-      card_importer.card.should_not be_nil
+      @card_importer.card.should be_new_record
     end
   end
   
   describe "#import" do
-    before do
+    before :all do
       @card_importer = CardImporter.new
-      @file = File.new('spec/fixtures/import_test.cdf', 'r')
-      line = @file.gets
-      @card = @card_importer.import(line)
+      @card = @valid_card = @card_importer.import(@valid_line)
+      @invalid_card = @card_importer.import(@invalid_line)
+      @vobj_card = @card_importer.import(@vobj_line)
+      @character_card = @card_importer.import(@character_line)
+      @jp_card = @card_importer.import(@jp_line)
     end
     
-    after do
-      @file.rewind
-    end
-    
-    it "is a valid card" do
-      @card.valid?.should be_true
+    it "is a valid card for a valid line" do
+      @valid_card.valid?.should be_true
     end
     
     it "is nil for an invalid line" do
-      line = @file.gets
-      line.should =~ /invalid line/
-      invalid_card = @card_importer.import(line)
-      invalid_card.should be_nil
+      @invalid_card.should be_nil
     end
     
     it "has a title" do
@@ -59,129 +63,84 @@ describe CardImporter do
       @card.subtype.should == "Character Weapon"
     end
     
-    it "has a destiny" do
-      @card.save
-      @card.destiny.should == 3
-    end
-    
-    it "has a card image url" do
-      @card.has_card_image?.should be_true
+    it "has a card image" do
+      @card.has_card_image?.should be_true if online?
     end
 
-    describe "When the card is a virtual card Objective" do
-      before do
-        2.times { @line = @file.gets }
-        @card_importer = CardImporter.new
-        @objective = @card_importer.import(@line)        
-      end
-      
-      after do
-        @file.rewind
-      end
-      
+    context "when the card is a virtual card Objective" do      
       it "returns a card that is both an Objective and virtual" do
-        @objective.is_virtual?.should be_true
-        @objective.is_flippable?.should be_true
-        @objective.card_type.should == "Objective"
+        @vobj_card.is_virtual?.should be_true
+        @vobj_card.is_flippable?.should be_true
+        @vobj_card.card_type.should == "Objective"
       end
       
       it "has gametext" do
-        @objective.gametext.should =~ /While/
+        @vobj_card.gametext.should =~ /While/
       end
       
       it "has a card image url" do
-        @objective.save!
-        @objective.has_card_image?.should be_true
+        @vobj_card.has_card_image?.should be_true if online?
       end
       
       it "has a virtual slip image" do
-        @objective.save!
-        @objective.has_vslip_image?.should be_true
+        @vobj_card.has_vslip_image?.should be_true if online?
       end
     
       it "has a card back image" do
-        @objective.save!
-        @objective.has_card_back_image?.should be_true
+        @vobj_card.has_card_back_image?.should be_true if online?
       end
     
       it "has a virtual slip back image" do
-        @objective.save!
-        @objective.has_vslip_back_image?.should be_true
+        @vobj_card.has_vslip_back_image?.should be_true if online?
       end
     end
     
     describe "When the card is a character (Dash Rendar)" do
-      before do
-        3.times { @line = @file.gets }
-        @card_importer = CardImporter.new
-        @character = @card_importer.import(@line)        
-      end
-      
-      after do
-        @file.rewind
-      end
-      
       it "returns a card that is a Character" do
-        @character.card_type.should == "Character"
+        @character_card.card_type.should == "Character"
       end
       
       it "has some characteristics" do
-        @character.card_characteristics.any?.should be_true
-        @character.card_characteristics.map(&:name).should =~ ['Pilot', 'Warrior']
+        @character_card.card_characteristics.any?.should be_true
+        @character_card.card_characteristics.map(&:name).should =~ ['Pilot', 'Warrior']
       end
 
       it "has some attributes" do
-        @character.save
-        @character.destiny.should == 3
-        @character.power.should == 3
-        @character.ability.should == 3
+        @character_card.save
+        @character_card.destiny.should == 3
+        @character_card.power.should == 3
+        @character_card.ability.should == 3
       end
       
       it "has lore" do
-        @character.lore.should =~ /Corellian/
+        @character_card.lore.should =~ /Corellian/
       end
       
       it "has gametext" do
-        @character.gametext.should =~ /Outrider/
+        @character_card.gametext.should =~ /Outrider/
       end
       
       it "has a card image url" do
-        @character.save!
-        @character.has_card_image?.should be_true
+        @character_card.has_card_image?.should be_true if online?
       end
     end
     
-    describe "When the card is in Jabba's Palace" do
-      before do
-        4.times { @line = @file.gets }
-        @card_importer = CardImporter.new
-        @jp_card = @card_importer.import(@line)        
-      end
-      
-      after do
-        @file.rewind
-      end
-      
+    describe "When the card is in Jabba's Palace" do      
       it "has the expansion Jabba's Palace" do
         @jp_card.expansion.should == "Jabba's Palace"
       end
       
       it "has a valid card image" do
-        @jp_card.has_card_image?.should be_true
+        @jp_card.has_card_image?.should be_true if online?
       end
       
     end
   end
   
   describe "#find_attribute" do
-    before do
+    before :all do
       @card_importer = CardImporter.new
-      @file = File.new('spec/fixtures/import_test.cdf', 'r')
-      4.times { @line = @file.gets }
-    end
-    
-    after do
-      @file.rewind
+      @line = @character_line
     end
     
     it "returns an attribute found in the given line" do
@@ -197,132 +156,84 @@ describe CardImporter do
     end
   end
   
-  describe "#card_image_url" do
-    before do
-      @card_importer = CardImporter.new
-      @file = File.new('spec/fixtures/import_test.cdf', 'r')
-      line = @file.gets
-      @card = @card_importer.import(line)
-    end
-    
-    after do
-      @file.rewind
-    end
-    
+  describe "#card_image_url" do    
     it "returns a string url for the given card" do
+      @card_importer.import(@valid_line)
       @card_importer.send(:card_image_url).should == "http://swccgpc.com/gallery/var/albums/Endor/Light-Side/a280sharpshooterrifle.gif" 
-      line = @file.gets
-      line = @file.gets #skip invalid
-      @card = @card_importer.import(line)
+    
+      @card_importer.import(@vobj_line)
       @card_importer.send(:card_image_url).should == "http://swccgpc.com/gallery/var/albums/Virtual-Block-4/Dark-Side/huntdownanddestroythejedi.gif" 
-      line = @file.gets
-      @card = @card_importer.import(line)
+    
+      @card_importer.import(@character_line)
       @card_importer.send(:card_image_url).should == "http://swccgpc.com/gallery/var/albums/Reflections/Reflections-II/Light-Side/dashrendar.gif" 
-      line = @file.gets
-      @card = @card_importer.import(line)
+    
+      @card = @card_importer.import(@jp_line)
       @card_importer.send(:card_image_url).should == "http://swccgpc.com/gallery/var/albums/Jabbas-Palace/Light-Side/attark.gif" 
     end
   end
   
   describe "#card_back_image_url" do
-    before do
-      @card_importer = CardImporter.new
-      @file = File.new('spec/fixtures/import_test.cdf', 'r')
-      line = @file.gets
-      @card = @card_importer.import(line)
-    end
-    
-    after do
-      @file.rewind
-    end
-    
     it "returns a string url for the given card" do
+      @card_importer.import(@valid_line)
       @card_importer.send(:card_back_image_url).should be_nil 
-      line = @file.gets
-      line = @file.gets #skip invalid
-      @card = @card_importer.import(line)
+
+      @card_importer.import(@vobj_line)
       @card_importer.send(:card_back_image_url).should == "http://swccgpc.com/gallery/var/albums/Virtual-Block-4/Dark-Side/theirfirehasgoneoutoftheuniverse.gif" 
-      line = @file.gets
-      @card = @card_importer.import(line)
+
+      @card_importer.import(@character_line)
       @card_importer.send(:card_back_image_url).should be_nil 
-      line = @file.gets
-      @card = @card_importer.import(line)
+
+      @card = @card_importer.import(@jp_line)
       @card_importer.send(:card_back_image_url).should be_nil 
     end
   end
   
   describe "#vslip_image_url" do
-    before do
-      @card_importer = CardImporter.new
-      @file = File.new('spec/fixtures/import_test.cdf', 'r')
-      line = @file.gets
-      @card = @card_importer.import(line)
-    end
-    
-    after do
-      @file.rewind
-    end
-    
     it "returns a string url for the given card" do
+      @card_importer.import(@valid_line)
       @card_importer.send(:vslip_image_url).should be_nil 
-      line = @file.gets
-      line = @file.gets #skip invalid
-      @card = @card_importer.import(line)
+
+      @card_importer.import(@vobj_line)
       @card_importer.send(:vslip_image_url).should == "http://stuff.ledwards.com/starwars/dark/huntdownanddestroythejedi.png" 
-      line = @file.gets
-      @card = @card_importer.import(line)
+
+      @card_importer.import(@character_line)
       @card_importer.send(:vslip_image_url).should be_nil 
-      line = @file.gets
-      @card = @card_importer.import(line)
+
+      @card = @card_importer.import(@jp_line)
       @card_importer.send(:vslip_image_url).should be_nil 
     end
   end
   
   describe "#vslip_back_image_url" do
-    before do
-      @card_importer = CardImporter.new
-      @file = File.new('spec/fixtures/import_test.cdf', 'r')
-      line = @file.gets
-      @card = @card_importer.import(line)
-    end
-    
-    after do
-      @file.rewind
-    end
-    
     it "returns a string url for the given card" do
+      @card_importer.import(@valid_line)
       @card_importer.send(:vslip_back_image_url).should be_nil 
-      line = @file.gets
-      line = @file.gets #skip invalid
-      @card = @card_importer.import(line)
+
+      @card_importer.import(@vobj_line)
       @card_importer.send(:vslip_back_image_url).should == "http://stuff.ledwards.com/starwars/dark/theirfirehasgoneoutoftheuniverse.png" 
-      line = @file.gets
-      @card = @card_importer.import(line)
+
+      @card_importer.import(@character_line)
       @card_importer.send(:vslip_back_image_url).should be_nil 
-      line = @file.gets
-      @card = @card_importer.import(line)
+
+      @card = @card_importer.import(@jp_line)
       @card_importer.send(:vslip_back_image_url).should be_nil 
     end
   end
   
   describe "#import_file" do
-    before do
-      @importer = CardImporter.new
-    end
-    
     it "calls import for each line of the file" do
-      @importer.should_receive(:import).exactly(5).times
-      @importer.import_file('spec/fixtures/import_test.cdf')
+      @card_importer.should_receive(:import).exactly(5).times
+      @card_importer.import_file('spec/fixtures/import_test.cdf')
     end
     
     it "imports a card for each line of the file" do
-      @importer.import_file('spec/fixtures/import_test.cdf')
+      @card_importer.import_file('spec/fixtures/import_test.cdf')
       Card.count.should == 4
     end
     
     it "logs errors on the model" do
-      Rails.logger.should_receive(:error).exactly(4).times
-      @importer.import_file('spec/fixtures/import_test.cdf')
+      Rails.logger.should_receive(:error).at_least(1).times
+      @card_importer.import_file('spec/fixtures/import_test.cdf')
     end
   end
 end

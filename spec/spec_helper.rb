@@ -2,6 +2,9 @@
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
+require 'spec/support/fixture_builder.rb'
+require 'factory_girl'
+Factory.find_definitions
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -33,7 +36,7 @@ RSpec.configure do |config|
     end
     class Thumbnail
       def make
-        src = Test::FileHelper.fixture_file('white_pixel.jpg')
+        src = URI.parse("#{Rails.root}/spec/fixtures/test.jpg")
         dst = Tempfile.new([@basename, @format].compact.join("."))
         dst.binmode
         FileUtils.cp(src.path, dst.path)
@@ -41,4 +44,17 @@ RSpec.configure do |config|
       end
     end
   end
+
+  def online?
+    begin
+      get 'http://www.google.com'
+      val = true
+    rescue
+      val = false
+    end
+    return val
+  end
+  
+  puts "*** No Internet Connection ***" unless online?
+
 end

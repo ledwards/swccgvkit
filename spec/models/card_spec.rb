@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe Card do
+  fixtures :cards
   before :each do
     @card = Card.new(:title => "Darth Vader", :card_type => "Character", :expansion => "Premiere", :lore => "darthvaderslore", :gametext => "darthvadersgametext")
     
@@ -9,6 +10,10 @@ describe Card do
     @card.card_attributes << @power4
     
     @test_image = File.open("#{Rails.root}/spec/fixtures/test.jpg")
+  end
+  
+  it "has a Factory" do
+    Factory(:card).should be
   end
   
   it "is valid with valid attributes" do

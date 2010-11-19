@@ -57,7 +57,6 @@ class CardImporter
         @card.title.gsub!('@','') #for unique combo cards who have residual uniquenesses in them
       end
        
-      
       begin
         @card.card_image = open(URI.parse(self.card_image_url))
       rescue

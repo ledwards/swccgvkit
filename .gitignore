@@ -8,3 +8,4 @@ public/images/vslips/**/*
 public/images/cards/*
 public/images/cards/**/*
 public/system/attachments/**/*
+spec/fixtures/*.yml

@@ -17,4 +17,6 @@ gem 'spork'
 gem 'launchy'
 gem "autotest"
 gem 'factory_girl'
+gem 'factory_girl_rails'
+gem 'fixture_builder'
 gem 'ruby-debug'

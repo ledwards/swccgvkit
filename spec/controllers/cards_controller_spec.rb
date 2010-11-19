@@ -2,12 +2,12 @@ require 'spec_helper'
 include Devise::TestHelpers
 
 describe CardsController do
-
+  fixtures :users
+  
   describe "GET 'index'" do
     it "should be successful for any logged in user" do
-      @some_user = User.new(:email => "someuser@gmail.com", :password => "foobar", :password_confirmation => "foobar")
-      @some_user.save!
-      sign_in @some_user
+      @user = users(:user)
+      sign_in @user
       get 'index'
       response.should be_success
     end
@@ -15,10 +15,9 @@ describe CardsController do
 
   describe "GET 'new'" do
     it "should be successful for any logged in admin" do
-      @admin_user = User.new(:email => "someuser@gmail.com", :password => "foobar", :password_confirmation => "foobar")
-      @admin_user.roles << Role.create(:name => "admin")
-      @admin_user.save!
-      sign_in @admin_user
+      @admin = users(:admin)
+      @admin.roles << Role.admin #shoudl be able to remove this
+      sign_in @admin
       get 'new'
       response.should be_success
     end

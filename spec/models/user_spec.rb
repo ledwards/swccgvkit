@@ -2,28 +2,35 @@ require 'spec_helper'
 require "cancan/matchers"
 
 describe User do
+  fixtures :users
+  
+  before do
+    @user = Factory.build(:user)
+  end
+  
   it "is valid with valid attributes" do
-    user = User.new(:email => "darthvader@empire.com", :password => "iwantthemalive", :password_confirmation => "iwantthemalive")
-    user.should be_valid
+    p @user
+    @user.should be_valid
   end
   
   it "is not valid with no email address" do
-    user = User.new(:email => nil, :password => "iwantthemalive", :password_confirmation => "iwantthemalive")
-    user.should_not be_valid
+    @user.email = ""
+    @user.should_not be_valid
   end
   
   it "is not valid with a poorly formed email address" do
-    user = User.new(:email => "fake.whatisemail@wtf", :password => "iwantthemalive", :password_confirmation => "iwantthemalive")
-    user.should_not be_valid
+    @user.email = "not.an.email.address"
+    @user.should_not be_valid
   end
   
   it "is not valid with no password" do
-    user = User.new(:email => "darthvader@empire.com", :password => nil, :password_confirmation => "iwantthemalive")
-    user.should_not be_valid
+    @user.password = ""
+    @user.should_not be_valid
   end
   
   it "is not valid with mismatched passwords" do
-    user = User.new(:email => "darthvader@empire.com", :password => "noooooooooooooooo", :password_confirmation => "iwantthemalive")
-    user.should_not be_valid
+    @user.password = "noooooooooooooooo"
+    @user.password_confirmation = "iwantthemalive"
+    @user.should_not be_valid
   end
 end
