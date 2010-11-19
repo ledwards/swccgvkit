@@ -311,7 +311,7 @@ describe CardImporter do
     end
     
     it "calls import for each line of the file" do
-      @importer.should_receive(:import).exactly(6).times
+      @importer.should_receive(:import).exactly(5).times
       @importer.import_file('spec/fixtures/import_test.cdf')
     end
     
