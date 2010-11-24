@@ -68,8 +68,8 @@ describe Card do
   describe "#attach_remote_card_image" do
     it "attaches an image from a remote url as the specified attachment" do
       @card.save!
-      @card.attach_remote_card_image("http://swccgpc.com/gallery/var/albums/Premiere/Dark-Side/darthvader.gif")
-      @card.has_card_image?.should be_true
+      @card.attach_remote_card_image("http://starwarsccg.org/gallery/var/albums/Premiere/Dark-Side/darthvader.gif") if online?
+      @card.has_card_image?.should be_true if online?
     end
   end
   
@@ -116,28 +116,30 @@ describe Card do
       @card.has_vslip_back_image?.should be_false
     end
   end
-  
-  describe "#attach_remote_card_back_image" do
-    it "attaches an image from a remote url as the specified attachment" do
-      @card.save!
-      @card.attach_remote_card_back_image("http://swccgpc.com/gallery/var/albums/Premiere/Dark-Side/darthvader.gif")
-      @card.has_card_back_image?.should be_true
+
+  if online?
+    describe "#attach_remote_card_back_image" do
+      it "attaches an image from a remote url as the specified attachment" do
+        @card.save!
+        @card.attach_remote_card_back_image("http://starwarsccg.org/gallery/var/albums/Premiere/Dark-Side/darthvader.gif")
+        @card.has_card_back_image?.should be_true
+      end
     end
-  end
   
-  describe "#attach_remote_vslip_image" do
-    it "attaches a vslip image from a remote url as the specified attachment" do
-      @card.save!
-      @card.attach_remote_vslip_image("http://swccgpc.com/gallery/var/albums/Premiere/Dark-Side/darthvader.gif")
-      @card.has_vslip_image?.should be_true
+    describe "#attach_remote_vslip_image" do
+      it "attaches a vslip image from a remote url as the specified attachment" do
+        @card.save!
+        @card.attach_remote_vslip_image("http://starwarsccg.org/gallery/var/albums/Premiere/Dark-Side/darthvader.gif")
+        @card.has_vslip_image?.should be_true
+      end
     end
-  end
   
-  describe "#attach_remote_vslip_back_image" do
-    it "attaches a vslip back image from a remote url as the specified attachment" do
-      @card.save!
-      @card.attach_remote_vslip_back_image("http://swccgpc.com/gallery/var/albums/Premiere/Dark-Side/darthvader.gif")
-      @card.has_vslip_back_image?.should be_true
+    describe "#attach_remote_vslip_back_image" do
+      it "attaches a vslip back image from a remote url as the specified attachment" do
+        @card.save!
+        @card.attach_remote_vslip_back_image("http://starwarsccg.org/gallery/var/albums/Premiere/Dark-Side/darthvader.gif")
+        @card.has_vslip_back_image?.should be_true
+      end
     end
   end
 

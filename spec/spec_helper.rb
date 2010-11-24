@@ -47,7 +47,7 @@ RSpec.configure do |config|
 
   def online?
     begin
-      get 'http://www.google.com'
+      Net::HTTP.get URI.parse('http://www.google.com/')
       val = true
     rescue
       val = false

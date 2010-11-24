@@ -6,11 +6,16 @@ class CardImporter
   end
   
   def import_file(filename)
+    # TODO: skip AI cards
     file = File.open(filename,"r")
     while (line = file.gets)
-      @card = import(line)
-      @card.save! unless @card.nil?
-      Rails.logger.error @card.errors.full_messages unless @card.nil?
+      begin
+        @card = import(line)
+        @card.save! unless @card.nil?
+        Rails.logger.error @card.errors.full_messages unless @card.nil?
+      rescue
+        Rails.logger.error "Something went wrong with #{line}"
+      end
     end
     file.close
   end
@@ -60,25 +65,25 @@ class CardImporter
       begin
         @card.card_image = open(URI.parse(self.card_image_url))
       rescue
-        Rails.logger.info "Card image url #{self.card_image_url || 'nil'} failed for #{@card.id}: #{@card.title}" if @card.valid?
+        Rails.logger.info "Card image url failed for #{@card.id}: #{@card.title}" if @card.valid?
       end
       
       begin
         @card.card_back_image = open(URI.parse(self.card_back_image_url)) if @card.is_flippable?
       rescue
-        Rails.logger.info "Card back image url #{self.card_back_image_url || 'nil'} failed for #{@card.id}: #{@card.title}" if @card.valid?
+        Rails.logger.info "Card back image url failed for #{@card.id}: #{@card.title}" if @card.valid?
       end
       
       begin
-        @card.vslip_image = open(URI.parse(self.vslip_image_url))
+        @card.vslip_image = open(URI.parse(self.vslip_image_url)) if @card.is_virtual?
       rescue
-        Rails.logger.info "V-slip url #{self.vslip_image_url || 'nil'} failed for #{@card.id}: #{@card.title}" if @card.valid?
+        Rails.logger.info "V-slip url failed for #{@card.id}: #{@card.title}" if @card.valid?
       end
       
       begin
-        @card.vslip_back_image = open(URI.parse(self.vslip_back_image_url))
+        @card.vslip_back_image = open(URI.parse(self.vslip_back_image_url)) if @card.is_virtual? && @card.is_flippable?
       rescue
-        Rails.logger.info "V-slip back url #{self.vslip_back_image_url || 'nil'} failed for #{@card.id}: #{@card.title}" if @card.valid?
+        Rails.logger.info "V-slip back url failed for #{@card.id}: #{@card.title}" if @card.valid?
       end
       
       
@@ -136,26 +141,95 @@ class CardImporter
   
   protected
   
+  def subdirectory_for_card_image
+    exceptions = {
+      "Theed Palace" => "cards",
+      "Virtual Block 6" => "cards",
+      "Third Anthology" => "cards"
+    }
+    exceptions[@card.expansion] || "gallery/var/albums"
+  end
+  
+  def expansion_for_card_image
+    exceptions = {
+      "Theed Palace" => "THEED",
+      "Third Anthology" => "3RD_ANTHOLOGY",
+      "Virtual Block 6" => "v6",
+      "Jedi Pack" => "Premium",
+      "Premiere Introductory Two Player Game" => "Premium",
+      "Empire Strikes Back Introductory Two Player Game" => "Premium",
+      "Enhanced Jabba's Palace" => "Premium",
+      "Enhanced Cloud City" => "Premium",
+      "Official Tournament Sealed Deck" => "Premium",
+      "Jabba's Palace Sealed Deck" => "Premium",
+      "Enhanced Premiere" => "Premium",
+      "Rebel Leader Pack" => "Premium"
+    }
+    
+    subdir = {
+      "Reflections II" => "Reflections/",
+      "Reflections III" => "Reflections/"
+    }
+    exceptions[@card.expansion] || "#{subdir[@card.expansion]}#{@card.expansion.gsub(" ","-").gsub("'","")}"
+  end
+  
+  def side_for_card_image
+    exceptions = {
+      "Theed Palace" => @card.side.first.upcase + "S/",
+      "Virtual Block 6" => @card.side.first.downcase + "s/",
+      "Third Anthology" => ""
+    }
+    exceptions[@card.expansion] || "#{@card.side}-Side/"
+  end
+  
+  def filename_for_card_image
+    exceptions = {
+      "Brangus Glee" => "brangussglee"
+    }
+    
+    transformations = {
+      "Objective" => @card.title.split('/').first,
+      "Character - Droid" => self.filename_for_droid
+    }
+    exceptions[@card.title] || self.transform_filename(transformations[@card.card_type_and_subtype] || @card.title)
+  end
+  
+  def filename_for_card_back_image
+    exceptions = {
+      "Set Your Course For Alderaan/The Ultimate Power In The Universe" => "theultimatepowerintheunive"
+    }
+    exceptions[@card.title] || self.transform_filename(@card.title.split('/').last)
+  end
+  
+  def filename_for_droid
+    exceptions = ["Premiere", "A New Hope", "Special Edition", "Virtual Block 1"]
+    exceptions.include?(@card.expansion) ? @card.title.gsub(/\(.+\)/,"") : @card.title
+  end
+  
+  def transform_filename(filename)
+    filename.gsub("(V)","").gsub("(v)","").gsub("&", '%26').downcase.gsub(/[^0-9a-z%]/i, "")
+  end
+  
+  def extension_for_card_image
+    exceptions = {
+      "Theed Palace" => "jpg",
+      "Coruscant" => "jpg",
+      "Tatooine" => "jpg",
+      "Virtual Block 6" => "JPG"
+    }
+    exceptions[@card.expansion] || "gif"
+  end
+  
   def card_image_url
-    if @card.is_flippable?
-      filename = @card.title.split('/').first
-    else
-      filename = @card.title
-    end
-    image_url = "http://swccgpc.com/gallery/var/albums/#{@card.expansion.gsub(' ', '-').gsub(/'/, '')}/#{@card.side}-Side/#{filename.downcase.gsub('&','%26').gsub(/[^0-9a-z]/i, '')}.gif"
-    image_url.gsub!('Reflections', 'Reflections/Reflections') if @card.expansion =~ /Reflections/
- 
-    image_url
+    url_root = "http://starwarsccg.org"
+    image_url = "#{url_root}/#{self.subdirectory_for_card_image}/#{self.expansion_for_card_image}/#{self.side_for_card_image}#{self.filename_for_card_image}.#{self.extension_for_card_image}"
   end
   
   def card_back_image_url
-    if @card.is_flippable?
-      filename = @card.title.split('/').last
-      image_url = "http://swccgpc.com/gallery/var/albums/#{@card.expansion.gsub(' ', '-').gsub(/'/, '')}/#{@card.side}-Side/#{filename.downcase.gsub('(V)','').gsub('(v)','').gsub('&','%26').gsub(/[^0-9a-z]/i, '')}.gif"
-      image_url.gsub!('Reflections', 'Reflections/Reflections') if @card.expansion =~ /Reflections/
-    end
+    return nil unless @card.card_type == "Objective"
     
-    image_url
+    url_root = "http://starwarsccg.org"
+    image_url = "#{url_root}/#{self.subdirectory_for_card_image}/#{self.expansion_for_card_image}/#{self.side_for_card_image}#{self.filename_for_card_back_image}.#{self.extension_for_card_image}"
   end
   
   def vslip_image_url
@@ -166,9 +240,9 @@ class CardImporter
     
       if @card.is_flippable?
         front, back = @card.title.split('/')
-        vslip_image_url = vslip_image_url_root + '/' + @card.side.downcase + '/' + front.downcase.gsub(" ","").gsub("'","").gsub("(","").gsub(")","").gsub(":","").gsub("?","").gsub("!","").gsub("-","").gsub(",","") + vslip_file_ext
+        vslip_image_url = vslip_image_url_root + '/' + @card.side.downcase + '/' + front.downcase.gsub(" ","").gsub("'","").gsub("(","").gsub(")","").gsub(":","").gsub("?","").gsub("!","").gsub("-","").gsub(",","").gsub("&","") + vslip_file_ext
       else
-        vslip_image_url = vslip_image_url_root + '/' + @card.side.downcase + '/' + @card.title.downcase.gsub(" ","").gsub("'","").gsub("(","").gsub(")","").gsub(":","").gsub("?","").gsub("!","").gsub("-","").gsub(",","") + vslip_file_ext
+        vslip_image_url = vslip_image_url_root + '/' + @card.side.downcase + '/' + @card.title.downcase.gsub(" ","").gsub("'","").gsub("(","").gsub(")","").gsub(":","").gsub("?","").gsub("!","").gsub("-","").gsub(",","").gsub("&","") + vslip_file_ext
       end
     end
 
@@ -183,7 +257,7 @@ class CardImporter
     
       if @card.is_flippable?
         front, back = @card.title.split('/')
-        vslip_back_image_url = vslip_image_url_root + '/' + @card.side.downcase + '/' + back.downcase.gsub('(V)','').gsub('(v)','').gsub(" ","").gsub("'","").gsub("(","").gsub(")","").gsub(":","").gsub("?","").gsub("!","").gsub("-","").gsub(",","") + vslip_file_ext
+        vslip_back_image_url = vslip_image_url_root + '/' + @card.side.downcase + '/' + back.downcase.gsub('(V)','').gsub('(v)','').gsub(" ","").gsub("'","").gsub("(","").gsub(")","").gsub(":","").gsub("?","").gsub("!","").gsub("-","").gsub(",","").gsub("&","") + vslip_file_ext
       end
     end
      

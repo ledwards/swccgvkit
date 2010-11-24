@@ -2,14 +2,22 @@ require 'spec_helper'
 require "cancan/matchers"
 
 describe User do
-  fixtures :users
+  fixtures :users, :roles, :roles_users
   
   before do
-    @user = Factory.build(:user)
+    @user = users(:user)
+    @admin = users(:admin)
+  end
+  
+  it "has a user factory" do
+    Factory(:user).should be_valid
+  end
+  
+  it "has an admin fixture" do
+    @admin.has_role?(:admin).should be_true
   end
   
   it "is valid with valid attributes" do
-    p @user
     @user.should be_valid
   end
   

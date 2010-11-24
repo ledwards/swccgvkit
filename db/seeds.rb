@@ -7,5 +7,5 @@ admin.save!
 
 files = ["#{Rails.root}/db/lightside.cdf", "#{Rails.root}/db/darkside.cdf"]
 files.each do |file|
-  CardImporter.import_file(file)
+  CardImporter.new.import_file(file)
 end

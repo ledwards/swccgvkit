@@ -1,6 +1,4 @@
-class Card < ActiveRecord::Base
-  include Shared::AttachmentHelper
-    
+class Card < ActiveRecord::Base    
   validates_presence_of :title, :card_type, :expansion
   
   has_and_belongs_to_many :card_characteristics
@@ -8,21 +6,33 @@ class Card < ActiveRecord::Base
   
   accepts_nested_attributes_for :card_attributes
   
-  has_attachment :card_image,
+  has_attached_file :card_image,
     :default_url => "/images/missing.png",
-    :styles => { :full_size => "350", :thumbnail =>"100" }
+    :styles => { :full_size => "350", :thumbnail =>"50" },
+    :storage => :s3,
+    :s3_credentials => "#{Rails.root}/config/s3.yml",
+    :path => "card_images/:id/:style.:extension"
     
-  has_attachment :vslip_image,
+  has_attached_file :vslip_image,
     :default_url => "/images/missing.png",
-    :styles => { :full_size => "350" }
+    :styles => { :full_size => "350" },
+    :storage => :s3,
+    :s3_credentials => "#{Rails.root}/config/s3.yml",
+    :path => "vslip_images/:id/:style.:extension"
     
-  has_attachment :card_back_image,
+  has_attached_file :card_back_image,
     :default_url => "/images/missing.png",
-    :styles => { :full_size => "350", :thumbnail =>"100" }
+    :styles => { :full_size => "350", :thumbnail =>"50" },
+    :storage => :s3,
+    :s3_credentials => "#{Rails.root}/config/s3.yml",
+    :path => "card_back_images/:id/:style.:extension"
     
-  has_attachment :vslip_back_image,
+  has_attached_file :vslip_back_image,
     :default_url => "/images/missing.png",
-    :styles => { :full_size => "350" }
+    :styles => { :full_size => "350" },
+    :storage => :s3,
+    :s3_credentials => "#{Rails.root}/config/s3.yml",
+    :path => "vslip_back_images/:id/:style.:extension"
     
   scope :virtual, lambda {
     where("cards.expansion LIKE ?", "Virtual%")

@@ -2,7 +2,7 @@ require 'spec_helper'
 include Devise::TestHelpers
 
 describe CardsController do
-  fixtures :users
+  fixtures :users, :roles, :roles_users
   
   describe "GET 'index'" do
     it "should be successful for any logged in user" do
@@ -16,9 +16,10 @@ describe CardsController do
   describe "GET 'new'" do
     it "should be successful for any logged in admin" do
       @admin = users(:admin)
-      @admin.roles << Role.admin #shoudl be able to remove this
+      @admin.has_role?(:admin).should be_true
       sign_in @admin
       get 'new'
+      puts response.body
       response.should be_success
     end
   end

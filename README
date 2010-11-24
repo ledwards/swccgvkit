@@ -6,7 +6,7 @@ With hundreds of virtual cards spread out over dozens of pages of PDFs, vkit all
 they need when they need them, saving time, paper, and ink. It has been called the most useful tool for SWCCG players
 since the game was handed over to the Player's Committee.
 
-To find out more about SWCCG, please visit http://www.swccgpc.com.
+To find out more about SWCCG, please visit http://www.starwarsccg.org.
 
 SWCCG vkit Beta is live at http://www.swccgvkit.com. This repo is a complete rewrite of swccgvkit from the ground up
 using Test-Driven Development and Rails 3.
@@ -15,7 +15,7 @@ Project tracker is here: https://www.pivotaltracker.com/projects/93754
 
 == Further resources
 
-- The Player's Committee Website (http://www.swccgpc.com)
+- The Player's Committee Website (http://www.starwarsccg.org)
 - Live SWCCG vkit beta (http://www.swccgvkit.com)
 
 == Copyright
