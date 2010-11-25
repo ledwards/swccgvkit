@@ -8,7 +8,7 @@ class Card < ActiveRecord::Base
   
   has_attached_file :card_image,
     :default_url => "/images/missing.png",
-    :styles => { :full_size => "350", :thumbnail =>"50" },
+    :styles => { :full_size =>"100%", :thumbnail =>"50" },
     :storage => :s3,
     :s3_credentials => "#{Rails.root}/config/s3.yml",
     :path => "card_images/:id/:style.:extension"
@@ -22,7 +22,7 @@ class Card < ActiveRecord::Base
     
   has_attached_file :card_back_image,
     :default_url => "/images/missing.png",
-    :styles => { :full_size => "350", :thumbnail =>"50" },
+    :styles => { :full_size => "100%", :thumbnail =>"50" },
     :storage => :s3,
     :s3_credentials => "#{Rails.root}/config/s3.yml",
     :path => "card_back_images/:id/:style.:extension"
@@ -82,7 +82,7 @@ class Card < ActiveRecord::Base
   end
   
   def is_virtual?
-    expansion =~ /Virtual/
+    expansion.include?("Virtual")
   end
   
   def is_flippable?
@@ -90,7 +90,7 @@ class Card < ActiveRecord::Base
   end
 
   def formatted_title
-    "#{uniqueness}#{title}".gsub("& ","& #{uniqueness}")
+    "#{uniqueness}#{title}".gsub("& ","& #{uniqueness}") unless expansion == "Special Edition"
   end
   
   def card_type_and_subtype

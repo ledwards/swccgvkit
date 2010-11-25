@@ -3,30 +3,31 @@ require 'spec_helper'
 describe CardImporter do
   before :all do
     @file = File.new('spec/fixtures/import_test.cdf', 'r')
-    @valid_line = @file.readline
-    @invalid_line = @file.readline
-    @vobj_line = @file.readline
-    @character_line = @file.readline
-    @jp_line = @file.readline
-    @theed_line = @file.readline
-    @virtualblock_line = @file.readline
-    @jedi_pack_line = @file.readline
-    @two_player_line = @file.readline
-    @two_player_esb_line = @file.readline
-    @coruscant_obj_line = @file.readline
-    @tatooine_line = @file.readline
-    @ejp_obj_line = @file.readline
-    @ecc_obj_line = @file.readline
-    @sped_line = @file.readline
-    @otsd_line = @file.readline
-    @epp_line = @file.readline
-    @rebel_leader_line = @file.readline
-    @third_anthology_line = @file.readline
-    @jpotsd_line = @file.readline
-    @bothawui_operative_line = @file.readline
-    @recoil_in_fear_line = @file.readline
-    @r2d2v_line = @file.readline
-    @dosv_line = @file.readline
+    
+    valid = @file.readline
+    invalid = @file.readline
+    virtual = @file.readline
+    objective = @file.readline
+    vobj = @file.readline
+    character = @file.readline
+    twoplayer = @file.readline
+    r2d2v = @file.readline
+    tooonebee = @file.readline
+    combo = @file.readline
+    
+    @lines = {
+      "valid" => valid,
+      "invalid" => invalid,
+      "virtual" => virtual,
+      "objective" => objective,
+      "vobj" => vobj,
+      "character" => character,
+      "twoplayer" => twoplayer,
+      "r2d2v" => r2d2v,
+      "21b" => tooonebee,
+      "combo" => combo
+    }
+    
     @card_importer = CardImporter.new   
   end
   
@@ -38,18 +39,16 @@ describe CardImporter do
   
   describe "#import" do
     before :all do
-      @card = @valid_card = @card_importer.import(@valid_line)
-      @invalid_card = @card_importer.import(@invalid_line)
-      @vobj_card = @card_importer.import(@vobj_line)
-      @character_card = @card_importer.import(@character_line)
-      @jp_card = @card_importer.import(@jp_line)
-      @otsd_card = @card_importer.import(@otsd_line)
-      @bothawui_operative_card = @card_importer.import(@bothawui_operative_line)
-      @recoil_in_fear_card = @card_importer.import(@recoil_in_fear_line)
-    end
-    
-    before :each do
-      @card_importer = CardImporter.new
+      @card = @valid_card = @card_importer.import(@lines["valid"])
+      @invalid_card = @card_importer.import(@lines["invalid"])
+      @virtual_card = @card_importer.import(@lines["virtual"])
+      @objective_card = @card_importer.import(@lines["objective"])
+      @vobj_card = @card_importer.import(@lines["vobj"])
+      @character_card = @card_importer.import(@lines["character"])
+      @twoplayer_card = @card_importer.import(@lines["twoplayer"])
+      @r2d2v_card = @card_importer.import(@lines["r2d2v"])
+      @too_one_bee_card = @card_importer.import(@lines["21b"])
+      @combo_card = @card_importer.import(@lines["combo"])
     end
     
     it "is a valid card for a valid line" do
@@ -60,40 +59,75 @@ describe CardImporter do
       @invalid_card.should be_nil
     end
     
-    it "has a title" do
-      @card.title.should == "A280 Sharpshooter Rifle"
+    describe "For an average card (A280 Sharpshooter Rifle)" do
+      it "has a title" do
+        @card.title.should == "A280 Sharpshooter Rifle"
+      end
+    
+      it "has a expansion" do
+        @card.expansion.should == "Endor"
+      end
+    
+      it "has a card type" do
+        @card.card_type.should == "Weapon"
+      end
+    
+      it "has a uniqueness" do
+        @card.uniqueness.should == "••"
+      end
+    
+      it "has a side" do
+        @card.side.should == "Light"
+      end
+    
+      it "has a rarity" do
+        @card.rarity.should == "R"
+      end
+    
+      it "has a subtype" do
+        @card.subtype.should == "Character Weapon"
+      end
+    
+      it "has a card image" do
+        @card.has_card_image?.should be_true if online?
+      end
     end
     
-    it "has a expansion" do
-      @card.expansion.should == "Endor"
+    describe "when the card is virtual" do
+      it "is virtual" do
+        @virtual_card.is_virtual?.should be_true
+      end
+      
+      it "has a card image" do
+        @virtual_card.has_card_image?.should be_true if online?
+      end
+      
+      it "has a virtual card image" do
+        @virtual_card.has_vslip_image?.should be_true if online?
+      end
     end
     
-    it "has a card type" do
-      @card.card_type.should == "Weapon"
-    end
-    
-    it "has a uniqueness" do
-      @card.uniqueness.should == "••"
-    end
-    
-    it "has a side" do
-      @card.side.should == "Light"
-    end
-    
-    it "has a rarity" do
-      @card.rarity.should == "R"
-    end
-    
-    it "has a subtype" do
-      @card.subtype.should == "Character Weapon"
-    end
-    
-    it "has a card image" do
-      @card.has_card_image?.should be_true if online?
+    describe "when the card is an Objective" do
+      it "is has card_type of Objective" do
+        @objective_card.is_flippable?.should be_true
+        @objective_card.card_type.should == "Objective"
+      end
+            
+      it "has gametext" do
+        @objective_card.gametext.should =~ /While/
+      end
+      
+      it "has a card image url" do
+        @objective_card.has_card_image?.should be_true if online?
+      end
+          
+      it "has a card back image" do
+        @objective_card.has_card_back_image?.should be_true if online?
+      end
     end
 
     describe "when the card is a virtual card Objective" do
-      it "returns a card that is both an Objective and virtual" do
+      it "is a card that is both an Objective and virtual" do
         @vobj_card.is_virtual?.should be_true
         @vobj_card.is_flippable?.should be_true
         @vobj_card.card_type.should == "Objective"
@@ -120,21 +154,9 @@ describe CardImporter do
       end
     end
     
-    describe "When the card is a character (Dash Rendar)" do
+    describe "when the card is a character (Dash Rendar)" do
       it "returns a card that is a Character" do
         @character_card.card_type.should == "Character"
-      end
-      
-      it "has some characteristics" do
-        @character_card.card_characteristics.any?.should be_true
-        @character_card.card_characteristics.map(&:name).should =~ ['Pilot', 'Warrior']
-      end
-
-      it "has some attributes" do
-        @character_card.save
-        @character_card.destiny.should == 3
-        @character_card.power.should == 3
-        @character_card.ability.should == 3
       end
       
       it "has lore" do
@@ -145,48 +167,53 @@ describe CardImporter do
         @character_card.gametext.should =~ /Outrider/
       end
       
+      it "has some characteristics" do
+        @character_card.card_characteristics.any?.should be_true
+        @character_card.card_characteristics.map(&:name).should =~ ['Pilot', 'Warrior']
+      end
+
+      it "has some attributes" do
+        @character_card.save!
+        @character_card.destiny.should == 3
+        @character_card.power.should == 3
+        @character_card.ability.should == 3
+      end
+    end
+    
+    describe "when the card is from the 2 Player Game" do
+      it "has an expansion that should include 'Two Player'" do
+        @twoplayer_card.expansion.should =~ /Two Player/
+      end
+      
       it "has a card image url" do
-        @character_card.has_card_image?.should be_true if online?
+        @twoplayer_card.has_card_image?.should be_true if online?
       end
     end
     
-    describe "When the card is in Jabba's Palace" do      
-      it "has the expansion Jabba's Palace" do
-        @jp_card.expansion.should == "Jabba's Palace"
+    describe "when the card is a droid from Premiere/ANH/Virtual Block 1" do
+      it "has a card image url" do
+        @r2d2v_card.has_card_image?.should be_true if online?
       end
       
-      it "has a valid card image" do
-        @jp_card.has_card_image?.should be_true if online?
+      it "has a virtual card image url if it's in Virtual Block 1" do
+        @r2d2v_card.is_virtual?.should be_true
+        @r2d2v_card.has_card_image?.should be_true if online?
       end
     end
     
-    describe "When the card is in OTSD" do
-      it "has the expansion Official Tournament Sealed Deck" do
-        @otsd_card.expansion == "Official Tournament Sealed Deck"
-      end
-      
-      it "has a valid card image" do
-        @otsd_card.has_card_image?.should be_true if online?
+    describe "when the card is a droid not from Premiere/ANH/Virtual Block 1" do
+      it "has a card image url" do
+        @too_one_bee_card.has_card_image?.should be_true if online?
       end
     end
     
-    describe "When the card is a Bothawui Operative" do
-      it "is valid" do
-        @bothawui_operative_card.should be_valid
+    describe "when the card is a combo" do
+      it "has an ampersand in the title" do
+        @combo_card.title.should =~ /&/
       end
       
-      it "has a valid card image" do
-        @bothawui_operative_card.has_card_image?.should be_true if online?
-      end
-    end
-    
-    describe "When the card is Recoil in Fear" do
-      it "is valid" do
-        @recoil_in_fear_card.should be_valid
-      end
-      
-      it "has a valid card image" do
-        @recoil_in_fear_card.has_card_image?.should be_true if online?
+      it "has a card image url" do
+        @combo_card.has_card_image?.should be_true if online?
       end
     end
   end
@@ -194,142 +221,71 @@ describe CardImporter do
   describe "#find_attribute" do
     before :all do
       @card_importer = CardImporter.new
-      @line = @character_line
+      @card_importer.import(@lines["character"])
     end
     
     it "returns an attribute found in the given line" do
-      ca = @card_importer.find_attribute("Power", @line)
+      ca = @card_importer.send(:find_attribute, "Power")
       ca.name.should == "Power"
       ca.value.should == 3
-      ca.valid?.should be_true
+      ca.should be_valid
     end
     
     it "returns nil for an attribute not found in the given line" do
-      ca = @card_importer.find_attribute("Foobar", @line)
+      ca = @card_importer.send(:find_attribute, "Foobar")
       ca.should be_nil
     end
   end
   
   describe "#card_image_url" do
-    before :each do
+    before :all do
       @card_importer = CardImporter.new
     end
     
-    it "returns a string url for the given card" do
-      @card_importer.import(@valid_line)
-      @card_importer.send(:card_image_url).should == "http://starwarsccg.org/gallery/var/albums/Endor/Light-Side/a280sharpshooterrifle.gif" 
+    it "returns the expected url for a valid card" do
+      @card_importer.import(@lines["valid"])
+      @card_importer.send(:card_image_url).should == "http://stuff.ledwards.com/starwars/cards/Endor-Light/large/a280sharpshooterrifle.gif" 
     end
     
-    it "returns a string url for the given card" do
-      @card_importer.import(@vobj_line)
-      @card_importer.send(:card_image_url).should == "http://starwarsccg.org/gallery/var/albums/Virtual-Block-4/Dark-Side/huntdownanddestroythejedi.gif" 
-    end
-    
-    it "returns a string url for the given card" do
-      @card_importer.import(@character_line)
-      @card_importer.send(:card_image_url).should == "http://starwarsccg.org/gallery/var/albums/Reflections/Reflections-II/Light-Side/dashrendar.gif" 
-    end
-    
-    it "returns a string url for the given card" do
-      @card = @card_importer.import(@jp_line)
-      @card_importer.send(:card_image_url).should == "http://starwarsccg.org/gallery/var/albums/Jabbas-Palace/Light-Side/attark.gif" 
-    end
-    
-    it "returns a string url for the given card" do
-      @card = @card_importer.import(@theed_line)
-      @card_importer.send(:card_image_url).should == "http://starwarsccg.org/cards/THEED/LS/wehaveaplan.jpg"
-    end
-    
-    it "returns a string url for the given card" do
-      @card = @card_importer.import(@virtualblock_line)
-      @card_importer.send(:card_image_url).should == "http://starwarsccg.org/gallery/var/albums/Virtual-Block-5/Light-Side/letsgoleft.gif"
-    end
-    
-    it "returns a string url for the given card" do
-      @card = @card_importer.import(@jedi_pack_line)
-      @card_importer.send(:card_image_url).should == "http://starwarsccg.org/gallery/var/albums/Premium/Dark-Side/tarkin.gif"
-    end
-    
-    it "returns a string url for the given card" do
-      @card = @card_importer.import(@two_player_line)
-      @card_importer.send(:card_image_url).should == "http://starwarsccg.org/gallery/var/albums/Premium/Dark-Side/vader.gif"
-    end
-    
-    it "returns a string url for the given card" do
-      @card = @card_importer.import(@two_player_esb_line)
-      @card_importer.send(:card_image_url).should == "http://starwarsccg.org/gallery/var/albums/Premium/Dark-Side/veers.gif"
-    end
-    
-    it "returns a string url for the given card" do
-      @card = @card_importer.import(@coruscant_obj_line)
-      @card_importer.send(:card_image_url).should == "http://starwarsccg.org/gallery/var/albums/Coruscant/Light-Side/pleadmycasetothesenate.jpg"
-    end
-    
-    it "returns a string url for the given card" do
-      @card = @card_importer.import(@tatooine_line)
-      @card_importer.send(:card_image_url).should == "http://starwarsccg.org/gallery/var/albums/Tatooine/Light-Side/anakinspodracer.jpg"
-    end
-    
-    it "returns a string url for the given card" do
-      @card = @card_importer.import(@ejp_obj_line)
-      @card_importer.send(:card_image_url).should == "http://starwarsccg.org/gallery/var/albums/Premium/Light-Side/youcaneitherprofitbythis.gif"
-    end
-    
-    it "returns a string url for the given card" do
-      @card = @card_importer.import(@ecc_obj_line)
-      @card_importer.send(:card_image_url).should == "http://starwarsccg.org/gallery/var/albums/Premium/Light-Side/quietminingcolony.gif"
-    end
-    
-    it "returns a string url for the given card" do
-      @card = @card_importer.import(@sped_line)
-      @card_importer.send(:card_image_url).should == "http://starwarsccg.org/gallery/var/albums/Special-Edition/Dark-Side/brangussglee.gif"
-    end
-    
-    it "returns a string url for the given card" do
-      @card = @card_importer.import(@otsd_line)
-      @card_importer.send(:card_image_url).should == "http://starwarsccg.org/gallery/var/albums/Premium/Light-Side/arleilschous.gif"
-    end
-    
-    it "returns a string url for the given card" do
-      @card = @card_importer.import(@epp_line)
-      @card_importer.send(:card_image_url).should == "http://starwarsccg.org/gallery/var/albums/Premium/Light-Side/lukewithlightsaber.gif"
-    end
-    
-    it "returns a string url for the given card" do
-      @card = @card_importer.import(@rebel_leader_line)
-      @card_importer.send(:card_image_url).should == "http://starwarsccg.org/gallery/var/albums/Premium/Light-Side/redleaderinred1.gif"
-    end
-    
-    it "returns a string url for the given card" do
-      @card = @card_importer.import(@third_anthology_line)
-      @card_importer.send(:card_image_url).should == "http://starwarsccg.org/cards/3RD_ANTHOLOGY/setyourcourseforalderaan.gif"
-    end
-    
-    it "returns a string url for the given card" do
-      @card = @card_importer.import(@jpotsd_line)
-      @card_importer.send(:card_image_url).should == "http://starwarsccg.org/gallery/var/albums/Premium/Dark-Side/mightyjabba.gif"
-    end
-    
-    it "returns a string url for the given card" do
-      @card = @card_importer.import(@bothawui_operative_line)
-      @card_importer.send(:card_image_url).should == "http://starwarsccg.org/gallery/var/albums/Special-Edition/Light-Side/bothawuioperative.gif"
-    end
-    
-    it "returns a string url for the given card" do
-      @card = @card_importer.import(@recoil_in_fear_line)
-      @card_importer.send(:card_image_url).should == "http://starwarsccg.org/gallery/var/albums/Dagobah/Light-Side/recoilinfear.gif"
-    end
-    
-    it "returns a string url for the given card" do
-      @card = @card_importer.import(@r2d2v_line)
-      @card_importer.send(:card_image_url).should == "http://starwarsccg.org/gallery/var/albums/Virtual-Block-1/Light-Side/r2d2.gif"
+    it "returns nil for an invalid card" do
+      @card_importer.import(@lines["invalid"])
+      @card_importer.send(:card_image_url).should be_nil
     end
 
-    it "returns a string url for the given card" do
-      @card = @card_importer.import(@dosv_line)
-      @card_importer.send(:card_image_url).should == "http://starwarsccg.org/cards/v6/ls/daughterofskywalker.JPG"
+    it "returns the expected url for a virtual card" do
+      @card_importer.import(@lines["virtual"])
+      @card_importer.send(:card_image_url).should == "http://stuff.ledwards.com/starwars/cards/Virtual5-Light/large/letsgoleft.gif" 
     end
     
+    it "returns the expected url for an Objective" do
+      @card_importer.import(@lines["objective"])
+      @card_importer.send(:card_image_url).should == "http://stuff.ledwards.com/starwars/cards/EnhancedJabbasPalace-Light/large/youcaneitherprofitbythis.gif" 
+    end
+
+    it "returns the expected url for a virtual Objective" do
+      @card_importer.import(@lines["vobj"])
+      @card_importer.send(:card_image_url).should == "http://stuff.ledwards.com/starwars/cards/Virtual4-Dark/large/huntdownanddestroythejedi.gif" 
+    end
+
+    it "returns the expected url for a Premiere Introductory Two Player Set card" do
+      @card = @card_importer.import(@lines["twoplayer"])
+      @card_importer.send(:card_image_url).should == "http://stuff.ledwards.com/starwars/cards/PremiereIntroductoryTwoPlayerGame-Light/large/luke.gif"
+    end
+    
+    it "returns the expected url for a droid from Premiere/ANH/Virtual1" do
+      @card = @card_importer.import(@lines["r2d2v"])
+      @card_importer.send(:card_image_url).should == "http://stuff.ledwards.com/starwars/cards/Virtual1-Light/large/r2d2.gif"
+    end
+    
+    it "returns the expected url for a droid from Hoth/other sets" do
+      @card = @card_importer.import(@lines["21b"])
+      @card_importer.send(:card_image_url).should == "http://stuff.ledwards.com/starwars/cards/Hoth-Light/large/21btooonebee.gif"
+    end
+    
+    it "returns the expected url for a combo card" do
+      @card = @card_importer.import(@lines["combo"])
+      @card_importer.send(:card_image_url).should == "http://stuff.ledwards.com/starwars/cards/Coruscant-Light/large/allwingsreportin%26darklighterspin.gif"
+    end
   end
   
   describe "#card_back_image_url" do
@@ -338,84 +294,61 @@ describe CardImporter do
       @card_importer.send(:card_back_image_url).should be_nil 
     end
     
-    it "returns a string url for the given card" do
-      @card_importer.import(@vobj_line)
-      @card_importer.send(:card_back_image_url).should == "http://starwarsccg.org/gallery/var/albums/Virtual-Block-4/Dark-Side/theirfirehasgoneoutoftheuniverse.gif" 
+    it "returns the expected url for a virtual objective" do
+      @card_importer.import(@lines["vobj"])
+      @card_importer.send(:card_back_image_url).should == "http://stuff.ledwards.com/starwars/cards/Virtual4-Dark/large/theirfirehasgoneoutoftheuniverse.gif" 
     end
     
-    it "returns a string url for the given card" do
-      @card = @card_importer.import(@theed_line)
-      @card_importer.send(:card_back_image_url).should == "http://starwarsccg.org/cards/THEED/LS/theywillbelostandconfused.jpg"
-    end
-    
-    it "returns a string url for the given card" do
-      @card = @card_importer.import(@coruscant_obj_line)
-      @card_importer.send(:card_back_image_url).should == "http://starwarsccg.org/gallery/var/albums/Coruscant/Light-Side/sanityandcompassion.jpg"
-    end
-    
-    it "returns a string url for the given card" do
-      @card = @card_importer.import(@ejp_obj_line)
-      @card_importer.send(:card_back_image_url).should == "http://starwarsccg.org/gallery/var/albums/Premium/Light-Side/orbedestroyed.gif"
-    end
-    
-    it "returns a string url for the given card" do
-      @card = @card_importer.import(@ecc_obj_line)
-      @card_importer.send(:card_back_image_url).should == "http://starwarsccg.org/gallery/var/albums/Premium/Light-Side/independentoperation.gif"
-    end
-    
-    it "returns a string url for the given card" do
-      @card = @card_importer.import(@third_anthology_line)
-      @card_importer.send(:card_back_image_url).should == "http://starwarsccg.org/cards/3RD_ANTHOLOGY/theultimatepowerintheunive.gif"
+    it "returns the expected url for an objective" do
+      @card = @card_importer.import(@lines["objective"])
+      @card_importer.send(:card_back_image_url).should == "http://stuff.ledwards.com/starwars/cards/EnhancedJabbasPalace-Light/large/orbedestroyed.gif"
     end
   end
   
   describe "#vslip_image_url" do
     it "returns a string url for the given card" do
-      @card_importer.import(@valid_line)
+      @card_importer.import(@lines["valid"])
       @card_importer.send(:vslip_image_url).should be_nil 
-
-      @card_importer.import(@vobj_line)
-      @card_importer.send(:vslip_image_url).should == "http://stuff.ledwards.com/starwars/dark/huntdownanddestroythejedi.png" 
-
-      @card_importer.import(@character_line)
-      @card_importer.send(:vslip_image_url).should be_nil 
-
-      @card = @card_importer.import(@jp_line)
-      @card_importer.send(:vslip_image_url).should be_nil 
+    end
+    
+    it "returns a string url for the given card" do
+      @card_importer.import(@lines["vobj"])
+      @card_importer.send(:vslip_image_url).should == "http://stuff.ledwards.com/starwars/vslips/dark/huntdownanddestroythejedi.png"
+    end
+    
+    it "returns a string url for the given card" do
+      @card_importer.import(@lines["virtual"])
+      @card_importer.send(:vslip_image_url).should == "http://stuff.ledwards.com/starwars/vslips/light/letsgoleft.png"
+    end
+    
+    it "returns a string url for the given card" do
+      @card_importer.import(@lines["r2d2v"])
+      @card_importer.send(:vslip_image_url).should == "http://stuff.ledwards.com/starwars/vslips/light/r2d2.png"
     end
   end
   
   describe "#vslip_back_image_url" do
     it "returns a string url for the given card" do
-      @card_importer.import(@valid_line)
+      @card_importer.import(@lines["valid"])
       @card_importer.send(:vslip_back_image_url).should be_nil 
+    end
 
-      @card_importer.import(@vobj_line)
-      @card_importer.send(:vslip_back_image_url).should == "http://stuff.ledwards.com/starwars/dark/theirfirehasgoneoutoftheuniverse.png" 
-
-      @card_importer.import(@character_line)
-      @card_importer.send(:vslip_back_image_url).should be_nil 
-
-      @card = @card_importer.import(@jp_line)
-      @card_importer.send(:vslip_back_image_url).should be_nil 
+    it "returns a string url for the given card" do
+      @card_importer.import(@lines["vobj"])
+      @card_importer.send(:vslip_back_image_url).should == "http://stuff.ledwards.com/starwars/vslips/dark/theirfirehasgoneoutoftheuniverse.png" 
     end
   end
   
   describe "#import_file" do
     it "calls import for each line of the file" do
-      @card_importer.should_receive(:import).exactly(24).times
+      @card_importer.should_receive(:import).exactly(10).times
       @card_importer.import_file('spec/fixtures/import_test.cdf')
     end
     
     it "imports a card for each line of the file" do
       lambda {
         @card_importer.import_file('spec/fixtures/import_test.cdf')
-      }.should change {Card.count}.by 23
-    end
-    
-    it "logs errors on the model" do
-      Rails.logger.should_receive(:error).at_least(1).times
-      @card_importer.import_file('spec/fixtures/import_test.cdf')
+      }.should change {Card.count}.by 9
     end
   end
 end
