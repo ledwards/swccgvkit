@@ -133,11 +133,11 @@ class CardImporter
     end
     
     @characteristics << 'Force Attuned' if @ability == '3'
-    @characteristics << 'Force Sensitive' if @ability == '4' or @ability == '5'        
-    @characteristics << 'Dark Jedi' if @ability == '6' and @card.side == 'Dark'
-    @characteristics << 'Jedi Knight' if @ability == '6' and @card.side == 'Light'
-    @characteristics << 'Dark Jedi Master' if @ability == '7' and @card.side == 'Dark'
-    @characteristics << 'Jedi Master' if @ability == '7' and @card.side == 'Light'
+    @characteristics << 'Force Sensitive' if @ability == '4' || @ability == '5'        
+    @characteristics << 'Dark Jedi' if @ability == '6' && @card.side == 'Dark'
+    @characteristics << 'Jedi Knight' if @ability == '6' && @card.side == 'Light'
+    @characteristics << 'Dark Jedi Master' if @ability == '7' && @card.side == 'Dark'
+    @characteristics << 'Jedi Master' if @ability == '7' && @card.side == 'Light'
     
     @characteristics.each do |c|
       @card.card_characteristics << CardCharacteristic.find_or_create_by_name(c) unless c.nil?
@@ -168,6 +168,26 @@ class CardImporter
     rescue
       Rails.logger.info "V-slip back url failed for #{@card.id}: #{@card.title}" if @card.valid?
     end
+  end
+  
+  def card_image_url
+    return nil if @card.invalid?
+    image_url = "#{@server}/cards/#{self.subdir_for_card_image}/#{self.filename_for_card_image}.gif"
+  end
+  
+  def card_back_image_url
+    return nil unless @card.card_type == "Objective"    
+    image_url = "#{@server}/cards/#{self.subdir_for_card_image}/#{self.filename_for_card_back_image}.gif"
+  end
+  
+  def vslip_image_url
+    return nil unless @card.is_virtual?
+    image_url = "#{@server}/vslips/#{@card.side.downcase}/#{self.filename_for_vslip_image}.png"
+  end
+  
+  def vslip_back_image_url
+    return nil unless @card.is_virtual? && @card.card_type == "Objective"
+    image_url = "#{@server}/vslips/#{@card.side.downcase}/#{self.filename_for_vslip_back_image}.png"
   end
   
   def find_attribute(attr_name)
@@ -216,25 +236,4 @@ class CardImporter
     filename_re = /t_(.*)" /
     filename_re.match(@card_string).captures[0].split("/").last
   end
-  
-  def card_image_url
-    return nil if @card.invalid?
-    image_url = "#{@server}/cards/#{self.subdir_for_card_image}/#{self.filename_for_card_image}.gif"
-  end
-  
-  def card_back_image_url
-    return nil unless @card.card_type == "Objective"    
-    image_url = "#{@server}/cards/#{self.subdir_for_card_image}/#{self.filename_for_card_back_image}.gif"
-  end
-  
-  def vslip_image_url
-    return nil unless @card.is_virtual?
-    image_url = "#{@server}/vslips/#{@card.side.downcase}/#{self.filename_for_vslip_image}.png"
-  end
-  
-  def vslip_back_image_url
-    return nil unless @card.is_virtual? && @card.card_type == "Objective"
-    image_url = "#{@server}/vslips/#{@card.side.downcase}/#{self.filename_for_vslip_back_image}.png"
-  end
-  
 end

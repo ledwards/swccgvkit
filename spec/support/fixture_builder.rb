@@ -12,6 +12,8 @@ FixtureBuilder.configure do |fbuilder|
     
     f.name(:card, Factory(:card))
     
+    f.name(:card_attribute, Factory(:card_attribute))
+    f.name(:card_characteristic, Factory(:card_characteristic))
   end
 
   Factory.sequences.each do |name, seq|

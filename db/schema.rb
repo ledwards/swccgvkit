@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101104032531) do
+ActiveRecord::Schema.define(:version => 20101127164328) do
 
   create_table "card_attributes", :force => true do |t|
     t.string  "name"
@@ -71,8 +71,7 @@ ActiveRecord::Schema.define(:version => 20101104032531) do
   end
 
   create_table "roles", :force => true do |t|
-    t.string  "name"
-    t.integer "user_id"
+    t.string "name"
   end
 
   create_table "roles_users", :id => false, :force => true do |t|
