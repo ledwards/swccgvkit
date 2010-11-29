@@ -95,7 +95,11 @@ class Card < ActiveRecord::Base
   end
   
   def card_type_and_subtype
-    subtype.nil? ? card_type : "#{card_type} - #{subtype}"
+    if ["Effect", "Interrupt", "Weapon", "Vehicle"].include?(card_type)
+      subtype
+    else
+      subtype.present? ? "#{card_type} - #{subtype}" : card_type
+    end
   end
 
   def truncated_title(trunc_length)

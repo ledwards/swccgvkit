@@ -223,6 +223,34 @@ describe CardImporter do
         @combo_card.has_card_image?.should be_true if online?
       end
     end
+    
+    describe "when the card is a Used Or Lost Interrupt" do
+      it "has gametext" do
+        @combo_card.gametext.should be_present
+      end
+      
+      it "has a card_type of 'Interrupt'" do
+        @combo_card.card_type.should == "Interrupt"
+      end
+      
+      it "has a subtype of 'Used Or Lost'" do
+        @combo_card.subtype.should == "Used Or Lost Interrupt"
+      end
+      
+      it "has a card_type_and_subtype type of 'Used Or Lost Interrupt'" do
+        @combo_card.card_type_and_subtype.should == "Used Or Lost Interrupt"
+      end
+      
+      it "had a uniqueness of one dot" do
+        @combo_card.uniqueness.should == "•"
+      end
+      
+      it "does not have a characteristic called 'Or Lost'" do
+        or_lost = CardCharacteristic.find_by_name("Or Lost")
+        @combo_card.card_characteristics.include?(or_lost).should be_false
+      end
+    end
+    
   end
   
   describe "#find_attribute" do

@@ -4,7 +4,7 @@ describe Card do
   fixtures :cards
   
   before :each do
-    @card = Card.new(:title => "Darth Vader", :card_type => "Character", :expansion => "Premiere", :lore => "darthvaderslore", :gametext => "darthvadersgametext")
+    @card = Card.new(:title => "Darth Vader", :card_type => "Character", :subtype => "Imperial", :expansion => "Premiere", :lore => "darthvaderslore", :gametext => "darthvadersgametext")
     @power4 = CardAttribute.create(:name => "Power", :value => "4")
     @armor5 = CardAttribute.create(:name => "Armor", :value => "5")
     @card.card_attributes << @power4
@@ -139,6 +139,17 @@ describe Card do
         @card.attach_remote_vslip_back_image("http://starwarsccg.org/gallery/var/albums/Premiere/Dark-Side/darthvader.gif")
         @card.has_vslip_back_image?.should be_true
       end
+    end
+  end
+  
+  describe "#card_type_and_subtype" do
+    it "returns just subtype for Effect, Interrupt, Weapon, Vehicle" do
+      @lost_interrupt = Factory(:card, :card_type => "Interrupt", :subtype => "Lost Interrupt")
+      @lost_interrupt.card_type_and_subtype.should == "Lost Interrupt"
+    end
+    
+    it "returns the type - cardtype otherwise" do
+      @card.card_type_and_subtype.should == "#{@card.card_type} - #{@card.subtype}"
     end
   end
   

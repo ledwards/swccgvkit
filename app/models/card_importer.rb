@@ -34,7 +34,7 @@ class CardImporter
     @characteristics = []
     
     card_re = /card\s"(.*?)"\s"([<>@]*)(.*)\(([^V]*)\)\\n(\S*)\s(.*?)\[(.*)\]\s?\\nSet:\s(.*?)\\n/
-    if card_match = card_re.match(@card_string)   
+    if card_match = card_re.match(@card_string)
       self.populate_card_fields(card_match)
       self.correct_bad_import_data
       self.import_card_images
@@ -42,6 +42,7 @@ class CardImporter
       self.set_characteristics
     else
       Rails.logger.error "Malformed card string: #{@card_string}"
+      return nil
     end
     return self.should_reject ? nil : @card
   end
@@ -71,13 +72,7 @@ class CardImporter
     @card.rarity = card_match.captures[6].strip
     @card.expansion = card_match.captures[7].strip
     
-    card_type_re = /(.*)\s-\s(\w*)(:*\s*.*)/
-    if card_type_match = card_type_re.match(@card.card_type)
-      @characteristics << card_type_match.captures[2] if card_type_match.captures[2].any?
-      @card.subtype = card_type_match.captures[1]
-      @card.card_type = card_type_match.captures[0]
-    end
-    
+    @card.card_type, @card.subtype = @card.card_type.split(" - ")
     if ["Effect", "Interrupt", "Weapon", "Vehicle"].include?(@card.card_type)
       @card.subtype = "#{@card.subtype} #{@card.card_type}"
     end
@@ -87,7 +82,10 @@ class CardImporter
     else
       @card.uniqueness.gsub!('@','•')
       @card.uniqueness.gsub!('<>','◊')
-      @card.title.gsub!('@','') #for unique combo cards who have residual uniquenesses in them
+      if @card.title =~ /&/
+        @card.title.gsub!('@','')
+        @card.uniqueness = "•" if @card.uniqueness == "••"
+      end
     end
     
     lore_re = /Lore: (.*)\\n/
@@ -97,7 +95,7 @@ class CardImporter
       obj_gametext_re = /\\n\\n(.*)"/
       @card.gametext = obj_gametext_re.match(@card_string).captures[0].gsub('\n',"\n").strip
     else
-      gametext_re = /Text: (.*)"/
+      gametext_re = /Text:..?(.*)"/
       @card.gametext = gametext_re.match(@card_string).captures[0].sub('\n','\n').gsub('ï','•').gsub("<>","◊").strip if not gametext_re.match(@card_string).nil?
     end
   end
