@@ -3,7 +3,11 @@ class CardsController < ApplicationController
   load_and_authorize_resource
   
   def index
-    @cards = Card.all
+    if params[:missing] == "true"
+      @cards = Card.missing_images
+    else
+      @cards = Card.all
+    end
   end
 
   def show
@@ -42,8 +46,4 @@ class CardsController < ApplicationController
 
   def destroy
   end
-  
-  def upload_vslip_image
-  end
-
 end

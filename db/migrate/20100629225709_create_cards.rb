@@ -3,8 +3,8 @@ class CreateCards < ActiveRecord::Migration
     create_table :cards do |t|
       t.string :title
       t.string :side
-      t.string :lore
-      t.string :gametext
+      t.text :lore
+      t.text :gametext
       t.string :rarity
       t.string :uniqueness
       

@@ -12,7 +12,7 @@ module NavigationHelpers
       '/'
     
     when /^register$/
-      '/users/registration/sign_up'
+      '/users/sign_up'
       
     when /^login$/
       '/users/sign_in'  

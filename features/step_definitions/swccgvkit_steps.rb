@@ -6,8 +6,32 @@ Given /^I am logged out$/ do
   end
 end
 
-Given /^there is a user with email address "([^"]*)" and password "([^"]*)"$/ do |arg1, arg2|
-  User.create(:email => arg1, :password => arg2, :password_confirmation => arg2)
+Given /^a logged in (admin|user)$/ do |role|
+  role = Role.find_or_create_by_name(role)
+  user = Factory.create(:user)
+  user.roles << role
+  visit log_in_path
+  fill_in "Email address", :with => user.email
+  fill_in "Password", :with => user.password
+  press sign_in
+end
+
+Given /^a card(?: with title "([^"]*)")?$/ do |title|
+  title.present? ? Factory.create(:card, :title => title) : Factory.create(:card)
+end
+
+Given /^a user with email address "([^"]*)"$/ do |email|
+  user = Factory.create(:user, :email => email)
+end
+
+Given /^a user with email address "([^"]*)" and password "([^"]*)"$/ do |email, password|
+  Factory(:user, :email => email, :password => password, :password_confirmation => password)
+end
+
+Given /^a user with email address "([^"]*)" and "([^"]*)" role$/ do |email, role_name|
+  role = Role.find_or_create_by_name(role_name)
+  user = Factory.create(:user, :email => email)
+  user.roles << role
 end
 
 When /^I create an account$/ do
@@ -18,23 +42,12 @@ When /^I create an account$/ do
   click_button "Join us!"
 end
 
-Given /^There is a role called "([^"]*)"$/ do |arg1|
-  role = Role.find_by_name(arg1) || Role.new(:name => arg1)
+Given /^a role called "([^"]*)"$/ do |role_name|
+  role = Role.find_or_create_by_name(role_name)
   role.save!
 end
 
-Given /^There is a user with the email address "([^"]*)" and the "([^"]*)" role$/ do |arg1, arg2|
-  admin = User.new(:email => arg1, :password => "password", :password_confirmation => "password")
-  admin_role = Role.find_by_name(arg2)
-  admin.roles << admin_role
-  admin.save!
-end
-
-Given /^There is a user with the email address "([^"]*)"$/ do |arg1|
-  user = User.new(:email => arg1, :password => "password", :password_confirmation => "password")
-  user.save!
-end
-
-Given /^there is a card with title "([^"]*)"$/ do |arg1|
-  card = Card.create(:title => arg1, :gametext => "", :expansion => "Hoth", :card_type => "Effect")
+When /^I edit the card with title "([^"]*)"$/ do |title|
+  card = Card.find_by_title(title)
+  visit edit_card_path(card)
 end

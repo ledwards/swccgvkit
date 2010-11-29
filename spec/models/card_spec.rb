@@ -2,13 +2,12 @@ require 'spec_helper'
 
 describe Card do
   fixtures :cards
+  
   before :each do
     @card = Card.new(:title => "Darth Vader", :card_type => "Character", :expansion => "Premiere", :lore => "darthvaderslore", :gametext => "darthvadersgametext")
-    
     @power4 = CardAttribute.create(:name => "Power", :value => "4")
     @armor5 = CardAttribute.create(:name => "Armor", :value => "5")
     @card.card_attributes << @power4
-    
     @test_image = File.open("#{Rails.root}/spec/fixtures/test.jpg")
   end
   
@@ -142,5 +141,34 @@ describe Card do
       end
     end
   end
+  
+  describe ".missing_images" do
+    before do
+      @card = Factory.create(:card, :card_image => @test_image)
+      @virtual_card = Factory.create(:card, :expansion => "Virtual Block 10", :card_image => @test_image, :vslip_image => @test_image)
+      @objective = Factory.create(:card, :card_type => "Objective", :card_image => @test_image, :card_back_image => @test_image)
+      @virtual_objective = Factory.create(:card, :expansion => "Virtual Block 10", :card_type => "Objective", :card_image => @test_image, :card_back_image => @test_image, :vslip_image => @test_image, :vslip_back_image => @test_image)
+    end
+    
+    it "will not return cards with images that have been set" do
+      @missing_images = Card.missing_images
+      @missing_images.include?(@card).should be_false
+      @missing_images.include?(@virtual_card).should be_false
+      @missing_images.include?(@objective).should be_false
+      @missing_images.include?(@virtual_objective).should be_false
+    end
+    
+    it "returns cards with images that have not been set on cards that should have them" do
+      @card.update_attribute(:card_image, nil)
+      @virtual_card.update_attribute(:vslip_image, nil)
+      @objective.update_attribute(:card_back_image, nil)
+      @virtual_objective.update_attribute(:vslip_back_image, nil)
 
+      @missing_images = Card.missing_images
+      @missing_images.include?(@card).should be_true
+      @missing_images.include?(@virtual_card).should be_true
+      @missing_images.include?(@objective).should be_true
+      @missing_images.include?(@virtual_objective).should be_true
+    end
+  end
 end

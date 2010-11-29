@@ -90,7 +90,8 @@ class Card < ActiveRecord::Base
   end
 
   def formatted_title
-    "#{uniqueness}#{title}".gsub("& ","& #{uniqueness}") unless expansion == "Special Edition"
+    ftitle = "#{uniqueness}#{title}"
+    title == "Slayn & Korpil Facilities" ? ftitle : ftitle.gsub("& ","& #{uniqueness}")
   end
   
   def card_type_and_subtype
@@ -131,6 +132,10 @@ class Card < ActiveRecord::Base
   
   def self.card_attribute_names_for(card_type)
     Card.all.select{ |c| c.card_type == card_type }.map(&:card_attributes).flatten.map(&:name).uniq.sort
+  end
+  
+  def self.missing_images
+    Card.all.select { |card| !card.has_card_image? || !card.has_vslip_image? && card.is_virtual? || !card.has_card_back_image? && card.is_flippable? || !card.has_vslip_back_image? && card.is_virtual? && card.is_flippable? }
   end
   
   def method_missing(selector, *args)
