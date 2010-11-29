@@ -14,6 +14,7 @@ describe CardImporter do
     r2d2v = @file.readline
     tooonebee = @file.readline
     combo = @file.readline
+    ai = @file.readline
     
     @lines = {
       "valid" => valid,
@@ -25,7 +26,8 @@ describe CardImporter do
       "twoplayer" => twoplayer,
       "r2d2v" => r2d2v,
       "21b" => tooonebee,
-      "combo" => combo
+      "combo" => combo,
+      "ai" => ai
     }
     
     @card_importer = CardImporter.new   
@@ -49,6 +51,7 @@ describe CardImporter do
       @r2d2v_card = @card_importer.import(@lines["r2d2v"])
       @too_one_bee_card = @card_importer.import(@lines["21b"])
       @combo_card = @card_importer.import(@lines["combo"])
+      @ai = @card_importer.import(@lines["ai"])
     end
     
     it "is a valid card for a valid line" do
@@ -57,6 +60,10 @@ describe CardImporter do
     
     it "is nil for an invalid line" do
       @invalid_card.should be_nil
+    end
+    
+    it "is nil for an AI card" do
+      @ai.should be_nil
     end
     
     describe "For an average card (A280 Sharpshooter Rifle)" do
@@ -341,7 +348,7 @@ describe CardImporter do
   
   describe "#import_file" do
     it "calls import for each line of the file" do
-      @card_importer.should_receive(:import).exactly(10).times
+      @card_importer.should_receive(:import).exactly(11).times
       @card_importer.import_file('spec/fixtures/import_test.cdf')
     end
     

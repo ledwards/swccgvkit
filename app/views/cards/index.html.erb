@@ -1,7 +1,9 @@
 <div id="image_header">
 	<%= image_tag "card_database.gif", {:alt => "Card Database", :id => ""} %>
 	<% if @current_user.has_role?(:admin) %>
-		<%= link_to "Show cards with missing images", cards_path(:missing => "true") %>
+		<ul>
+			<li><%= link_to "Show cards with missing images", cards_path(:missing => "true") %></li>
+		</ul>
 	<% end %>
 </div>
 

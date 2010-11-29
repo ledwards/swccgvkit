@@ -58,7 +58,7 @@ class CardImporter
       "Wipe Them Out, All Of Them (Coruscant) (V)",
       "You Cannot Hide Forever (Death Star II) (V)"]
     
-    return @card.title ==~ /\(AI\)/ || vdfs.include?(@card.title)
+    return true if (@card.title =~ /\(AI\)/ || vdfs.include?(@card.title))
   end
   
   def populate_card_fields(card_match)
