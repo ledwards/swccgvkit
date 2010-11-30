@@ -15,6 +15,8 @@ describe CardImporter do
     tooonebee = @file.readline
     combo = @file.readline
     ai = @file.readline
+    site = @file.readline
+    hoth_droid = @file.readline
     
     @lines = {
       "valid" => valid,
@@ -27,7 +29,9 @@ describe CardImporter do
       "r2d2v" => r2d2v,
       "21b" => tooonebee,
       "combo" => combo,
-      "ai" => ai
+      "ai" => ai,
+      "site" => site,
+      "hoth_droid" => hoth_droid
     }
     
     @card_importer = CardImporter.new   
@@ -52,6 +56,8 @@ describe CardImporter do
       @too_one_bee_card = @card_importer.import(@lines["21b"])
       @combo_card = @card_importer.import(@lines["combo"])
       @ai = @card_importer.import(@lines["ai"])
+      @site_card = @card_importer.import(@lines["site"])
+      @hoth_droid_card = @card_importer.import(@lines["hoth_droid"])
     end
     
     it "is a valid card for a valid line" do
@@ -251,6 +257,11 @@ describe CardImporter do
       end
     end
     
+    describe "when the card is a site" do
+      it "has gametext" do
+        @site_card.gametext.should be_present
+      end
+    end    
   end
   
   describe "#find_attribute" do
@@ -321,6 +332,11 @@ describe CardImporter do
       @card = @card_importer.import(@lines["combo"])
       @card_importer.send(:card_image_url).should == "http://stuff.ledwards.com/starwars/cards/Coruscant-Light/large/allwingsreportin%26darklighterspin.gif"
     end
+    
+    it "returns the expected url for a Hoth droid" do
+      @card = @card_importer.import(@lines["hoth_droid"])
+      @card_importer.send(:card_image_url).should == "http://stuff.ledwards.com/starwars/cards/Hoth-Light/large/r3poarthreepio.gif"
+    end
   end
   
   describe "#card_back_image_url" do
@@ -376,14 +392,14 @@ describe CardImporter do
   
   describe "#import_file" do
     it "calls import for each line of the file" do
-      @card_importer.should_receive(:import).exactly(11).times
+      @card_importer.should_receive(:import).exactly(13).times
       @card_importer.import_file('spec/fixtures/import_test.cdf')
     end
     
     it "imports a card for each line of the file" do
       lambda {
         @card_importer.import_file('spec/fixtures/import_test.cdf')
-      }.should change {Card.count}.by 9
+      }.should change {Card.count}.by 11
     end
   end
 end
