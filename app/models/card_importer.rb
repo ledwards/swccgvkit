@@ -216,7 +216,7 @@ class CardImporter
   end
   
   def filename_for_card_image
-    filename_re = /t_(.*)" /
+    filename_re = /t_(.*)" "/
     filename_re.match(@card_string).captures[0].split("/").first.gsub("&","%26")
   end
   

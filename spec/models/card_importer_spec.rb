@@ -16,7 +16,8 @@ describe CardImporter do
     combo = @file.readline
     ai = @file.readline
     site = @file.readline
-    hoth_droid = @file.readline
+    motti_seeker = @file.readline
+    this_is_just_wrong = @file.readline
     
     @lines = {
       "valid" => valid,
@@ -31,7 +32,8 @@ describe CardImporter do
       "combo" => combo,
       "ai" => ai,
       "site" => site,
-      "hoth_droid" => hoth_droid
+      "motti_seeker" => motti_seeker,
+      "this_is_just_wrong" => this_is_just_wrong
     }
     
     @card_importer = CardImporter.new   
@@ -57,7 +59,8 @@ describe CardImporter do
       @combo_card = @card_importer.import(@lines["combo"])
       @ai = @card_importer.import(@lines["ai"])
       @site_card = @card_importer.import(@lines["site"])
-      @hoth_droid_card = @card_importer.import(@lines["hoth_droid"])
+      @motti_seeker_card = @card_importer.import(@lines["motti_seeker"])
+      @this_is_just_wrong_card = @card_importer.import(@lines["this_is_just_wrong"])
     end
     
     it "is a valid card for a valid line" do
@@ -247,8 +250,8 @@ describe CardImporter do
         @combo_card.card_type_and_subtype.should == "Used Or Lost Interrupt"
       end
       
-      it "had a uniqueness of one dot" do
-        @combo_card.uniqueness.should == "•"
+      it "is non-unique" do
+        @combo_card.uniqueness.should == ""
       end
       
       it "does not have a characteristic called 'Or Lost'" do
@@ -261,7 +264,13 @@ describe CardImporter do
       it "has gametext" do
         @site_card.gametext.should be_present
       end
-    end    
+    end
+    
+    describe "when the card is This Is Just Wrong (edge case)" do
+      it "has a card image" do
+        @this_is_just_wrong_card.has_card_image?.should be_true
+      end
+    end
   end
   
   describe "#find_attribute" do
@@ -330,12 +339,17 @@ describe CardImporter do
     
     it "returns the expected url for a combo card" do
       @card = @card_importer.import(@lines["combo"])
-      @card_importer.send(:card_image_url).should == "http://stuff.ledwards.com/starwars/cards/Coruscant-Light/large/allwingsreportin%26darklighterspin.gif"
+      @card_importer.send(:card_image_url).should == "http://stuff.ledwards.com/starwars/cards/ReflectionsII-Dark/large/ghhhk%26thoserebelswontescapeus.gif"
     end
     
-    it "returns the expected url for a Hoth droid" do
-      @card = @card_importer.import(@lines["hoth_droid"])
-      @card_importer.send(:card_image_url).should == "http://stuff.ledwards.com/starwars/cards/Hoth-Light/large/r3poarthreepio.gif"
+    it "returns the expected url for Motti Seeker" do
+      @card = @card_importer.import(@lines["motti_seeker"])
+      @card_importer.send(:card_image_url).should == "http://stuff.ledwards.com/starwars/cards/ANewHope-Light/large/mottiseeker.gif"
+    end
+    
+    it "returns the expected url for This Is Just Wrong" do
+      @card = @card_importer.import(@lines["this_is_just_wrong"])
+      @card_importer.send(:card_image_url).should == "http://stuff.ledwards.com/starwars/cards/Hoth-Dark/large/thisisjustwrong.gif"
     end
   end
   
@@ -392,14 +406,14 @@ describe CardImporter do
   
   describe "#import_file" do
     it "calls import for each line of the file" do
-      @card_importer.should_receive(:import).exactly(13).times
+      @card_importer.should_receive(:import).exactly(14).times
       @card_importer.import_file('spec/fixtures/import_test.cdf')
     end
     
     it "imports a card for each line of the file" do
       lambda {
         @card_importer.import_file('spec/fixtures/import_test.cdf')
-      }.should change {Card.count}.by 11
+      }.should change {Card.count}.by 12
     end
   end
 end

@@ -19,7 +19,6 @@ describe CardsController do
       @admin.has_role?(:admin).should be_true
       sign_in @admin
       get 'new'
-      puts response.body
       response.should be_success
     end
   end
