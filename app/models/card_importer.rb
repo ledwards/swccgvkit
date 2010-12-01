@@ -33,7 +33,7 @@ class CardImporter
     @card_string = card_string
     @characteristics = []
     
-    card_re = /card\s"(.*?)"\s"([<>@]*)(.*)\(([^V]*)\)\\n(\S*)\s(.*?)\[(.*)\]\s?\\nSet:\s(.*?)\\n/
+    card_re = /card\s"(.*?)"\s"([<>@•]*)(.*)\(([^V]*)\)\\n(\S*)\s(.*?)\[(.*)\]\s?\\nSet:\s(.*?)\\n/
     if card_match = card_re.match(@card_string)
       self.populate_card_fields(card_match)
       self.correct_bad_import_data
@@ -65,7 +65,7 @@ class CardImporter
   def populate_card_fields(card_match)
     image_url = card_match.captures[0]
     @card.uniqueness = card_match.captures[1]
-    @card.title = card_match.captures[2].strip
+    @card.title = card_match.captures[2].strip.gsub("@","").gsub("•","")
     @card.card_attributes << CardAttribute.new(:name => "Destiny", :value => card_match.captures[3])
     @card.side = card_match.captures[4].strip
     @card.card_type = card_match.captures[5].strip
@@ -76,26 +76,26 @@ class CardImporter
     if ["Effect", "Interrupt", "Weapon", "Vehicle"].include?(@card.card_type)
       @card.subtype = "#{@card.subtype} #{@card.card_type}"
     end
-    
-    if @card.uniqueness.nil?
-      @card.uniqueness = ""
-    else
+
+    if @card.uniqueness.present?
       @card.uniqueness.gsub!('@','•')
       @card.uniqueness.gsub!('<>','◊')
       if @card.title =~ /&/
-        @card.title.gsub!('@','')
+        @card.title = @card.title.gsub('@','').gsub("•","")
         @card.uniqueness = "•" if @card.uniqueness == "••"
       end
+    else
+      @card.uniqueness = ""
     end
     
-    lore_re = /Lore: (.*)\\n/
+    lore_re = /Lore: (.*)(\\n)+Text/
     @card.lore = lore_re.match(@card_string).captures[0].sub('\n','') if not lore_re.match(@card_string).nil?
     
     if @card.card_type == "Objective"
       obj_gametext_re = /\\n\\n(.*)"/
       @card.gametext = obj_gametext_re.match(@card_string).captures[0].gsub('\n',"\n").strip
     else
-      gametext_re = /Text:..?(.*)"/
+      gametext_re = /Text:(.*)"/
       @card.gametext = gametext_re.match(@card_string).captures[0].sub('\n','\n').gsub('ï','•').gsub("<>","◊").strip if not gametext_re.match(@card_string).nil?
     end
   end
