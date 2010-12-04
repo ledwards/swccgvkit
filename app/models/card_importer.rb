@@ -57,7 +57,9 @@ class CardImporter
       "Leave Them To Me (Death Star II) (V)",
       "No Escape (Premium) (V)",
       "Wipe Them Out, All Of Them (Coruscant) (V)",
-      "You Cannot Hide Forever (Death Star II) (V)"]
+      "You Cannot Hide Forever (Death Star II) (V)",
+      "Alter (Coruscant) (V)",
+      "Planetary Defenses (V)"]
     
     return true if (@card.title =~ /\(AI\)/ || vdfs.include?(@card.title))
   end
@@ -104,6 +106,7 @@ class CardImporter
     @card.title = "Jabba's Prize" if @card.title == "Jabba's Prize/Jabba's Prize"
     @card.title = "Obi-Wan Kenobi, Padawan Learner" if @card.title == "Obi-wan Kenobi, Padawan Learner"
     @card.title = "Obi-Wan Kenobi, Padawan Learner (V)" if @card.title == "Obi-wan Kenobi, Padawan Learner (V)"
+    @card.title = "Alter (V)" if @card.title == "Alter (Premiere) (V)"
     @card.expansion.gsub!("2 Player", "Two Player")
     @card.expansion = "Virtual Defensive Shields" if @card.expansion == "Virtual Defensive Shield"
   end
@@ -124,12 +127,12 @@ class CardImporter
     icons_re = /Icons: (.+?)\\n/
     if icons_re.match(@card_string) && icons = icons_re.match(@card_string).captures[0]
       icons.sub!('Pilot','Permanent Pilot') if @card.card_type == 'Starship' or card.card_type == 'Vehicle'
-      icons.sub!('Space','') if @card.card_type == "Location"          
+      icons.sub!('Space','') if @card.card_type == "Location"       # ...what is this for?      
       icons.each_line(separator=',') do |icon|
-        @characteristics << icon.delete(',').strip
+        @characteristics << formatted_characteristic(icon)
       end
     end
-    
+        
     @characteristics << 'Force Attuned' if @ability == '3'
     @characteristics << 'Force Sensitive' if @ability == '4' || @ability == '5'        
     @characteristics << 'Dark Jedi' if @ability == '6' && @card.side == 'Dark'
@@ -140,6 +143,16 @@ class CardImporter
     @characteristics.each do |c|
       @card.card_characteristics << CardCharacteristic.find_or_create_by_name(c) unless c.nil?
     end            
+  end
+  
+  def formatted_characteristic(characteristic)
+    corrections = {
+      "Mobil" => "Mobile",
+      "Starship" => "Starship Site",
+      "Anakin Permanent Pilot" => "Permanent Pilot",
+      "Episode 1" => "Episode I"
+    }
+    return corrections[characteristic] || characteristic.delete(',').strip
   end
   
   def import_card_images
@@ -226,8 +239,16 @@ class CardImporter
   end
   
   def filename_for_vslip_image
+    exceptions = {
+        "Special Edition" => {
+          "Boba Fett" => "bobafettse"
+        },
+        "Cloud City" => {
+          "Boba Fett" => "bobafettcc"
+        }
+      }
     filename_re = /t_(.*)" /
-    filename_re.match(@card_string).captures[0].split("/").first.gsub("&","")
+    exceptions[@card.expansion].try([@card.title]) || filename_re.match(@card_string).captures[0].split("/").first.gsub("&","")
   end
   
   def filename_for_vslip_back_image
