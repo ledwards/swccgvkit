@@ -10,13 +10,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101127164328) do
+ActiveRecord::Schema.define(:version => 20101204162355) do
 
   create_table "card_attributes", :force => true do |t|
     t.string  "name"
     t.integer "value"
     t.integer "card_id"
   end
+
+  add_index "card_attributes", ["card_id"], :name => "index_card_attributes_on_card_id"
 
   create_table "card_characteristics", :force => true do |t|
     t.string "name"
@@ -26,6 +28,9 @@ ActiveRecord::Schema.define(:version => 20101127164328) do
     t.integer "card_id"
     t.integer "card_characteristic_id"
   end
+
+  add_index "card_characteristics_cards", ["card_characteristic_id"], :name => "index_card_characteristics_cards_on_card_characteristic_id"
+  add_index "card_characteristics_cards", ["card_id"], :name => "index_card_characteristics_cards_on_card_id"
 
   create_table "cardlist_items", :force => true do |t|
     t.integer "cardlist_id"
@@ -80,6 +85,9 @@ ActiveRecord::Schema.define(:version => 20101127164328) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "roles_users", ["role_id"], :name => "index_roles_users_on_role_id"
+  add_index "roles_users", ["user_id"], :name => "index_roles_users_on_user_id"
 
   create_table "sessions", :force => true do |t|
     t.string   "session_id", :null => false
