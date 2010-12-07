@@ -18,6 +18,8 @@ describe CardImporter do
     site = @file.readline
     motti_seeker = @file.readline
     this_is_just_wrong = @file.readline
+    boba_fett_se_v = @file.readline
+    jabbas_prize_v = @file.readline
     
     @lines = {
       "valid" => valid,
@@ -33,7 +35,9 @@ describe CardImporter do
       "ai" => ai,
       "site" => site,
       "motti_seeker" => motti_seeker,
-      "this_is_just_wrong" => this_is_just_wrong
+      "this_is_just_wrong" => this_is_just_wrong,
+      "boba_fett_se_v" => boba_fett_se_v,
+      "jabbas_prize_v" => jabbas_prize_v
     }
     
     @card_importer = CardImporter.new   
@@ -371,24 +375,34 @@ describe CardImporter do
   end
   
   describe "#vslip_image_url" do
-    it "returns a string url for the given card" do
+    it "returns a string url for an arbitrary virtual card" do
       @card_importer.import(@lines["valid"])
       @card_importer.send(:vslip_image_url).should be_nil 
     end
     
-    it "returns a string url for the given card" do
+    it "returns a string url for a virtual Objective" do
       @card_importer.import(@lines["vobj"])
       @card_importer.send(:vslip_image_url).should == "http://stuff.ledwards.com/starwars/vslips/dark/huntdownanddestroythejedi.png"
     end
     
-    it "returns a string url for the given card" do
+    it "returns a string url for an arbitrary virtual card" do
       @card_importer.import(@lines["virtual"])
       @card_importer.send(:vslip_image_url).should == "http://stuff.ledwards.com/starwars/vslips/light/letsgoleft.png"
     end
     
-    it "returns a string url for the given card" do
+    it "returns a string url for a droid in Virtual Block 1" do
       @card_importer.import(@lines["r2d2v"])
       @card_importer.send(:vslip_image_url).should == "http://stuff.ledwards.com/starwars/vslips/light/r2d2.png"
+    end
+    
+    it "returns the expected url for Jabba's Prize (V)" do
+      @card = @card_importer.import(@lines["jabbas_prize_v"])
+      @card_importer.send(:vslip_image_url).should == "http://stuff.ledwards.com/starwars/vslips/light/jabbasprize.png"
+    end
+    
+    it "returns the expected url for Boba Fett (SE) (V)" do
+      @card = @card_importer.import(@lines["boba_fett_se_v"])
+      @card_importer.send(:vslip_image_url).should == "http://stuff.ledwards.com/starwars/vslips/dark/bobafettse.png"
     end
   end
   
@@ -406,14 +420,14 @@ describe CardImporter do
   
   describe "#import_file" do
     it "calls import for each line of the file" do
-      @card_importer.should_receive(:import).exactly(14).times
+      @card_importer.should_receive(:import).exactly(16).times
       @card_importer.import_file('spec/fixtures/import_test.cdf')
     end
     
     it "imports a card for each line of the file" do
       lambda {
         @card_importer.import_file('spec/fixtures/import_test.cdf')
-      }.should change {Card.count}.by 12
+      }.should change {Card.count}.by 14
     end
   end
 end

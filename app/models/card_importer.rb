@@ -59,7 +59,8 @@ class CardImporter
       "Wipe Them Out, All Of Them (Coruscant) (V)",
       "You Cannot Hide Forever (Death Star II) (V)",
       "Alter (Coruscant) (V)",
-      "Planetary Defenses (V)"]
+      "Planetary Defenses (V)",
+      "Let's Keep A Little Optimism Here (Death Star II) (V)"]
     
     return true if (@card.title =~ /\(AI\)/ || vdfs.include?(@card.title))
   end
@@ -183,22 +184,22 @@ class CardImporter
   
   def card_image_url
     return nil if @card.invalid?
-    image_url = "#{@server}/cards/#{self.subdir_for_card_image}/#{self.filename_for_card_image}.gif"
+    "#{@server}/cards/#{self.subdir_for_card_image}/#{self.filename_for_card_image}.gif"
   end
   
   def card_back_image_url
     return nil unless @card.card_type == "Objective"    
-    image_url = "#{@server}/cards/#{self.subdir_for_card_image}/#{self.filename_for_card_back_image}.gif"
+    "#{@server}/cards/#{self.subdir_for_card_image}/#{self.filename_for_card_back_image}.gif"
   end
   
   def vslip_image_url
     return nil unless @card.is_virtual?
-    image_url = "#{@server}/vslips/#{@card.side.downcase}/#{self.filename_for_vslip_image}.png"
+    "#{@server}/vslips/#{@card.side.downcase}/#{self.filename_for_vslip_image}.png"
   end
   
   def vslip_back_image_url
     return nil unless @card.is_virtual? && @card.card_type == "Objective"
-    image_url = "#{@server}/vslips/#{@card.side.downcase}/#{self.filename_for_vslip_back_image}.png"
+    "#{@server}/vslips/#{@card.side.downcase}/#{self.filename_for_vslip_back_image}.png"
   end
   
   def find_attribute(attr_name)
@@ -240,15 +241,18 @@ class CardImporter
   
   def filename_for_vslip_image
     exceptions = {
-        "Special Edition" => {
-          "Boba Fett" => "bobafettse"
+        "Virtual Block 1" => {
+          "Boba Fett (V)" => "bobafettse"
         },
-        "Cloud City" => {
-          "Boba Fett" => "bobafettcc"
+        "Virtual Block 2" => {
+          "Boba Fett (V)" => "bobafettcc"
+        },
+        "Virtual Block 6" => {
+          "Jabba's Prize" => "jabbasprize"
         }
       }
     filename_re = /t_(.*)" /
-    exceptions[@card.expansion].try([@card.title]) || filename_re.match(@card_string).captures[0].split("/").first.gsub("&","")
+    exceptions[@card.expansion] && exceptions[@card.expansion][@card.title] ? exceptions[@card.expansion][@card.title] : filename_re.match(@card_string).captures.first.split("/").first.gsub("&","")
   end
   
   def filename_for_vslip_back_image
