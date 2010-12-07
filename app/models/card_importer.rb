@@ -108,6 +108,7 @@ class CardImporter
     @card.title = "Obi-Wan Kenobi, Padawan Learner" if @card.title == "Obi-wan Kenobi, Padawan Learner"
     @card.title = "Obi-Wan Kenobi, Padawan Learner (V)" if @card.title == "Obi-wan Kenobi, Padawan Learner (V)"
     @card.title = "Alter (V)" if @card.title == "Alter (Premiere) (V)"
+    @cartd.title = "Krayt Dragon Howl & Armed And Dangerous" if @card.title == "Armed And Dangerous & Krayt Dragon Howl"
     @card.expansion.gsub!("2 Player", "Two Player")
     @card.expansion = "Virtual Defensive Shields" if @card.expansion == "Virtual Defensive Shield"
   end
@@ -230,6 +231,9 @@ class CardImporter
   end
   
   def filename_for_card_image
+    exceptions = {
+      "Krayt Dragon Howl & Armed And Dangerous" => "kraytdragonhowl%26armedanddangerous"
+    }
     filename_re = /t_(.*)" "/
     filename_re.match(@card_string).captures[0].split("/").first.gsub("&","%26")
   end
@@ -248,7 +252,11 @@ class CardImporter
           "Boba Fett (V)" => "bobafettcc"
         },
         "Virtual Block 6" => {
-          "Jabba's Prize" => "jabbasprize"
+          "Jabba's Prize" => "jabbasprize",
+          "Krayt Dragon Howl & Armed And Dangerous" => "kraytdragonhowlarmedanddangerous"
+        },
+        "Virtual Block 7" => {
+          "Alter (V)" => "alter"
         }
       }
     filename_re = /t_(.*)" /
