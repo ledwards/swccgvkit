@@ -40,6 +40,8 @@ describe CardImporter do
       "boba_fett_se_v" => boba_fett_se_v,
       "jabbas_prize_v" => jabbas_prize_v,
       "alter_v" => alter_v
+      "jabbas_prize_v" => jabbas_prize_v,
+      "alter_v" => alter_v
     }
     
     @card_importer = CardImporter.new   
