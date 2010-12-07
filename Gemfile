@@ -22,3 +22,4 @@ gem 'fixture_builder'
 gem 'ruby-debug'
 gem 'jquery-rails'
 gem 'will_paginate', '~> 3.0.beta'
+gem "capistrano"

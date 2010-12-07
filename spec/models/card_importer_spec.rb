@@ -21,6 +21,10 @@ describe CardImporter do
     boba_fett_se_v = @file.readline
     jabbas_prize_v = @file.readline
 <<<<<<< HEAD:spec/models/card_importer_spec.rb
+<<<<<<< HEAD:spec/models/card_importer_spec.rb
+=======
+    alter_v = @file.readline
+>>>>>>> Fixed the last of the card importer errors:spec/models/card_importer_spec.rb
 =======
     alter_v = @file.readline
 >>>>>>> Fixed the last of the card importer errors:spec/models/card_importer_spec.rb
@@ -42,7 +46,12 @@ describe CardImporter do
       "this_is_just_wrong" => this_is_just_wrong,
       "boba_fett_se_v" => boba_fett_se_v,
 <<<<<<< HEAD:spec/models/card_importer_spec.rb
+<<<<<<< HEAD:spec/models/card_importer_spec.rb
       "jabbas_prize_v" => jabbas_prize_v
+=======
+      "jabbas_prize_v" => jabbas_prize_v,
+      "alter_v" => alter_v
+>>>>>>> Fixed the last of the card importer errors:spec/models/card_importer_spec.rb
 =======
       "jabbas_prize_v" => jabbas_prize_v,
       "alter_v" => alter_v
@@ -420,14 +429,11 @@ describe CardImporter do
       @card = @card_importer.import(@lines["boba_fett_se_v"])
       @card_importer.send(:vslip_image_url).should == "http://stuff.ledwards.com/starwars/vslips/dark/bobafettse.png"
     end
-<<<<<<< HEAD:spec/models/card_importer_spec.rb
-=======
     
     it "returns the expected url for Alter (V)" do
       @card = @card_importer.import(@lines["alter_v"])
       @card_importer.send(:vslip_image_url).should == "http://stuff.ledwards.com/starwars/vslips/dark/alter.png"
     end
->>>>>>> Fixed the last of the card importer errors:spec/models/card_importer_spec.rb
   end
   
   describe "#vslip_back_image_url" do
@@ -444,22 +450,14 @@ describe CardImporter do
   
   describe "#import_file" do
     it "calls import for each line of the file" do
-<<<<<<< HEAD:spec/models/card_importer_spec.rb
-      @card_importer.should_receive(:import).exactly(16).times
-=======
       @card_importer.should_receive(:import).exactly(17).times
->>>>>>> Fixed the last of the card importer errors:spec/models/card_importer_spec.rb
       @card_importer.import_file('spec/fixtures/import_test.cdf')
     end
     
     it "imports a card for each line of the file" do
       lambda {
         @card_importer.import_file('spec/fixtures/import_test.cdf')
-<<<<<<< HEAD:spec/models/card_importer_spec.rb
-      }.should change {Card.count}.by 14
-=======
       }.should change {Card.count}.by 15
->>>>>>> Fixed the last of the card importer errors:spec/models/card_importer_spec.rb
     end
   end
 end
