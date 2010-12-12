@@ -20,14 +20,7 @@ describe CardImporter do
     this_is_just_wrong = @file.readline
     boba_fett_se_v = @file.readline
     jabbas_prize_v = @file.readline
-<<<<<<< HEAD:spec/models/card_importer_spec.rb
-<<<<<<< HEAD:spec/models/card_importer_spec.rb
-=======
     alter_v = @file.readline
->>>>>>> Fixed the last of the card importer errors:spec/models/card_importer_spec.rb
-=======
-    alter_v = @file.readline
->>>>>>> Fixed the last of the card importer errors:spec/models/card_importer_spec.rb
     
     @lines = {
       "valid" => valid,
@@ -45,17 +38,8 @@ describe CardImporter do
       "motti_seeker" => motti_seeker,
       "this_is_just_wrong" => this_is_just_wrong,
       "boba_fett_se_v" => boba_fett_se_v,
-<<<<<<< HEAD:spec/models/card_importer_spec.rb
-<<<<<<< HEAD:spec/models/card_importer_spec.rb
-      "jabbas_prize_v" => jabbas_prize_v
-=======
       "jabbas_prize_v" => jabbas_prize_v,
       "alter_v" => alter_v
->>>>>>> Fixed the last of the card importer errors:spec/models/card_importer_spec.rb
-=======
-      "jabbas_prize_v" => jabbas_prize_v,
-      "alter_v" => alter_v
->>>>>>> Fixed the last of the card importer errors:spec/models/card_importer_spec.rb
     }
     
     @card_importer = CardImporter.new   
