@@ -1,6 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.0.0'
+gem 'bundler'
 gem 'mysql'
 
 gem "devise"
@@ -23,3 +24,4 @@ gem 'ruby-debug'
 gem 'jquery-rails'
 gem 'will_paginate', '~> 3.0.beta'
 gem "capistrano"
+gem "pg"

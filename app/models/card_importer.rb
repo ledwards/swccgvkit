@@ -14,14 +14,9 @@ class CardImporter
     while (line = file.gets)
       begin
         @card = import(line)
-      rescue
-        Rails.logger.error "Something went wrong with #{line}"
-      end
-      
-      begin
         @card.save! unless @card.nil?
       rescue
-        Rails.logger.error "Couldn't save '#{@card.title}: #{@card.errors.full_messages.join(", ")}"
+        Rails.logger.error "Error with card line #{line}"
       end
     end
 
