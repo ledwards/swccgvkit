@@ -36,6 +36,7 @@ describe Card do
   end
   
   it "is unique among title, side, and expansion" do
+    pending
   end
   
   describe "#method_missing" do    
@@ -61,14 +62,6 @@ describe Card do
       @card.subtype = ""
       @card.save
       @card.reload.subtype.should be_nil
-    end
-  end
-  
-  describe "#attach_remote_card_image" do
-    it "attaches an image from a remote url as the specified attachment" do
-      @card.save!
-      @card.attach_remote_card_image("http://starwarsccg.org/gallery/var/albums/Premiere/Dark-Side/darthvader.gif") if online?
-      @card.has_card_image?.should be_true if online?
     end
   end
   
@@ -115,30 +108,68 @@ describe Card do
       @card.has_vslip_back_image?.should be_false
     end
   end
+  
+  describe "#attach_local_card_image" do
+    it "attaches an image from a path as the specified attachment" do
+      @card.attach_local_card_image("#{Rails.configuration.card_image_import_path}/Premiere-Dark/darthvader.gif")
+      @card.has_card_image?.should be_true
+    end
+  end
+  
+  describe "#attach_local_card_back_image" do
+    it "attaches an image from a path as the specified attachment" do
+      @card.attach_local_card_back_image("#{Rails.configuration.card_image_import_path}/Premiere-Dark/darthvader.gif")
+      @card.has_card_back_image?.should be_true
+    end
+  end
 
-  if online?
-    describe "#attach_remote_card_back_image" do
-      it "attaches an image from a remote url as the specified attachment" do
-        @card.save!
-        @card.attach_remote_card_back_image("http://starwarsccg.org/gallery/var/albums/Premiere/Dark-Side/darthvader.gif")
-        @card.has_card_back_image?.should be_true
-      end
+  describe "#attach_local_vslip_image" do
+    it "attaches a vslip image from a path as the specified attachment" do
+      @card.attach_local_vslip_image("#{Rails.configuration.vslip_image_import_path}/dark/darthvader.png")
+      @card.has_vslip_image?.should be_true
     end
-  
-    describe "#attach_remote_vslip_image" do
-      it "attaches a vslip image from a remote url as the specified attachment" do
-        @card.save!
-        @card.attach_remote_vslip_image("http://starwarsccg.org/gallery/var/albums/Premiere/Dark-Side/darthvader.gif")
-        @card.has_vslip_image?.should be_true
-      end
+  end
+
+  describe "#attach_local_vslip_back_image" do
+    it "attaches a vslip back image from a path as the specified attachment" do
+      @card.attach_local_vslip_back_image("#{Rails.configuration.vslip_image_import_path}/dark/darthvader.png")
+      @card.has_vslip_back_image?.should be_true
     end
+  end
   
-    describe "#attach_remote_vslip_back_image" do
-      it "attaches a vslip back image from a remote url as the specified attachment" do
-        @card.save!
-        @card.attach_remote_vslip_back_image("http://starwarsccg.org/gallery/var/albums/Premiere/Dark-Side/darthvader.gif")
-        @card.has_vslip_back_image?.should be_true
-      end
+  describe "#attach_remote_card_image" do
+    use_vcr_cassette 'cards/attach_remote_card_image', :record => :new_episodes
+    
+    it "attaches an image from a remote url as the specified attachment" do
+      @card.attach_remote_card_image("http://starwarsccg.org/gallery/var/albums/Premiere/Dark-Side/darthvader.gif")
+      @card.has_card_image?.should be_true
+    end
+  end
+  
+  describe "#attach_remote_card_back_image" do
+    use_vcr_cassette 'cards/attach_remote_card_back_image', :record => :new_episodes
+
+    it "attaches an image from a remote url as the specified attachment" do
+      @card.attach_remote_card_back_image("http://starwarsccg.org/gallery/var/albums/Premiere/Dark-Side/darthvader.gif")
+      @card.has_card_back_image?.should be_true
+    end
+  end
+
+  describe "#attach_remote_vslip_image" do
+    use_vcr_cassette 'cards/attach_remote_vslip_image', :record => :new_episodes
+
+    it "attaches a vslip image from a remote url as the specified attachment" do
+      @card.attach_remote_vslip_image("http://starwarsccg.org/gallery/var/albums/Premiere/Dark-Side/darthvader.gif")
+      @card.has_vslip_image?.should be_true
+    end
+  end
+
+  describe "#attach_remote_vslip_back_image" do
+    use_vcr_cassette 'attach_remote_vslip_back_image', :record => :new_episodes
+
+    it "attaches a vslip back image from a remote url as the specified attachment" do
+      @card.attach_remote_vslip_back_image("http://starwarsccg.org/gallery/var/albums/Premiere/Dark-Side/darthvader.gif")
+      @card.has_vslip_back_image?.should be_true
     end
   end
   
@@ -153,7 +184,7 @@ describe Card do
     end
   end
   
-  describe ".missing_images" do
+  describe ".missing_images" do    
     before do
       @card = Factory.create(:card, :card_image => @test_image)
       @virtual_card = Factory.create(:card, :expansion => "Virtual Block 10", :card_image => @test_image, :vslip_image => @test_image)

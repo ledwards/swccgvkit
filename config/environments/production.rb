@@ -39,4 +39,11 @@ Swccgvkit::Application.configure do
 
   # Enable threaded mode
   # config.threadsafe!
+  
+  PAPERCLIP_CONFIG = {
+    :storage => :s3,
+    :s3_credentials => "#{RAILS_ROOT}/config/s3.yml",
+    :bucket => 'swccgonline-production'
+  }
+  
 end

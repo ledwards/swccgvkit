@@ -10,4 +10,5 @@ public/images/cards/*
 public/images/cards/**/*
 public/system/attachments/**/*
 spec/fixtures/*.yml
+spec/fixtures/**/*.yml
 config/deploy.rb

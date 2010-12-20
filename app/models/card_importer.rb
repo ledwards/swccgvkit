@@ -32,7 +32,8 @@ class CardImporter
     if card_match = card_re.match(@card_string)
       self.populate_card_fields(card_match)
       self.correct_bad_import_data
-      self.import_card_images
+      #self.import_remote_card_images
+      self.import_local_card_images
       self.set_attributes
       self.set_characteristics
     else
@@ -152,40 +153,48 @@ class CardImporter
     return corrections[characteristic] || characteristic.delete(',').strip
   end
   
-  def import_card_images
-    begin
-      @card.card_image = open(URI.parse(self.card_image_url))
-    rescue
-      Rails.logger.info "Card image url failed for #{@card.id}: #{@card.title}" if @card.valid?
-    end
-
-    begin
-      @card.card_back_image = open(URI.parse(self.card_back_image_url)) if @card.is_flippable?
-    rescue
-      Rails.logger.info "Card back image url failed for #{@card.id}: #{@card.title}" if @card.valid?
-    end
-
-    begin
-      @card.vslip_image = open(URI.parse(self.vslip_image_url)) if @card.is_virtual?
-    rescue
-      Rails.logger.info "V-slip url failed for #{@card.id}: #{@card.title}" if @card.valid?
-    end
-
-    begin
-      @card.vslip_back_image = open(URI.parse(self.vslip_back_image_url)) if @card.is_virtual? && @card.is_flippable?
-    rescue
-      Rails.logger.info "V-slip back url failed for #{@card.id}: #{@card.title}" if @card.valid?
-    end
+  def import_remote_card_images
+    @card.card_image = open(URI.parse(self.card_image_url))
+    @card.card_back_image = open(URI.parse(self.card_back_image_url)) if @card.is_flippable?
+    @card.vslip_image = open(URI.parse(self.vslip_image_url)) if @card.is_virtual?
+    @card.vslip_back_image = open(URI.parse(self.vslip_back_image_url)) if @card.is_virtual? && @card.is_flippable?
+  end
+  
+  def import_local_card_images
+    @card.card_image = open(self.card_image_path)
+    @card.card_back_image = open(self.card_back_image_path) if @card.is_flippable?
+    @card.vslip_image = open(self.vslip_image_path) if @card.is_virtual?
+    @card.vslip_back_image = open(self.vslip_back_image_path) if @card.is_virtual? && @card.is_flippable?
+  end
+  
+  def card_image_path
+    return nil if @card.invalid?
+    "#{Rails.configuration.card_image_import_path}/#{self.subdir_for_local_card_image}/#{self.filename_for_card_image}.gif"
+  end
+  
+  def card_back_image_path
+    return nil unless @card.card_type == "Objective"    
+    "#{Rails.configuration.card_image_import_path}/#{self.subdir_for_local_card_image}/#{self.filename_for_card_back_image}.gif"
+  end
+  
+  def vslip_image_path
+    return nil unless @card.is_virtual?
+    "#{Rails.configuration.vslip_image_import_path}/#{@card.side.downcase}/#{self.filename_for_vslip_image}.png"
+  end
+  
+  def vslip_back_image_path
+    return nil unless @card.is_virtual? && @card.card_type == "Objective"
+    "#{Rails.configuration.vslip_image_import_path}/#{@card.side.downcase}/#{self.filename_for_vslip_back_image}.png"
   end
   
   def card_image_url
     return nil if @card.invalid?
-    "#{@server}/cards/#{self.subdir_for_card_image}/#{self.filename_for_card_image}.gif"
+    "#{@server}/cards/#{self.subdir_for_remote_card_image}/#{self.filename_for_card_image}.gif"
   end
   
   def card_back_image_url
     return nil unless @card.card_type == "Objective"    
-    "#{@server}/cards/#{self.subdir_for_card_image}/#{self.filename_for_card_back_image}.gif"
+    "#{@server}/cards/#{self.subdir_for_remote_card_image}/#{self.filename_for_card_back_image}.gif"
   end
   
   def vslip_image_url
@@ -217,8 +226,12 @@ class CardImporter
     filename.gsub("(V)","").gsub("(v)","").downcase.gsub(/[^0-9a-z%]/i, "")
   end
   
-  def subdir_for_card_image
+  def subdir_for_remote_card_image
     "#{@card.expansion.gsub("'","").gsub(" ","").gsub("Block","")}-#{@card.side}/large"
+  end
+  
+  def subdir_for_local_card_image
+    "#{@card.expansion.gsub("'","").gsub(" ","").gsub("Block","")}-#{@card.side}"
   end
   
   def subdir_for_vslip_image
@@ -227,10 +240,10 @@ class CardImporter
   
   def filename_for_card_image
     exceptions = {
-      "Krayt Dragon Howl & Armed And Dangerous" => "kraytdragonhowl%26armedanddangerous"
+      "Krayt Dragon Howl & Armed And Dangerous" => "kraytdragonhowlarmedanddangerous"
     }
     filename_re = /t_(.*)" "/
-    filename_re.match(@card_string).captures[0].split("/").first.gsub("&","%26")
+    filename_re.match(@card_string).captures[0].split("/").first
   end
   
   def filename_for_card_back_image

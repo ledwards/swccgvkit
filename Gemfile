@@ -24,3 +24,5 @@ gem 'jquery-rails'
 gem 'will_paginate', '~> 3.0.beta'
 gem "capistrano"
 gem "pg"
+gem "vcr"
+gem "webmock"

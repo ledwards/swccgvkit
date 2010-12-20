@@ -22,4 +22,9 @@ Swccgvkit::Application.configure do
   
   Paperclip.options[:command_path] = "/opt/local/bin"
   Paperclip.options[:swallow_stderr] = false
+  
+  config.vslip_image_import_path = "#{Rails.root}/../shared/vslips"
+  config.card_image_import_path = "#{Rails.root}/../shared/cards"
+  
+  PAPERCLIP_CONFIG = { }
 end

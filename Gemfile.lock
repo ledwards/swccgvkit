@@ -28,6 +28,7 @@ GEM
       activemodel (= 3.0.0)
       activesupport (= 3.0.0)
     activesupport (3.0.0)
+    addressable (2.2.2)
     arel (1.0.1)
       activesupport (~> 3.0.0)
     aws-s3 (0.6.2)
@@ -57,6 +58,7 @@ GEM
       ffi (~> 0.6.3)
     columnize (0.3.2)
     configuration (1.2.0)
+    crack (0.1.8)
     cucumber (0.9.4)
       builder (~> 2.1.2)
       diff-lcs (~> 1.1.2)
@@ -160,8 +162,12 @@ GEM
     treetop (1.4.9)
       polyglot (>= 0.3.1)
     tzinfo (0.3.23)
+    vcr (1.4.0)
     warden (0.10.7)
       rack (>= 1.0.0)
+    webmock (1.6.1)
+      addressable (>= 2.2.2)
+      crack (>= 0.1.7)
     will_paginate (3.0.pre2)
     xml-simple (1.0.12)
     xpath (0.1.2)
@@ -193,4 +199,6 @@ DEPENDENCIES
   rspec-rails
   ruby-debug
   spork
+  vcr
+  webmock
   will_paginate (~> 3.0.beta)

@@ -6,33 +6,33 @@ class Card < ActiveRecord::Base
   
   accepts_nested_attributes_for :card_attributes
   
-  has_attached_file :card_image,
+  has_attached_file :card_image, {
     :default_url => "/images/missing.png",
     :styles => { :full_size =>"100%", :thumbnail =>"50" },
-    :storage => :s3,
-    :s3_credentials => "#{Rails.root}/config/s3.yml",
-    :path => "card_images/:id/:style.:extension"
+    :path => "public/system/attachments/card_images/:id/:style.:extension",
+    :whiny => false
+  }.merge(PAPERCLIP_CONFIG)
     
-  has_attached_file :vslip_image,
+  has_attached_file :vslip_image, {
     :default_url => "/images/missing.png",
     :styles => { :full_size => "350" },
-    :storage => :s3,
-    :s3_credentials => "#{Rails.root}/config/s3.yml",
-    :path => "vslip_images/:id/:style.:extension"
+    :path => "public/system/attachments/vslip_images/:id/:style.:extension",
+    :whiny => false
+  }.merge(PAPERCLIP_CONFIG)
     
-  has_attached_file :card_back_image,
+  has_attached_file :card_back_image, {
     :default_url => "/images/missing.png",
     :styles => { :full_size => "100%", :thumbnail =>"50" },
-    :storage => :s3,
-    :s3_credentials => "#{Rails.root}/config/s3.yml",
-    :path => "card_back_images/:id/:style.:extension"
+    :path => "public/system/attachments/card_back_images/:id/:style.:extension",
+    :whiny => false
+  }.merge(PAPERCLIP_CONFIG)
     
-  has_attached_file :vslip_back_image,
+  has_attached_file :vslip_back_image, {
     :default_url => "/images/missing.png",
     :styles => { :full_size => "350" },
-    :storage => :s3,
-    :s3_credentials => "#{Rails.root}/config/s3.yml",
-    :path => "vslip_back_images/:id/:style.:extension"
+    :path => "public/system/attachments/vslip_back_images/:id/:style.:extension",
+    :whiny => false
+  }.merge(PAPERCLIP_CONFIG)
     
   scope :virtual, lambda {
     where("cards.expansion LIKE ?", "Virtual%")
@@ -57,6 +57,26 @@ class Card < ActiveRecord::Base
   
   def attach_remote_vslip_back_image(url)
     self.vslip_back_image = open(URI.parse(url))
+    self.save!
+  end
+  
+  def attach_local_card_image(filename)
+    self.card_image = open(filename)
+    self.save!
+  end
+  
+  def attach_local_card_back_image(filename)
+    self.card_back_image = open(filename)
+    self.save!
+  end
+  
+  def attach_local_vslip_image(filename)
+    self.vslip_image = open(filename)
+    self.save!
+  end
+  
+  def attach_local_vslip_back_image(filename)
+    self.vslip_back_image = open(filename)
     self.save!
   end
   

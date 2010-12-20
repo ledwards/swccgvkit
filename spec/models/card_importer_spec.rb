@@ -40,8 +40,6 @@ describe CardImporter do
       "boba_fett_se_v" => boba_fett_se_v,
       "jabbas_prize_v" => jabbas_prize_v,
       "alter_v" => alter_v
-      "jabbas_prize_v" => jabbas_prize_v,
-      "alter_v" => alter_v
     }
     
     @card_importer = CardImporter.new   
@@ -114,7 +112,7 @@ describe CardImporter do
       end
     
       it "has a card image" do
-        @card.has_card_image?.should be_true if online?
+        @card.has_card_image?.should be_true
       end
     end
     
@@ -124,11 +122,11 @@ describe CardImporter do
       end
       
       it "has a card image" do
-        @virtual_card.has_card_image?.should be_true if online?
+        @virtual_card.has_card_image?.should be_true
       end
       
       it "has a virtual card image" do
-        @virtual_card.has_vslip_image?.should be_true if online?
+        @virtual_card.has_vslip_image?.should be_true
       end
     end
     
@@ -143,11 +141,11 @@ describe CardImporter do
       end
       
       it "has a card image url" do
-        @objective_card.has_card_image?.should be_true if online?
+        @objective_card.has_card_image?.should be_true
       end
           
       it "has a card back image" do
-        @objective_card.has_card_back_image?.should be_true if online?
+        @objective_card.has_card_back_image?.should be_true
       end
     end
 
@@ -163,19 +161,19 @@ describe CardImporter do
       end
       
       it "has a card image url" do
-        @vobj_card.has_card_image?.should be_true if online?
+        @vobj_card.has_card_image?.should be_true
       end
       
       it "has a virtual slip image" do
-        @vobj_card.has_vslip_image?.should be_true if online?
+        @vobj_card.has_vslip_image?.should be_true
       end
     
       it "has a card back image" do
-        @vobj_card.has_card_back_image?.should be_true if online?
+        @vobj_card.has_card_back_image?.should be_true
       end
     
       it "has a virtual slip back image" do
-        @vobj_card.has_vslip_back_image?.should be_true if online?
+        @vobj_card.has_vslip_back_image?.should be_true
       end
     end
     
@@ -211,24 +209,24 @@ describe CardImporter do
       end
       
       it "has a card image url" do
-        @twoplayer_card.has_card_image?.should be_true if online?
+        @twoplayer_card.has_card_image?.should be_true
       end
     end
     
     describe "when the card is a droid from Premiere/ANH/Virtual Block 1" do
       it "has a card image url" do
-        @r2d2v_card.has_card_image?.should be_true if online?
+        @r2d2v_card.has_card_image?.should be_true
       end
       
       it "has a virtual card image url if it's in Virtual Block 1" do
         @r2d2v_card.is_virtual?.should be_true
-        @r2d2v_card.has_card_image?.should be_true if online?
+        @r2d2v_card.has_card_image?.should be_true
       end
     end
     
     describe "when the card is a droid not from Premiere/ANH/Virtual Block 1" do
       it "has a card image url" do
-        @too_one_bee_card.has_card_image?.should be_true if online?
+        @too_one_bee_card.has_card_image?.should be_true
       end
     end
     
@@ -238,7 +236,7 @@ describe CardImporter do
       end
       
       it "has a card image url" do
-        @combo_card.has_card_image?.should be_true if online?
+        @combo_card.has_card_image?.should be_true
       end
     end
     
@@ -307,11 +305,65 @@ describe CardImporter do
     end
   end
   
-  describe "#card_image_url" do
-    before :all do
-      @card_importer = CardImporter.new
+  describe "#card_image_path" do
+    it "returns the expected path for a valid card" do
+      @card_importer.import(@lines["valid"])
+      @card_importer.send(:card_image_path).should == "#{Rails.configuration.card_image_import_path}/Endor-Light/a280sharpshooterrifle.gif" 
     end
     
+    it "returns nil for an invalid card" do
+      @card_importer.import(@lines["invalid"])
+      @card_importer.send(:card_image_path).should be_nil
+    end
+    
+    it "returns the expected path for an Objective" do
+      @card_importer.import(@lines["objective"])
+      @card_importer.send(:card_image_path).should == "#{Rails.configuration.card_image_import_path}/EnhancedJabbasPalace-Light/youcaneitherprofitbythis.gif" 
+    end
+  end
+  
+  describe "#card_back_image_path" do
+    it "returns a nil path for a card with no back image" do
+      @card_importer.import(@valid_line)
+      @card_importer.send(:card_back_image_path).should be_nil 
+    end
+    
+    it "returns the expected path for an objective" do
+      @card = @card_importer.import(@lines["objective"])
+      @card_importer.send(:card_back_image_path).should == "#{Rails.configuration.card_image_import_path}/EnhancedJabbasPalace-Light/orbedestroyed.gif"
+    end
+  end
+  
+  describe "#vslip_image_path" do
+    it "returns nil for a non-virtual card" do
+      @card_importer.import(@lines["valid"])
+      @card_importer.send(:vslip_image_path).should be_nil 
+    end
+    
+    it "returns the expected path for a virtual Objective" do
+      @card_importer.import(@lines["vobj"])
+      @card_importer.send(:vslip_image_path).should == "#{Rails.configuration.vslip_image_import_path}/dark/huntdownanddestroythejedi.png"
+    end
+    
+    it "returns the expected path for an arbitrary virtual card" do
+      @card_importer.import(@lines["virtual"])
+      @card_importer.send(:vslip_image_path).should == "#{Rails.configuration.vslip_image_import_path}/light/letsgoleft.png"
+    end
+  end
+  
+  describe "#vslip_image_back_path" do
+    it "returns nil for a non-virtual objective card" do
+      @card_importer.import(@lines["valid"])
+      @card_importer.send(:vslip_back_image_path).should be_nil 
+    end
+
+    it "returns the expected path for a virtual objective card" do
+      @card_importer.import(@lines["vobj"])
+      @card_importer.send(:vslip_back_image_path).should == "#{Rails.configuration.vslip_image_import_path}/dark/theirfirehasgoneoutoftheuniverse.png" 
+    end
+  end
+  
+  describe "#card_image_url" do
     it "returns the expected url for a valid card" do
       @card_importer.import(@lines["valid"])
       @card_importer.send(:card_image_url).should == "http://stuff.ledwards.com/starwars/cards/Endor-Light/large/a280sharpshooterrifle.gif" 
@@ -354,7 +406,7 @@ describe CardImporter do
     
     it "returns the expected url for a combo card" do
       @card = @card_importer.import(@lines["combo"])
-      @card_importer.send(:card_image_url).should == "http://stuff.ledwards.com/starwars/cards/ReflectionsII-Dark/large/ghhhk%26thoserebelswontescapeus.gif"
+      @card_importer.send(:card_image_url).should == "http://stuff.ledwards.com/starwars/cards/ReflectionsII-Dark/large/ghhhk&thoserebelswontescapeus.gif"
     end
     
     it "returns the expected url for Motti Seeker" do
@@ -369,7 +421,7 @@ describe CardImporter do
   end
   
   describe "#card_back_image_url" do
-    it "returns a string url for the given card" do
+    it "returns a nil url for a card with no back image" do
       @card_importer.import(@valid_line)
       @card_importer.send(:card_back_image_url).should be_nil 
     end
@@ -386,22 +438,22 @@ describe CardImporter do
   end
   
   describe "#vslip_image_url" do
-    it "returns a string url for an arbitrary virtual card" do
+    it "returns nil for a non-virtual card" do
       @card_importer.import(@lines["valid"])
       @card_importer.send(:vslip_image_url).should be_nil 
     end
     
-    it "returns a string url for a virtual Objective" do
+    it "returns the expected url for a virtual Objective" do
       @card_importer.import(@lines["vobj"])
       @card_importer.send(:vslip_image_url).should == "http://stuff.ledwards.com/starwars/vslips/dark/huntdownanddestroythejedi.png"
     end
     
-    it "returns a string url for an arbitrary virtual card" do
+    it "returns the expected url for an arbitrary virtual card" do
       @card_importer.import(@lines["virtual"])
       @card_importer.send(:vslip_image_url).should == "http://stuff.ledwards.com/starwars/vslips/light/letsgoleft.png"
     end
     
-    it "returns a string url for a droid in Virtual Block 1" do
+    it "returns the expected url for a droid in Virtual Block 1" do
       @card_importer.import(@lines["r2d2v"])
       @card_importer.send(:vslip_image_url).should == "http://stuff.ledwards.com/starwars/vslips/light/r2d2.png"
     end
@@ -423,12 +475,12 @@ describe CardImporter do
   end
   
   describe "#vslip_back_image_url" do
-    it "returns a string url for the given card" do
+    it "returns nil for a non-virtual objective card" do
       @card_importer.import(@lines["valid"])
       @card_importer.send(:vslip_back_image_url).should be_nil 
     end
 
-    it "returns a string url for the given card" do
+    it "returns the expected url for a virtual objective card" do
       @card_importer.import(@lines["vobj"])
       @card_importer.send(:vslip_back_image_url).should == "http://stuff.ledwards.com/starwars/vslips/dark/theirfirehasgoneoutoftheuniverse.png" 
     end

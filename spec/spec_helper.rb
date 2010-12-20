@@ -44,17 +44,6 @@ RSpec.configure do |config|
       end
     end
   end
-
-  def online?
-    begin
-      Net::HTTP.get URI.parse('http://www.google.com/')
-      val = true
-    rescue
-      val = false
-    end
-    return val
-  end
   
-  puts "*** No Internet Connection ***" unless online?
-
+  config.extend VCR::RSpec::Macros
 end
