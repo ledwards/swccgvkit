@@ -30,7 +30,6 @@ GEM
     activesupport (3.0.0)
     arel (1.0.1)
       activesupport (~> 3.0.0)
-    autotest (4.4.5)
     aws-s3 (0.6.2)
       builder
       mime-types
@@ -172,7 +171,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  autotest
   aws-s3
   bundler
   cancan

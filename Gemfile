@@ -16,7 +16,6 @@ gem 'cucumber'
 gem 'gherkin'
 gem 'spork'
 gem 'launchy'
-gem "autotest"
 gem 'factory_girl'
 gem 'factory_girl_rails'
 gem 'fixture_builder'
