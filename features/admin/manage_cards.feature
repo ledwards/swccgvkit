@@ -1,8 +1,7 @@
-Feature: admin manages cards
+Feature: Admin manages cards
 
-	As a user with role "admin"
-	I want to create cards
-	And edit cards
+	As an admin user
+	I want to create and edit cards
 	So that the list of cards will always be up to date
 	
 	Scenario: admin creates new cards

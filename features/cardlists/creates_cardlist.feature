@@ -1,5 +1,5 @@
 @pending
-Feature: user creates cardlist
+Feature: User creates cardlists
 
 	As a user
 	I want to create a cardlist
