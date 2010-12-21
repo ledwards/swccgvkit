@@ -16,7 +16,7 @@ class CardImporter
         @card = import(line)
         @card.save! unless @card.nil?
      rescue
-       Rails.logger.error "Error with card line #{line}"
+       Rails.logger.error "CardImporter::Error on line -- #{line}"
      end
     end
 
