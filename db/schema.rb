@@ -48,8 +48,8 @@ ActiveRecord::Schema.define(:version => 20101204162355) do
   create_table "cards", :force => true do |t|
     t.string   "title"
     t.string   "side"
-    t.string   "lore"
-    t.string   "gametext"
+    t.text     "lore"
+    t.text     "gametext"
     t.string   "rarity"
     t.string   "uniqueness"
     t.string   "card_type"

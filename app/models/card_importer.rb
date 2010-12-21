@@ -12,12 +12,12 @@ class CardImporter
     file = File.open(filename,"r")
 
     while (line = file.gets)
-#      begin
+     begin
         @card = import(line)
         @card.save! unless @card.nil?
-#      rescue
-#        Rails.logger.error "Error with card line #{line}"
-#      end
+     rescue
+       Rails.logger.error "Error with card line #{line}"
+     end
     end
 
     file.close
@@ -31,13 +31,13 @@ class CardImporter
     card_re = /card\s"(.*?)"\s"([<>@•]*)(.*)\(([^V]*)\)\\n(\S*)\s(.*?)\[(.*)\]\s?\\nSet:\s(.*?)\\n/
     if card_match = card_re.match(@card_string)
       self.populate_card_fields(card_match)
-      self.correct_bad_import_data
-      #self.import_remote_card_images
-      self.import_local_card_images
-      self.set_attributes
-      self.set_characteristics
+      unless self.should_reject
+        self.correct_bad_import_data
+        self.import_local_card_images
+        self.set_attributes
+        self.set_characteristics
+      end
     else
-      Rails.logger.error "Malformed card string: #{@card_string}"
       return nil
     end
     return self.should_reject ? nil : @card
@@ -240,7 +240,7 @@ class CardImporter
   
   def filename_for_card_image
     exceptions = {
-      "Krayt Dragon Howl & Armed And Dangerous" => "kraytdragonhowlarmedanddangerous"
+      "Armed And Dangerous & Krayt Dragon Howl" => "kraytdragonhowl&armedanddangerous"
     }
     filename_re = /t_(.*)" "/
     filename_re.match(@card_string).captures[0].split("/").first
@@ -262,7 +262,7 @@ class CardImporter
         },
         "Virtual Block 6" => {
           "Jabba's Prize" => "jabbasprize",
-          "Krayt Dragon Howl & Armed And Dangerous" => "kraytdragonhowlarmedanddangerous"
+          "Armed And Dangerous & Krayt Dragon Howl" => "kraytdragonhowlarmedanddangerous"
         },
         "Virtual Block 7" => {
           "Alter (V)" => "alter"
