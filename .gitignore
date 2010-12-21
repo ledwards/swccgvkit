@@ -13,3 +13,4 @@ public/system/attachments/**/*
 spec/fixtures/*.yml
 spec/fixtures/**/*.yml
 config/deploy.rb
+
