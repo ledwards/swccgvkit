@@ -35,10 +35,6 @@ describe Card do
     @card.should_not be_valid
   end
   
-  it "is unique among title, side, and expansion" do
-    pending
-  end
-  
   describe "#method_missing" do    
     it "allows @card attributes to be directly accessed (ie: Card#power)" do
       @card.power.should == 4
@@ -111,6 +107,7 @@ describe Card do
   
   describe "#attach_local_card_image" do
     it "attaches an image from a path as the specified attachment" do
+      @card.stub!(:save_attached_files).and_return true
       @card.attach_local_card_image("#{Rails.configuration.card_image_import_path}/Premiere-Dark/darthvader.gif")
       @card.has_card_image?.should be_true
     end
@@ -118,6 +115,7 @@ describe Card do
   
   describe "#attach_local_card_back_image" do
     it "attaches an image from a path as the specified attachment" do
+      @card.stub!(:save_attached_files).and_return true
       @card.attach_local_card_back_image("#{Rails.configuration.card_image_import_path}/Premiere-Dark/darthvader.gif")
       @card.has_card_back_image?.should be_true
     end
@@ -125,6 +123,7 @@ describe Card do
 
   describe "#attach_local_vslip_image" do
     it "attaches a vslip image from a path as the specified attachment" do
+      @card.stub!(:save_attached_files).and_return true
       @card.attach_local_vslip_image("#{Rails.configuration.vslip_image_import_path}/dark/darthvader.png")
       @card.has_vslip_image?.should be_true
     end
@@ -132,6 +131,7 @@ describe Card do
 
   describe "#attach_local_vslip_back_image" do
     it "attaches a vslip back image from a path as the specified attachment" do
+      @card.stub!(:save_attached_files).and_return true
       @card.attach_local_vslip_back_image("#{Rails.configuration.vslip_image_import_path}/dark/darthvader.png")
       @card.has_vslip_back_image?.should be_true
     end
@@ -141,6 +141,7 @@ describe Card do
     use_vcr_cassette 'cards/attach_remote_card_image', :record => :new_episodes
     
     it "attaches an image from a remote url as the specified attachment" do
+      @card.stub!(:save_attached_files).and_return true
       @card.attach_remote_card_image("http://starwarsccg.org/gallery/var/albums/Premiere/Dark-Side/darthvader.gif")
       @card.has_card_image?.should be_true
     end
@@ -150,6 +151,7 @@ describe Card do
     use_vcr_cassette 'cards/attach_remote_card_back_image', :record => :new_episodes
 
     it "attaches an image from a remote url as the specified attachment" do
+      @card.stub!(:save_attached_files).and_return true
       @card.attach_remote_card_back_image("http://starwarsccg.org/gallery/var/albums/Premiere/Dark-Side/darthvader.gif")
       @card.has_card_back_image?.should be_true
     end
@@ -159,6 +161,7 @@ describe Card do
     use_vcr_cassette 'cards/attach_remote_vslip_image', :record => :new_episodes
 
     it "attaches a vslip image from a remote url as the specified attachment" do
+      @card.stub!(:save_attached_files).and_return true
       @card.attach_remote_vslip_image("http://starwarsccg.org/gallery/var/albums/Premiere/Dark-Side/darthvader.gif")
       @card.has_vslip_image?.should be_true
     end
@@ -168,6 +171,7 @@ describe Card do
     use_vcr_cassette 'attach_remote_vslip_back_image', :record => :new_episodes
 
     it "attaches a vslip back image from a remote url as the specified attachment" do
+      @card.stub!(:save_attached_files).and_return true
       @card.attach_remote_vslip_back_image("http://starwarsccg.org/gallery/var/albums/Premiere/Dark-Side/darthvader.gif")
       @card.has_vslip_back_image?.should be_true
     end
@@ -185,32 +189,18 @@ describe Card do
   end
   
   describe ".missing_images" do    
-    before do
-      @card = Factory.create(:card, :card_image => @test_image)
-      @virtual_card = Factory.create(:card, :expansion => "Virtual Block 10", :card_image => @test_image, :vslip_image => @test_image)
-      @objective = Factory.create(:card, :card_type => "Objective", :card_image => @test_image, :card_back_image => @test_image)
-      @virtual_objective = Factory.create(:card, :expansion => "Virtual Block 10", :card_type => "Objective", :card_image => @test_image, :card_back_image => @test_image, :vslip_image => @test_image, :vslip_back_image => @test_image)
-    end
-    
     it "will not return cards with images that have been set" do
-      @missing_images = Card.missing_images
-      @missing_images.include?(@card).should be_false
-      @missing_images.include?(@virtual_card).should be_false
-      @missing_images.include?(@objective).should be_false
-      @missing_images.include?(@virtual_objective).should be_false
+      @card = Factory.build(:card, :card_image => @test_image)
+      @card.stub!(:save_attached_files).and_return true
+      @card.save!
+      Card.missing_images.should_not include(@card)
     end
     
     it "returns cards with images that have not been set on cards that should have them" do
-      @card.update_attribute(:card_image, nil)
-      @virtual_card.update_attribute(:vslip_image, nil)
-      @objective.update_attribute(:card_back_image, nil)
-      @virtual_objective.update_attribute(:vslip_back_image, nil)
-
-      @missing_images = Card.missing_images
-      @missing_images.include?(@card).should be_true
-      @missing_images.include?(@virtual_card).should be_true
-      @missing_images.include?(@objective).should be_true
-      @missing_images.include?(@virtual_objective).should be_true
+      @card_with_missing_image = Factory.build(:card, :title => "Missing image")
+      @card_with_missing_image.stub!(:save_attached_files).and_return true
+      @card_with_missing_image.save!
+      Card.missing_images.should include(@card_with_missing_image)
     end
   end
 end

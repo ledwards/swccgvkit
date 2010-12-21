@@ -12,12 +12,12 @@ class CardImporter
     file = File.open(filename,"r")
 
     while (line = file.gets)
-      begin
+#      begin
         @card = import(line)
         @card.save! unless @card.nil?
-      rescue
-        Rails.logger.error "Error with card line #{line}"
-      end
+#      rescue
+#        Rails.logger.error "Error with card line #{line}"
+#      end
     end
 
     file.close
@@ -161,10 +161,10 @@ class CardImporter
   end
   
   def import_local_card_images
-    @card.card_image = open(self.card_image_path)
-    @card.card_back_image = open(self.card_back_image_path) if @card.is_flippable?
-    @card.vslip_image = open(self.vslip_image_path) if @card.is_virtual?
-    @card.vslip_back_image = open(self.vslip_back_image_path) if @card.is_virtual? && @card.is_flippable?
+    @card.card_image = File.open(self.card_image_path)
+    @card.card_back_image = File.open(self.card_back_image_path) if @card.is_flippable?
+    @card.vslip_image = File.open(self.vslip_image_path) if @card.is_virtual?
+    @card.vslip_back_image = File.open(self.vslip_back_image_path) if @card.is_virtual? && @card.is_flippable?
   end
   
   def card_image_path

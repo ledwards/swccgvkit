@@ -25,6 +25,4 @@ Swccgvkit::Application.configure do
   
   config.vslip_image_import_path = "#{Rails.root}/../shared/vslips"
   config.card_image_import_path = "#{Rails.root}/../shared/cards"
-  
-  PAPERCLIP_CONFIG = { }
 end

@@ -150,7 +150,7 @@ describe CardImporter do
     end
 
     describe "when the card is a virtual card Objective" do
-      it "is a card that is both an Objective and virtual" do
+     it "is a card that is both an Objective and virtual" do
         @vobj_card.is_virtual?.should be_true
         @vobj_card.is_flippable?.should be_true
         @vobj_card.card_type.should == "Objective"
@@ -196,6 +196,7 @@ describe CardImporter do
       end
 
       it "has some attributes" do
+        @character_card.stub!(:save_attached_files).and_return(true)
         @character_card.save!
         @character_card.destiny.should == 3
         @character_card.power.should == 3
@@ -488,14 +489,8 @@ describe CardImporter do
   
   describe "#import_file" do
     it "calls import for each line of the file" do
-      @card_importer.should_receive(:import).exactly(17).times
+      @card_importer.should_receive(:import).exactly(17).times.and_return Factory(:card)
       @card_importer.import_file('spec/fixtures/import_test.cdf')
-    end
-    
-    it "imports a card for each line of the file" do
-      lambda {
-        @card_importer.import_file('spec/fixtures/import_test.cdf')
-      }.should change {Card.count}.by 15
     end
   end
 end

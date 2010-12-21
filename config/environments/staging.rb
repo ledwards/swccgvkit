@@ -39,13 +39,7 @@ Swccgvkit::Application.configure do
 
   # Enable threaded mode
   # config.threadsafe!
-  
-  PAPERCLIP_CONFIG = {
-    :storage => :s3,
-    :s3_credentials => "#{RAILS_ROOT}/config/s3.yml",
-    :bucket => 'swccgonline-staging'
-  }
-  
+
   config.vslip_image_import_path = "#{Rails.root}/../shared/vslips"
   config.card_image_import_path = "#{Rails.root}/../shared/cards"
 end

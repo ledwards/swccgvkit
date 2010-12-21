@@ -6,33 +6,33 @@ class Card < ActiveRecord::Base
   
   accepts_nested_attributes_for :card_attributes
   
-  has_attached_file :card_image, {
+  has_attached_file :card_image,
     :default_url => "/images/missing.png",
     :styles => { :full_size =>"100%", :thumbnail =>"50" },
-    :path => "public/system/attachments/card_images/:id/:style.:extension",
-    :whiny => false
-  }.merge(PAPERCLIP_CONFIG)
+    :storage => :s3,
+    :s3_credentials => "#{Rails.root}/config/s3.yml",
+    :path => "card_images/:id/:style.:extension"
     
-  has_attached_file :vslip_image, {
+  has_attached_file :vslip_image,
     :default_url => "/images/missing.png",
     :styles => { :full_size => "350" },
-    :path => "public/system/attachments/vslip_images/:id/:style.:extension",
-    :whiny => false
-  }.merge(PAPERCLIP_CONFIG)
+    :storage => :s3,
+    :s3_credentials => "#{Rails.root}/config/s3.yml",
+    :path => "vslip_images/:id/:style.:extension"
     
-  has_attached_file :card_back_image, {
+  has_attached_file :card_back_image,
     :default_url => "/images/missing.png",
     :styles => { :full_size => "100%", :thumbnail =>"50" },
-    :path => "public/system/attachments/card_back_images/:id/:style.:extension",
-    :whiny => false
-  }.merge(PAPERCLIP_CONFIG)
+    :storage => :s3,
+    :s3_credentials => "#{Rails.root}/config/s3.yml",
+    :path => "card_back_images/:id/:style.:extension"
     
-  has_attached_file :vslip_back_image, {
+  has_attached_file :vslip_back_image,
     :default_url => "/images/missing.png",
     :styles => { :full_size => "350" },
-    :path => "public/system/attachments/vslip_back_images/:id/:style.:extension",
-    :whiny => false
-  }.merge(PAPERCLIP_CONFIG)
+    :storage => :s3,
+    :s3_credentials => "#{Rails.root}/config/s3.yml",
+    :path => "vslip_back_images/:id/:style.:extension"
     
   scope :virtual, lambda {
     where("cards.expansion LIKE ?", "Virtual%")
