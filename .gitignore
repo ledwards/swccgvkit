@@ -4,6 +4,7 @@ log/*.log
 tmp/**/*
 tmp/*
 config/s3.yml
+config/database.yml
 public/images/vslips/*
 public/images/vslips/**/*
 public/images/cards/*
