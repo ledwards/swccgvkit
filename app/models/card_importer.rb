@@ -56,7 +56,8 @@ class CardImporter
       "You Cannot Hide Forever (Death Star II) (V)",
       "Alter (Coruscant) (V)",
       "Planetary Defenses (V)",
-      "Let's Keep A Little Optimism Here (Death Star II) (V)"]
+      "Let's Keep A Little Optimism Here (Death Star II) (V)",
+      "Hyperoute Navigation Chart"]
     
     return true if (@card.title =~ /\(AI\)/ || vdfs.include?(@card.title))
   end
@@ -104,7 +105,6 @@ class CardImporter
     @card.title = "Obi-Wan Kenobi, Padawan Learner" if @card.title == "Obi-wan Kenobi, Padawan Learner"
     @card.title = "Obi-Wan Kenobi, Padawan Learner (V)" if @card.title == "Obi-wan Kenobi, Padawan Learner (V)"
     @card.title = "Alter (V)" if @card.title == "Alter (Premiere) (V)"
-    @card.title = "Krayt Dragon Howl & Armed And Dangerous" if @card.title == "Armed And Dangerous & Krayt Dragon Howl"
     @card.expansion.gsub!("2 Player", "Two Player")
     @card.expansion = "Virtual Defensive Shields" if @card.expansion == "Virtual Defensive Shield"
   end
@@ -239,9 +239,6 @@ class CardImporter
   end
   
   def filename_for_card_image
-    exceptions = {
-      "Armed And Dangerous & Krayt Dragon Howl" => "kraytdragonhowl&armedanddangerous"
-    }
     filename_re = /t_(.*)" "/
     filename_re.match(@card_string).captures[0].split("/").first
   end
@@ -261,8 +258,7 @@ class CardImporter
           "Fear (V)" => "fear"
         },
         "Virtual Block 6" => {
-          "Jabba's Prize" => "jabbasprize",
-          "Armed And Dangerous & Krayt Dragon Howl" => "kraytdragonhowlarmedanddangerous"
+          "Jabba's Prize" => "jabbasprize"
         },
         "Virtual Block 7" => {
           "Alter (V)" => "alter"

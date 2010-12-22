@@ -21,6 +21,7 @@ describe CardImporter do
     boba_fett_se_v = @file.readline
     jabbas_prize_v = @file.readline
     alter_v = @file.readline
+    alderaan = @file.readline
     
     @lines = {
       "valid" => valid,
@@ -39,7 +40,8 @@ describe CardImporter do
       "this_is_just_wrong" => this_is_just_wrong,
       "boba_fett_se_v" => boba_fett_se_v,
       "jabbas_prize_v" => jabbas_prize_v,
-      "alter_v" => alter_v
+      "alter_v" => alter_v,
+      "alderaan" => alderaan
     }
     
     @card_importer = CardImporter.new   
@@ -68,6 +70,7 @@ describe CardImporter do
       @motti_seeker_card = @card_importer.import(@lines["motti_seeker"])
       @this_is_just_wrong_card = @card_importer.import(@lines["this_is_just_wrong"])
       @alter_v_card = @card_importer.import(@lines["alter_v"])
+      @alderaan_card = @card_importer.import(@lines["alderaan"])
     end
     
     it "is a valid card for a valid line" do
@@ -285,6 +288,12 @@ describe CardImporter do
         @alter_v_card.title.should == "Alter (V)"
       end
     end
+    
+    describe "when the card is Alderaan (Blown Away)" do
+      it "is valid" do
+        @alderaan_card.should be_valid
+      end
+    end
   end
   
   describe "#find_attribute" do
@@ -489,7 +498,7 @@ describe CardImporter do
   
   describe "#import_file" do
     it "calls import for each line of the file" do
-      @card_importer.should_receive(:import).exactly(17).times.and_return Factory(:card)
+      @card_importer.should_receive(:import).exactly(18).times.and_return Factory(:card)
       @card_importer.import_file('spec/fixtures/import_test.cdf')
     end
   end

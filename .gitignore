@@ -5,6 +5,7 @@ tmp/**/*
 tmp/*
 config/s3.yml
 config/database.yml
+config/deploy.rb
 public/images/vslips/*
 public/images/vslips/**/*
 public/images/cards/*
@@ -12,4 +13,3 @@ public/images/cards/**/*
 public/system/attachments/**/*
 spec/fixtures/*.yml
 spec/fixtures/**/*.yml
-config/deploy.rb
