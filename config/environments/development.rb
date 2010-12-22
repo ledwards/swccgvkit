@@ -20,7 +20,7 @@ Swccgvkit::Application.configure do
   #Deprecation warnings
   config.active_support.deprecation :log
   
-  Paperclip.options[:command_path] = "/opt/local/bin"
+  #Paperclip.options[:command_path] = "/opt/local/bin" # useful for some OS X installations of ImageMagick (identify)
   Paperclip.options[:swallow_stderr] = false
   
   config.vslip_image_import_path = "#{Rails.root}/../shared/vslips"
