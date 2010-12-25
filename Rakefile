@@ -9,4 +9,4 @@ require 'rake/rdoctask'
 
 Swccgvkit::Application.load_tasks
 
-task :default => [:cucumber, :rspec]
+task :default => [:cucumber]
