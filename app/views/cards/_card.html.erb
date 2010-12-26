@@ -1,43 +1,24 @@
-<div class="card" id="<%= card.id %>">
-	<h3><%= card.formatted_title %></h3>
-	<p>Expansion: <%= card.expansion %></p>
-	<p>Side: <%= card.side %></p>
-	</p>
-	<p>
-		Card Image:
-		<span class="<%= card.has_card_image? ? 'yes' : 'no' %>">
-			<%= card.has_card_image? ? 'Yes' : 'No' %>
-		</span>
-		<% if card.is_virtual? %>
-			|
-			Virtual Slip Image:
-			<span class="<%= card.has_vslip_image? ? 'yes' : 'no' %>">
-				<%= card.has_vslip_image? ? 'Yes' : 'No' %>
-			</span>
+<tr class="card">
+	<td>
+		<%= link_to card.formatted_title, card_path(card) %>
+	</td>
+
+	<td>
+		<%= link_to card.expansion, cards_path(:expansion => card.expansion) %>
+	</td>
+
+	<td>
+		<%= link_to card.side, cards_path(:side => card.side) %>
+	</td>
+		
+	<% if can?(:manage, card) %>
+		<td>
+			<% if can?(:edit, card) %>
+				<%= link_to "[Edit]", edit_card_path(card) %>
+			<% end %>
+			<% if can?(:delete, card) %>
+				<%= link_to '[Delete]', card, :confirm => 'Are you sure? This will remove the card from all decklists as well.', :method => :delete  %>
+			<% end %>
 		<% end %>
-		<% if card.is_flippable? %>
-			|
-			Card Back Image:
-			<span class="<%= card.has_card_back_image? ? 'yes' : 'no' %>">
-				<%= card.has_card_back_image? ? 'Yes' : 'No' %>
-			</span>
-		<% end %>
-		<% if card.is_virtual? && card.is_flippable? %>
-			|
-			Virtual Slip Back Image:
-			<span class="<%= card.has_vslip_back_image? ? 'yes' : 'no' %>">
-				<%= card.has_vslip_back_image? ? 'Yes' : 'No' %>
-			</span>
-		<% end %>
-	</p>
-	<p>
-		Last Updated: <%= card.updated_at %>
-	</p>
-	<%= link_to "[Show]", card_path(card) %>
-	<% if can?(:edit, card) %>
-		<%= link_to "[Edit]", edit_card_path(card) %>
-	<% end %>
-	<% if can?(:delete, card) %>
-		<%= link_to '[Delete]', card, :confirm => 'Are you sure? This will remove the card from all decklists as well.', :method => :delete  %>
-	<% end %>
-</div>
+	</td>
+</tr>

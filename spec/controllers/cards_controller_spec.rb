@@ -6,10 +6,15 @@ describe CardsController do
   
   describe "GET 'index'" do
     it "should be successful for any logged in user" do
-      @user = users(:user)
-      sign_in @user
+      sign_in users(:user)
       get 'index'
       response.should be_success
+    end
+    
+    it "should assign a page of cards" do
+      sign_in users(:user)
+      get 'index', :page => 1
+      assigns(:cards).map(&:name).should == Card.paginate(:page => 1, :order => 'title DESC').map(&:name)
     end
   end
 

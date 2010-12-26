@@ -1,13 +1,10 @@
 class CardsController < ApplicationController
   before_filter :authenticate_user!
   load_and_authorize_resource
+  helper_method :sort_column, :sort_direction
   
   def index
-    if params[:missing] == "true"
-      @cards = Card.missing_images
-    else
-      @cards = Card.all
-    end
+    @cards = Card.search(params[:search]).order(sort_column + ' ' + sort_direction).paginate(:per_page => 20, :page => params[:page])
   end
 
   def show
@@ -45,5 +42,13 @@ class CardsController < ApplicationController
   end
 
   def destroy
+  end
+  
+  def sort_column
+    Card.column_names.include?(params[:sort]) ? params[:sort] : "title"  
+  end
+    
+  def sort_direction
+    ["asc", "desc"].include?(params[:direction]) ? params[:direction] : "asc"
   end
 end

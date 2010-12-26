@@ -38,14 +38,3 @@ Feature: Admin manages cards
 		And I press "Sign in"
 		And I edit the card with title "Huge Explosion"
 		Then I should see "not authorized"
-	
-	Scenario: admin sees a list of cards with missing images
-		Given a user with email address "testadmin@swccgvkit.com" and "admin" role
-		And a card with title "Huge Explosion"
-		When I go to login
-		And I fill in "user_email" with "testadmin@swccgvkit.com"
-		And I fill in "user_password" with "password"
-		And I press "Sign in"
-		And I go to the cards page
-		And I follow "Show cards with missing images"
-		Then I should see "Huge Explosion"

@@ -40,6 +40,14 @@ class Card < ActiveRecord::Base
   
   before_save :enforce_consistency_of_string_values
   
+  def self.search(search)  
+    if search  
+      where('title LIKE ?', "%#{search}%")  
+    else  
+      scoped  
+    end  
+  end
+  
   def attach_remote_card_image(url)
     self.card_image = open(URI.parse(url))
     self.save!

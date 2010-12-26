@@ -15,8 +15,4 @@ FixtureBuilder.configure do |fbuilder|
     f.name(:card_attribute, Factory(:card_attribute))
     f.name(:card_characteristic, Factory(:card_characteristic))
   end
-
-  Factory.sequences.each do |name, seq|
-    seq.instance_variable_set(:@value, 1000)
-  end
 end

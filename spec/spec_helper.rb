@@ -45,5 +45,9 @@ RSpec.configure do |config|
     end
   end
   
+  Factory.sequences.each do |name, seq|
+    seq.instance_variable_set(:@value, 1000)
+  end
+  
   config.extend VCR::RSpec::Macros
 end

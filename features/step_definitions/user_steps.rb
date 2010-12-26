@@ -1,5 +1,3 @@
-require File.expand_path(File.dirname(__FILE__) + '/../../config/environment')
-
 Given /^I am logged out$/ do
   if user_signed_in?
     @user.log_out
@@ -10,14 +8,10 @@ Given /^a logged in (admin|user)$/ do |role|
   role = Role.find_or_create_by_name(role)
   user = Factory.create(:user)
   user.roles << role
-  visit log_in_path
-  fill_in "Email address", :with => user.email
-  fill_in "Password", :with => user.password
-  press sign_in
-end
-
-Given /^a card(?: with title "([^"]*)")?$/ do |title|
-  title.present? ? Factory.create(:card, :title => title) : Factory.create(:card)
+  visit new_user_session_path
+  fill_in "user_email", :with => user.email
+  fill_in "user_password", :with => user.password
+  click_button "Sign in"
 end
 
 Given /^a user with email address "([^"]*)"$/ do |email|
@@ -45,9 +39,4 @@ end
 Given /^a role called "([^"]*)"$/ do |role_name|
   role = Role.find_or_create_by_name(role_name)
   role.save!
-end
-
-When /^I edit the card with title "([^"]*)"$/ do |title|
-  card = Card.find_by_title(title)
-  visit edit_card_path(card)
 end
