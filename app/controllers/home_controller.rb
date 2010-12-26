@@ -2,7 +2,7 @@ class HomeController < ApplicationController
   before_filter :authenticate_user!
   
   def index
-    @cards = Card.all
+    @cards = Card.virtual
     @cardlists = current_user.cardlists
     @current_cardlist = session[:current_cardlist_id] ? Cardlist.find(session[:current_cardlist_id]) : Cardlist.new
   end

@@ -2,25 +2,7 @@
 	<%= image_tag "card_database.gif", {:alt => "Card Database", :id => ""} %>
 </div>
 
-<div id="notice">
-	<%= flash[:notice]%>
-</div>
-
-<div id="search">
-	<%= form_tag cards_path, :method => 'get' do %>
-		<%= hidden_field_tag :direction, params[:direction] %>
-	  <%= hidden_field_tag :sort, params[:sort] %>
-		<p>
-	    <%= text_field_tag :search, params[:search], :id => "search" %>
-	    <%= submit_tag "Search", :name => nil %>
-	  </p>
-	<% end %>
-</div>
-
-<p><%= link_to 'Add a card', new_card_path %></p>
-<p><%= will_paginate @cards %></p>
-
-<div id="cards">
+<div class="center">
 	<table id="cards">
 		<tr>
 			<th>
@@ -40,7 +22,12 @@
 		</tr>
 		<%= render :partial => "card", :collection => @cards %>
 	</table>
-	
 	<p><%= will_paginate @cards %></p>
-	<p><%= link_to 'Add a card', new_card_path %></p>
+	
+	<% if can? :create, Card %>
+		<div id="admin_functions">
+			<h2>Admin functions:</h2>
+			<p><%= link_to 'Add a card', new_card_path %></p>
+		</div>
+	<% end %>
 </div>

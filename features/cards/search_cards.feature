@@ -9,4 +9,4 @@ Feature: User indexes cards
 		And some cards
 		When I go to the cards page
 		And I search for "Vader"
-		Then I should see matching cards		
+		Then I should see matching cards

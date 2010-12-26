@@ -16,7 +16,7 @@ Given /^some cards$/ do
 end
 
 When /^I search for "([^"]*)"$/ do |text|
-  fill_in "search", :with => text
+  fill_in "search_box", :with => text
   click_button "Search"
 end
 
