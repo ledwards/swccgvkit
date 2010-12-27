@@ -1,4 +1,4 @@
-Feature: User indexes cards
+Feature: User searches for virtual cards on 
 
 	As a user
 	I want to search and browse cards
@@ -8,5 +8,5 @@ Feature: User indexes cards
 		Given a logged in user
 		And some cards
 		When I go to the cards page
-		And I search for "Vader"		
+		And I search for "Vader"
 		Then I should see matching cards

@@ -166,10 +166,6 @@ class Card < ActiveRecord::Base
     Card.all.select{ |c| c.card_type == card_type }.map(&:card_attributes).flatten.map(&:name).uniq.sort
   end
   
-  def self.missing_images
-    Card.all.select { |card| !card.has_card_image? || !card.has_vslip_image? && card.is_virtual? || !card.has_card_back_image? && card.is_flippable? || !card.has_vslip_back_image? && card.is_virtual? && card.is_flippable? }
-  end
-  
   def method_missing(selector, *args)
     proper_selector = selector.to_s.capitalize
     super(selector, *args) unless CardAttribute.find_by_name(proper_selector)

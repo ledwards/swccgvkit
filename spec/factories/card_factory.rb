@@ -1,5 +1,5 @@
 Factory.sequence :title do |n|
-  "Card {n}"
+  "Card #{n}"
 end
 
 Factory.define :card do |f|

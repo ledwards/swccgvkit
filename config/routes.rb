@@ -7,6 +7,4 @@ Swccgvkit::Application.routes.draw do
   
   resources :cards
   root :to => "home#index"
-
-  match ':controller(/:action(/:id(.:format)))'
 end

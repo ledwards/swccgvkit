@@ -187,20 +187,4 @@ describe Card do
       @card.card_type_and_subtype.should == "#{@card.card_type} - #{@card.subtype}"
     end
   end
-  
-  describe ".missing_images" do    
-    it "will not return cards with images that have been set" do
-      @card = Factory.build(:card, :card_image => @test_image)
-      @card.stub!(:save_attached_files).and_return true
-      @card.save!
-      Card.missing_images.should_not include(@card)
-    end
-    
-    it "returns cards with images that have not been set on cards that should have them" do
-      @card_with_missing_image = Factory.build(:card, :title => "Missing image")
-      @card_with_missing_image.stub!(:save_attached_files).and_return true
-      @card_with_missing_image.save!
-      Card.missing_images.should include(@card_with_missing_image)
-    end
-  end
 end

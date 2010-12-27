@@ -4,8 +4,8 @@ Given /^I am logged out$/ do
   end
 end
 
-Given /^a logged in (admin|user)$/ do |role|
-  role = Role.find_or_create_by_name(role)
+Given /^a logged in (admin|user)$/ do |role_name|
+  role = Role.find_or_create_by_name(role_name)
   user = Factory.create(:user)
   user.roles << role
   visit new_user_session_path
