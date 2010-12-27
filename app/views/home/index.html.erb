@@ -11,8 +11,9 @@
 </div>
 
 <div class="center">
-	<h1>Search Results</h1>	
+	<h2><%= page_entries_info @cards %></h2>
 	<div class="search_results" id ="search_results">
-		<%= link_to "Card Database", cards_path %>
+		<%= render :partial => "search_result", :collection => @cards %>
 	</div>
+	<p><%= will_paginate @cards %></p>
 </div>

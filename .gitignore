@@ -13,3 +13,5 @@ public/images/cards/**/*
 public/system/attachments/**/*
 spec/fixtures/*.yml
 spec/fixtures/**/*.yml
+.DS_Store
+**/.DS-Store

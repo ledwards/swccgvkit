@@ -143,7 +143,7 @@ div.auto_complete {
 
 .search-results { text-align: center; margin: 0px; min-height: 450px;}
 .search-result-wrapper { width: 345px; text-align: center; margin: 0 auto; font: 11px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-serif;
-	color: #898989; height: 32px; padding: 5px; background: url(/images/search_result_bg.gif) top left no-repeat; margin-bottom: 5px; }
+	color: #898989; height: 32px; background: url(/images/search_result_bg.gif) top left no-repeat; }
 
 #autocomplete-thumbnail { float: left; width: 25px; margin: 0 10px;   }
 #autocomplete-thumbnail input, #auto-complete-thumbnail img {
@@ -272,6 +272,7 @@ div#card_form_footer { clear:both; text-align: center; padding-top: 25px; }
 	margin-right: 15px;
 }
 
+.pagination { margin: 20px 0px; }
 .pagination span, .pagination em { font: 11px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-serif; color: white; text-decoration: none; }
 .pagination .disabled { display: none; }
 .pagination em { color: #fff; }
@@ -285,3 +286,13 @@ table#cards { margin-bottom: 20px; }
 table#cards { margin-left: auto; margin-right: auto; }
 
 div#admin_functions { margin-top: 20px; }
+
+.results-thumbnail { float: left; }
+.results-thumbnail img { height: 70px; margin: 5px; }
+.search-result-wrapper { height: 80px; margin-bottom: 5px; }
+.results-name { float: left; text-align: left; margin-left: 5px; }
+.results-add { text-align: right; margin: 5px 10px 0px 0px; }
+div.center h2 { margin-bottom: 20px; }
+div.results-name { margin-top: 5px; }
+.add-to-decklist-button { margin-top: 30px; }
+.results-add a { margin-top: 32px; float: left; }

@@ -5,4 +5,8 @@ module ApplicationHelper
     direction = (column == sort_column && sort_direction == "asc") ? "desc" : "asc"
     link_to title, params.merge(:sort => column, :direction => direction, :page => nil), {:class => css_class}
   end
+  
+  def controller_index
+    params[:controller] == "home" ? "/" : "/#{params[:controller]}"
+  end
 end

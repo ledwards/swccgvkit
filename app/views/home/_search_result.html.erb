@@ -2,23 +2,31 @@
 	<%= form_tag :url => { :action => :add_to_cart, :id => search_result }, :remote => true,
 						:loading => "Element.show('spinner'); $('notice').update('Adding card...');", 
 						:complete => "Element.hide('spinner');"	do %>
-  
-		<div id = <%= search_result.id.to_s -%> class = "results-thumbnail">
-			<%= image_submit_tag search_result.card_image.url -%>
+							
+		<div class = "results-thumbnail">
+			<%= link_to image_tag(search_result.card_image.url(:thumbnail)), card_path(search_result) %>			
 		</div>
 
 		<div class = "results-name">
-			<%= link_to search_result.truncated_title(40),
-				:url => {:action => "add_to_cart", :id => search_result}, :remote => true,
-				:loading => "Element.show('spinner'); $('notice').update('Adding card...');", 
-				:complete => "Element.hide('spinner');" -%>
-			<br />
-			<%= search_result.expansion -%> <%= search_result.side -%>
+			<%= link_to search_result.truncated_formatted_title(40), card_path(search_result) %>
+			<p>
+				<%= search_result.truncated_card_type_and_subtype(40) %>
+			</p>
+			<p>
+				<%= search_result.expansion %>
+			</p>
+			<p>
+				<%= search_result.side %> Side
+			</p>
+			<p>
+				<%= search_result.updated_at %>
+			</p>
 		</div>
-	
+
 		<div class = "results-add">
-			<%= image_submit_tag "/images/add.png", :class => "add-to-decklist-button" -%>
+			<%= image_submit_tag "/images/add.png", :class => "add-to-decklist-button" %>
 		</div>
 	
 	<% end %>
+  
 </div>

@@ -17,7 +17,6 @@ Feature: Admin manages cards
 		Given a logged in admin
 		And a card with title "Huge Explosion"
 		When I edit the card with title "Huge Explosion"
-		And show me the page
 		And I fill in "card_title" with "It's ok, I'm an admin"
 		And I press "Save"
 		Then I should see "It's ok, I'm an admin"

@@ -130,8 +130,16 @@ class Card < ActiveRecord::Base
     end
   end
 
-  def truncated_title(trunc_length)
-    title.length > trunc_length ? "#{title.first(trunc_length)}..." : title
+  def truncated_title(length)
+    title.length > length ? "#{title.first(length)}..." : title
+  end
+  
+  def truncated_formatted_title(length)
+    formatted_title.length > length ? "#{formatted_title.first(length)}..." : formatted_title
+  end
+  
+  def truncated_card_type_and_subtype(length)
+    card_type_and_subtype.length > length ? "#{card_type_and_subtype.first(length)}..." : card_type_and_subtype
   end
   
   def title_for_url
