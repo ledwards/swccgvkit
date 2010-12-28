@@ -79,36 +79,6 @@ div.left ul li, div.right ul li {
     margin-left: 15px;    
 }
 
-div.auto_complete {
-          width: 312px !important;
-          background: #434343 url(/images/autocomplete_bottom.gif) left bottom no-repeat !important;
-		  font: 11px 'Lucida Grande','Lucida Sans Unicode',Verdana, sans-serif;
-		  color: #CCCCCC;
-		  padding: 7px;
-		  border: none !important;
-        }
-		div.auto_complete strong { color: #fff}
-		
-        div.auto_complete ul {
-		  background: none;
-          margin:0;
-          padding:0;
-          width:100% !important;
-          list-style-type:none;
-		  border: none !important;
-        }
-        div.auto_complete ul li {
-          margin: 3px 0;
-		  padding: 7px 3px 0px 3px !important;
-		  background: #434343;
-		  border: none;
-		  height: 40px !important;
-		  cursor: pointer;
-        }
-        div.auto_complete ul li.selected {
-          background: #1b1b1b !important;
-        }
-	
 .card_thumbnail {
 	float: left;
 	height: 55px;
@@ -146,11 +116,6 @@ div.auto_complete {
 .search-result-wrapper { width: 345px; text-align: center; margin: 0 auto; font: 11px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-serif;
 	color: #898989; height: 32px; background: url(/images/search_result_bg.gif) top left no-repeat; }
 
-#autocomplete-thumbnail { float: left; width: 25px; margin: 0 10px;   }
-#autocomplete-thumbnail input, #auto-complete-thumbnail img {
-	float: left;
-	height: 35px;
-}
 .results_thumbnail { float: left; width: 25px; margin: -2px 10px; }
 .results_thumbnail input {
 	float: left;
@@ -175,28 +140,7 @@ input.button:hover { background-position: 0px -29px; color: #fff; cursor: pointe
 .login_register_header {margin-top: 15px; margin-bottom: 15px;}
 #login_button, #register_button {display: block; margin: 0 auto; clear: both;}
 .text_field {display: block; margin: 0 auto; clear: both; text-align: center;}
-#login input.text-field, #register input.text_field, #welcome_login .text_field {
-	background:transparent url(/images/login_box_bg.png) no-repeat scroll left top;
-	border:medium none;
-	color:#CCCCCC;
-	display:block;
-	font-family:"Lucida Grande","Lucida Sans Unicode",Verdana;
-	font-size:10px;
-	font-size-adjust:none;
-	font-stretch:normal;
-	font-style:normal;
-	font-variant:normal;
-	font-weight:normal;
-	height:27px;
-	letter-spacing:1px;
-	line-height:normal;
-	margin:0 auto;
-	margin-bottom:-5px;
-	overflow:hidden;
-	padding:6px 0;
-	text-align:center;
-	width:222px;
-}
+
 .button_container { margin: 0 auto; float: left; }
 #advanced_search { width: 345px; text-align: center; margin: 0 auto;
 	font: 11px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-serif;
@@ -207,11 +151,11 @@ input.button:hover { background-position: 0px -29px; color: #fff; cursor: pointe
 .prototip .darkgrey .content { background: #555 !important; }
 
 #welcome_logo { text-align: center; }
-#welcome_login, #welcome_signup { background-color: #434343; width: 300px; margin: 10px auto; padding: 10px; }
+#welcome_login, #welcome_signup { background-color: #434343; width: 275px; margin: 10px auto; padding: 20px; border-radius: 20px; -moz-border-radius: 20px; }
 .hidden { display: none; }
 label { font: 11px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-serif; color: #ffde71; text-decoration: none; }
-#remember_me { text-align: center; }
-#login_links { text-align: right; margin-top: 10px;} 
+#remember_me { text-align: right; }
+#login_links { text-align: right; } 
 #welcome_login p, #welcome_signup p { margin-top: 10px; }
 #login_links p { margin-top: 0px; }
 
@@ -298,3 +242,20 @@ div.results-name { margin-top: 5px; }
 .add-to-decklist-button { margin-top: 30px; }
 .results-add a { margin-top: 32px; float: left; }
 
+#user_email, #user_password {
+	background: url("/images/login_box_bg.png") no-repeat scroll left top transparent;
+	border: medium none;
+	color: #CCCCCC;
+	display: block;
+	font: 10px "Lucida Grande","Lucida Sans Unicode",Verdana;
+	height: 27px;
+	letter-spacing: 1px;
+	margin: 0 auto 10px;
+	overflow: hidden;
+	text-align: center;
+	width: 222px;
+}
+
+#welcome_login input.text-field { margin-top: 15px; margin-bottom: 15px; }
+#welcome_login h2 { margin-bottom: 30px; }
+p#remember_me { margin-top: 30px; }

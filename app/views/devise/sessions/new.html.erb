@@ -18,14 +18,14 @@
 	  <p class="hidden"><%= f.label :password %></p>
 	  <p><%= f.password_field :password, :class => "text-field", :value => "password" %></p>
 
-    <p id="remember_me"><%= f.check_box :remember_me %> <%= f.label :remember_me %></p>
-
 	  <p><%= f.submit "Sign in", :id => "login_button", :class => "button" %></p>
-	<% end %>
 
-	<div id="login_links">
-		<p><%= link_to "New here? Sign up!", new_user_registration_path %></p>
-		<p><%= link_to "Forgot your password?", new_password_path(resource_name) %></p>
-	</div>
+    <p id="remember_me"><%= f.check_box :remember_me %> <%= f.label :remember_me %></p>
+	
+		<div id="login_links">
+			<p><%= link_to "New here? Sign up!", new_user_registration_path %></p>
+			<p><%= link_to "Forgot your password?", new_password_path(resource_name) %></p>
+		</div>
+	<% end %>
 </div>
 
