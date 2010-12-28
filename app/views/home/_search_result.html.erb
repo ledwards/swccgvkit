@@ -1,5 +1,5 @@
 <div class = "search-result-wrapper">
-	<%= form_tag :url => { :action => :add_to_cart, :id => search_result }, :remote => true,
+	<%= form_tag "#", :remote => true,
 						:loading => "Element.show('spinner'); $('notice').update('Adding card...');", 
 						:complete => "Element.hide('spinner');"	do %>
 							
