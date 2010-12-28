@@ -35,6 +35,22 @@ describe Card do
     @card.should_not be_valid
   end
   
+  describe ".expansion" do
+    it "includes only cards with expansion equal to the parameter" do
+      @included_card = Factory.create(:card, :expansion => "included")
+      @excluded_card = Factory.create(:card, :expansion => "excluded")
+      Card.expansion("included").should == [@included_card]
+    end
+  end
+  
+  describe ".side" do
+    it "includes only cards with side equal to the parameter" do
+      @included_card = Factory.create(:card, :side => "included")
+      @excluded_card = Factory.create(:card, :side => "excluded")
+      Card.side("included").should == [@included_card]
+    end
+  end
+  
   describe "#method_missing" do    
     it "allows @card attributes to be directly accessed (ie: Card#power)" do
       @card.power.should == 4

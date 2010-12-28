@@ -1,8 +1,17 @@
 <div id="search_details">
-	<% unless params[:search].nil? %>
-		<h2>Search results for: "<%= params[:search] %>"</h2>
+	<% if params[:search] %>
+		<h2>Search results for: "<%= params[:search] %>" <%= link_to "[Remove]", card_params.merge(:search => nil) %></h2>
 	<% else %>
 		<h2>Use search box above to narrow results</h2>
 	<% end %>
+
+	<% if params[:expansion] %>
+		<h3>Displaying only cards from <%= params[:expansion].titleize %> <%= link_to "[Remove]", card_params.merge(:expansion => nil) %></h3>
+	<% end %>
+
+	<% if params[:side] %>
+		<h3>Displaying only <%= params[:side].capitalize %> Side cards <%= link_to "[Remove]", card_params.merge(:side => nil) %> </h3>
+	<% end %>
+
 	<h3><%= page_entries_info @cards %></h3>
 </div>

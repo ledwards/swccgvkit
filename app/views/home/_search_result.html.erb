@@ -13,12 +13,12 @@
 				<%= search_result.truncated_card_type_and_subtype(40) %>
 			</p>
 			<p>
-				<%= search_result.expansion %>
+				<%= link_to search_result.expansion, card_params.merge(:expansion => search_result.expansion) %>
 			</p>
 			<p>
-				<%= search_result.side %> Side
+				<%= link_to "#{search_result.side} Side", card_params.merge(:side => search_result.side) %>
 			</p>
-			<p>
+			<p class="date">
 				Latest as of: <%= l search_result.updated_at.localtime, :format => :without_time %>
 			</p>
 		</div>

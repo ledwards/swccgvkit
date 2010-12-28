@@ -4,11 +4,11 @@
 	</td>
 
 	<td>
-		<%= link_to card.expansion, cards_path(:expansion => card.expansion) %>
+		<%= link_to card.expansion, cards_path(card_params.merge(:expansion => card.expansion)) %>
 	</td>
 
 	<td>
-		<%= link_to card.side, cards_path(:side => card.side) %>
+		<%= link_to card.side, cards_path(card_params.merge(:side => card.side)) %>
 	</td>
 		
 	<% if can?(:manage, card) %>

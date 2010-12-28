@@ -3,6 +3,8 @@
 		<%= form_tag controller_index, :method => "get" do %>
 			<%= hidden_field_tag :direction, params[:direction] %>
 		  <%= hidden_field_tag :sort, params[:sort] %>
+			<%= hidden_field_tag :side, params[:side] if params[:side] %>
+			<%= hidden_field_tag :expansion, params[:expansion] if params[:expansion] %>
 			<%= text_field_tag :search, {}, :size => 32, :value => "Search for cards", :id => "search_box" %>	
 			<%= submit_tag "Search", :name => nil, :class => "button" %>
 		<% end %>

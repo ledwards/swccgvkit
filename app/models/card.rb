@@ -41,11 +41,15 @@ class Card < ActiveRecord::Base
   before_save :enforce_consistency_of_string_values
   
   def self.search(search)  
-    if search  
-      where('title LIKE ?', "%#{search}%")  
-    else  
-      scoped  
-    end  
+    search ? where('title LIKE ?', "%#{search}%") : scoped
+  end
+  
+  def self.expansion(expansion)
+    expansion ? where('expansion = ?', expansion) : scoped
+  end
+  
+  def self.side(side)
+    side ? where('side = ?', side) : scoped
   end
   
   def attach_remote_card_image(url)

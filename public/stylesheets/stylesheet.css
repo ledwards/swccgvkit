@@ -271,3 +271,6 @@ table#cards th .asc {
 table#cards th .desc {   
   background-image: url(/images/down_arrow.gif);   
 }
+
+.search-result-wrapper p { color: #fff; }
+.search-result-wrapper p.date { color: #898989; }

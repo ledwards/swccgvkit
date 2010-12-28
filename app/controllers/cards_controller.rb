@@ -5,7 +5,7 @@ class CardsController < ApplicationController
   helper_method :sort_column, :sort_direction
   
   def index
-    @cards = Card.search(params[:search]).order(sort_column + ' ' + sort_direction).paginate(:per_page => 20, :page => params[:page])
+    @cards = Card.search(params[:search]).expansion(params[:expansion]).side(params[:side]).order(sort_column + ' ' + sort_direction).paginate(:per_page => 20, :page => params[:page])
     respond_with @cards
   end
 
