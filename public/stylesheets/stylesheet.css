@@ -10,6 +10,7 @@ img { border: none }
 body { background: #1b1b1b; padding-top: 4px;}
 #container { width: 98%; margin: 0 auto 0 auto; padding-top: 75px;}
 h1, h2, table#cards th a { font: 18px/20px "Lucida Sans",Helvetica, Arial, sans-serif; color: #ffde71; letter-spacing: -1px; font-weight: 700; text-align: center; }
+h3 { color: #FFDE71; font: 11px/16px 'Lucida Grande','Lucida Sans Unicode',Verdana, sans-serif;}
 table#cards th a:hover { color: white; }
 div.header {z-index: 5; position: relative; width: auto; height: 65px; top: 0px; margin-bottom: 15px; padding-left: 15px; padding-bottom: 10px;
 			border-bottom: 1px solid #333; margin-top: -10px; background: #242424;}
@@ -54,7 +55,7 @@ a#logo {
 }
 
 #notice_box a {margin-left: 5px;}
-div#notice_box p {float: left; margin: 0 0 0 12px; text-align: left;}
+div#notice_box p {float: left; margin: 1px 0 0 12px; text-align: left;}
 div#notice_box img {float: left; margin: 0 -5px 0 10px;}
 
 p#links {
@@ -222,7 +223,6 @@ label { font: 11px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-seri
 #cards p { font: 11px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-serif; color: white; text-decoration: none; }
 #cards .card { margin-top: 10px; margin-bottom: 10px; }
 .no { color: red; }
-h3 { color: #FFDE71; }
 
 div#card_details { margin: 25px auto; width: 800px; }
 div#card_details h1 { margin-bottom: 25px; }
@@ -292,7 +292,9 @@ div#admin_functions { margin-top: 20px; }
 .search-result-wrapper { height: 80px; margin-bottom: 5px; }
 .results-name { float: left; text-align: left; margin-left: 5px; }
 .results-add { text-align: right; margin: 5px 10px 0px 0px; }
-div.center h2 { margin-bottom: 20px; }
+div.center #search_details { margin-bottom: 20px; }
+div.center #search_details h2 { margin-bottom: 5px; }
 div.results-name { margin-top: 5px; }
 .add-to-decklist-button { margin-top: 30px; }
 .results-add a { margin-top: 32px; float: left; }
+

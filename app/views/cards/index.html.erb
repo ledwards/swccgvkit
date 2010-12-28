@@ -3,31 +3,34 @@
 </div>
 
 <div class="center">
-	<table id="cards">
-		<tr>
-			<th>
-				<%= sortable "title" %>
-			</th>
-			<th>
-				<%= sortable "expansion" %>
-			</th>
-			<th>
-				<%= sortable "side" %>
-			</th>
-			<% if can? :manage, Card %>
+	<%= render "shared/search_details" %>
+	<% unless @cards.empty? %>
+		<table id="cards">
+			<tr>
 				<th>
-					<h2>Admin</h2>
+					<%= sortable "title" %>
 				</th>
-			<% end %>
-		</tr>
-		<%= render :partial => "card", :collection => @cards %>
-	</table>
-	<p><%= will_paginate @cards %></p>
+				<th>
+					<%= sortable "expansion" %>
+				</th>
+				<th>
+					<%= sortable "side" %>
+				</th>
+				<% if can? :manage, Card %>
+					<th>
+						<h2>Admin</h2>
+					</th>
+				<% end %>
+			</tr>
+			<%= render :partial => "card", :collection => @cards %>
+		</table>
+		<p><%= will_paginate @cards %></p>
 	
-	<% if can? :create, Card %>
-		<div id="admin_functions">
-			<h2>Admin functions:</h2>
-			<p><%= link_to 'Add a card', new_card_path %></p>
-		</div>
+		<% if can? :create, Card %>
+			<div id="admin_functions">
+				<h2>Admin functions:</h2>
+				<p><%= link_to 'Add a card', new_card_path %></p>
+			</div>
+		<% end %>
 	<% end %>
 </div>
