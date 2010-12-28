@@ -13,10 +13,10 @@
 	<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
   
 	  <p class="hidden"><%= f.label :email %></p>
-	  <p><%= f.text_field :email, :class => "text-field" %></p>
+	  <p><%= f.text_field :email, :class => "text-field", :value => "Your email address" %></p>
 
 	  <p class="hidden"><%= f.label :password %></p>
-	  <p><%= f.password_field :password, :class => "text-field" %></p>
+	  <p><%= f.password_field :password, :class => "text-field", :value => "password" %></p>
 
     <p id="remember_me"><%= f.check_box :remember_me %> <%= f.label :remember_me %></p>
 
