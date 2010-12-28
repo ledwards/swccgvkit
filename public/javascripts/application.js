@@ -9,7 +9,9 @@ $(document).ready(function() {
 
 function set_hint_text(selector, text){
 	$(selector).focus(function() {
-		$(this).val("");
+		if ($(this).val() == text) {
+			$(this).val("");
+		};
 	});
 
 	$(selector).blur(function() {
