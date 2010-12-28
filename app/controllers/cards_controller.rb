@@ -1,14 +1,17 @@
 class CardsController < ApplicationController
   before_filter :authenticate_user!
   load_and_authorize_resource
+  respond_to :html, :xml
   helper_method :sort_column, :sort_direction
   
   def index
     @cards = Card.search(params[:search]).order(sort_column + ' ' + sort_direction).paginate(:per_page => 20, :page => params[:page])
+    respond_with @cards
   end
 
   def show
     @card = Card.find(params[:id])
+    respond_with @card
   end
 
   def new
