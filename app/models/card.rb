@@ -41,7 +41,7 @@ class Card < ActiveRecord::Base
   before_save :enforce_consistency_of_string_values
   
   def self.search(search)  
-    search ? where('title LIKE ?', "%#{search}%") : scoped
+    search ? where('title ILIKE ?', "%#{search}%") : scoped
   end
   
   def self.expansion(expansion)

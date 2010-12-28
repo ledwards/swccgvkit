@@ -8,5 +8,5 @@ Feature: User indexes cards
 		Given a logged in user
 		And some cards
 		When I go to the cards page
-		And I search for "Vader"		
+		And I search for "vader"		
 		Then I should see matching cards
