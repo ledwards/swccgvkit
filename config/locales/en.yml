@@ -5,6 +5,6 @@ en:
   hello: "Hello world"
   time:
     formats:
-      default: "%d %B, %Y - %I:%M:%S%p %Z"
-      without_time: "%d %b, %Y"
+      default: "%d %B %Y - %I:%M:%S%p %Z"
+      without_time: "%d %b %Y"
       without_time_short: "%m/%d/%y"
