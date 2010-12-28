@@ -19,7 +19,7 @@
 				<%= search_result.side %> Side
 			</p>
 			<p>
-				<%= search_result.updated_at %>
+				Latest as of: <%= l search_result.updated_at.localtime, :format => :without_time %>
 			</p>
 		</div>
 

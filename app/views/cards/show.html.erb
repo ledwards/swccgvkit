@@ -55,9 +55,9 @@
 		<% end %>
 		
 		<dt>Created:</dt>
-		<dd><%= @card.created_at %></dd>
+		<dd><%= l @card.created_at.localtime %></dd>
 		
 		<dt>Last Modified:</dt>
-		<dd><%= @card.updated_at %></dd>
+		<dd><%= l @card.updated_at.localtime %></dd>
 	</div>
 </div>
