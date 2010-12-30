@@ -10,16 +10,16 @@
 		<div class = "results-name">
 			<%= link_to search_result.truncated_formatted_title(40), card_path(search_result) %>
 			<p>
-				<%= search_result.truncated_card_type_and_subtype(40) %>
-			</p>
-			<p>
 				<%= link_to search_result.expansion, card_params.merge(:expansion => search_result.expansion) %>
 			</p>
 			<p>
 				<%= link_to "#{search_result.side} Side", card_params.merge(:side => search_result.side) %>
 			</p>
+			<p class="card_type">
+				<%= search_result.truncated_card_type_and_subtype(40) %>
+			</p>
 			<p class="date">
-				Latest as of: <%= l search_result.updated_at.localtime, :format => :without_time %>
+				Last update: <%= l search_result.updated_at.localtime, :format => :without_time %>
 			</p>
 		</div>
 

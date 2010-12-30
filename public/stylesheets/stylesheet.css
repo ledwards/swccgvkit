@@ -273,4 +273,4 @@ table#cards th .desc {
 }
 
 .search-result-wrapper p { color: #fff; }
-.search-result-wrapper p.date { color: #898989; }
+.search-result-wrapper p.date, .search-result-wrapper p.card_type { color: #898989; }
