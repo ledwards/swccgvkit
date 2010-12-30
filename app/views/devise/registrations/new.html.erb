@@ -3,24 +3,28 @@
 </div>
 
 <div id="errors">
-	<%= flash[:notice] %>
-	<%= flash[:alert] %>
+	<%= render :partial => "shared/error_messages", :locals => { :target => resource } %>
 </div>
 
 <div id="welcome_signup">
 	<h2>Sign up</h2>
 
 	<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
-		<%= render :partial => "shared/error_messages", :locals => { :target => resource } %>
-	  <p><%= f.label :email %></p>
+	  <p><%= f.label :email, :class => "hidden" %></p>
 	  <p><%= f.text_field :email %></p>
 
-	  <p><%= f.label :password %></p>
+	  <p><%= f.label :password, :class => "hidden" %></p>
 	  <p><%= f.password_field :password %></p>
 
-	  <p><%= f.label :password_confirmation %></p>
+	  <p><%= f.label :password_confirmation, :class => "hidden" %></p>
 	  <p><%= f.password_field :password_confirmation %></p>
 
-	  <p><%= f.submit "Sign up" %></p>
+	  <p><%= f.submit "Sign up", :class => "button", :id => "register_button" %></p>
+	
+		<p id="remember_me"><%= f.check_box :remember_me %> <%= f.label :remember_me %></p>
+	
+		<div id="login_links">
+			<p><%= link_to "Already have an account? Log in!", new_user_session_path %></p>
+		</div>
 	<% end %>
 </div>

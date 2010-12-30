@@ -5,9 +5,12 @@ $(document).ready(function() {
 	set_hint_text("#search_box", "Search for cards");
 	set_hint_text("#user_email", "Your email address");
 	set_hint_text("#user_password", "password");
+	set_hint_text("#user_password_confirmation", "failword");
 });
 
 function set_hint_text(selector, text){
+	$(selector).val(text);
+	
 	$(selector).focus(function() {
 		if ($(this).val() == text) {
 			$(this).val("");

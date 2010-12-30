@@ -242,7 +242,7 @@ div.results-name { margin-top: 5px; }
 .add-to-decklist-button { margin-top: 30px; }
 .results-add a { margin-top: 32px; float: left; }
 
-#user_email, #user_password {
+#user_email, #user_password, #user_password_confirmation {
 	background: url("/images/login_box_bg.png") no-repeat scroll left top transparent;
 	border: medium none;
 	color: #CCCCCC;
@@ -256,9 +256,9 @@ div.results-name { margin-top: 5px; }
 	width: 222px;
 }
 
-#welcome_login input.text-field { margin-top: 15px; margin-bottom: 15px; }
-#welcome_login h2 { margin-bottom: 30px; }
-p#remember_me { margin-top: 30px; }
+#welcome_login input.text-field, #welcome_signup input.text-field { margin-top: 15px; margin-bottom: 15px; }
+#welcome_login h2, #welcome_signup h2 { margin-bottom: 30px; }
+p#remember_me { margin-top: 10px; margin-bottom: 10px; }
 
 table#cards th .current {  
   padding-right: 16px;  

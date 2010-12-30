@@ -3,15 +3,14 @@
 </div>
 
 <div id="errors">
-	<%= flash[:notice] %>
 	<%= flash[:alert] %>
 </div>
+
 
 <div id="welcome_login">
 	<h2>Sign in</h2>
 
 	<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-  
 	  <p class="hidden"><%= f.label :email %></p>
 	  <p><%= f.text_field :email, :class => "text-field", :value => "Your email address" %></p>
 
