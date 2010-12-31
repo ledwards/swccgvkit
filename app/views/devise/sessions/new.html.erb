@@ -12,10 +12,10 @@
 
 	<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
 	  <p class="hidden"><%= f.label :email %></p>
-	  <p><%= f.text_field :email, :class => "text-field", :value => "Your email address" %></p>
+	  <p><%= f.text_field :email, :class => "text-field" %></p>
 
 	  <p class="hidden"><%= f.label :password %></p>
-	  <p><%= f.password_field :password, :class => "text-field", :value => "password" %></p>
+	  <p><%= f.password_field :password, :class => "text-field" %></p>
 
 	  <p><%= f.submit "Sign in", :id => "login_button", :class => "button" %></p>
 
