@@ -42,13 +42,15 @@ describe Cardlist do
     context "adding a card that is already in the cardlist" do
       it "increments the quantity of the existing cardlist item" do
         card = cards(:card)
-        cardlist_item = @cardlist.add_card(card)
+        @cardlist.add_card(card)
+        cardlist_item = CardlistItem.last
         expect { @cardlist.add_card(card); cardlist_item.reload }.should change(cardlist_item, :quantity).by(1)
       end
       
       it "does not create a new cardlist item" do
         card = cards(:card)
-        cardlist_item = @cardlist.add_card(card)
+        @cardlist.add_card(card)
+        cardlist_item = CardlistItem.last
         expect { @cardlist.add_card(card); cardlist_item.reload }.should_not change(CardlistItem, :count)
       end
     end

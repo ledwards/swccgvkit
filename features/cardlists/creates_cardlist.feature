@@ -9,7 +9,7 @@ Feature: User creates cardlists
 		Given a logged in user
 		And some cards
 		And I am on the home page
-		When I fill in "search_box" with "Vader"
+		When I fill in "search_box" with "Card"
 		And I add a card to the current cardlist
-		And I wait until I can see "#search_box"
-		And I should see "Vader" within "#current_cardlist"
+		And I wait until I can see "#current_cardlist"
+		Then I should see "Card" within "#current_cardlist"
