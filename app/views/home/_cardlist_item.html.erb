@@ -1,0 +1,7 @@
+<li class="cardlist_item">
+	<div>
+		<%= text_field_tag "quantity", cardlist_item.quantity, :class => "text-field", :size => "1", :maxlength => "2" %>x
+		<%= cardlist_item.card.truncated_title(30) %>
+	</div>
+	<%= image_tag "remove.png", :class => "remove_button" %>
+</li>

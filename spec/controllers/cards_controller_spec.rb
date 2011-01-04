@@ -1,5 +1,4 @@
 require 'spec_helper'
-include Devise::TestHelpers
 
 describe CardsController do
   fixtures :users, :roles, :roles_users
@@ -14,7 +13,7 @@ describe CardsController do
     it "should assign a page of cards" do
       sign_in users(:user)
       get 'index', :page => 1
-      assigns(:cards).map(&:name).should == Card.paginate(:page => 1, :order => 'title DESC').map(&:name)
+      assigns(:cards).map(&:title).should =~ Card.paginate(:page => 1, :order => 'title DESC').map(&:title)
     end
   end
 

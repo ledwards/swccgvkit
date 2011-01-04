@@ -12,7 +12,7 @@ describe Card do
   end
   
   it "has a Factory" do
-    Factory(:card).should be
+    Factory(:card).should be_valid
   end
   
   it "is valid with valid attributes" do

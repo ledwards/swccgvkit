@@ -28,7 +28,6 @@ GEM
       activemodel (= 3.0.3)
       activesupport (= 3.0.3)
     activesupport (3.0.3)
-    addressable (2.2.2)
     arel (2.0.6)
     aws-s3 (0.6.2)
       builder
@@ -57,7 +56,6 @@ GEM
       ffi (~> 0.6.3)
     columnize (0.3.2)
     configuration (1.2.0)
-    crack (0.1.8)
     cucumber (0.9.4)
       builder (~> 2.1.2)
       diff-lcs (~> 1.1.2)
@@ -78,6 +76,7 @@ GEM
     factory_girl_rails (1.0)
       factory_girl (~> 1.3)
       rails (>= 3.0.0.beta4)
+    fakeweb (1.3.0)
     ffi (0.6.3)
       rake (>= 0.8.7)
     fixture_builder (0.2.0)
@@ -164,9 +163,6 @@ GEM
     vcr (1.4.0)
     warden (0.10.7)
       rack (>= 1.0.0)
-    webmock (1.6.1)
-      addressable (>= 2.2.2)
-      crack (>= 0.1.7)
     will_paginate (3.0.pre2)
     xml-simple (1.0.12)
     xpath (0.1.2)
@@ -187,6 +183,7 @@ DEPENDENCIES
   devise
   factory_girl
   factory_girl_rails
+  fakeweb
   fixture_builder
   gherkin
   jquery-rails
@@ -199,5 +196,4 @@ DEPENDENCIES
   ruby-debug
   spork
   vcr
-  webmock
   will_paginate (~> 3.0.beta)

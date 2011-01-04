@@ -4,9 +4,11 @@ class Ability
   def initialize(user)
     can :read, Card
     
-    if user.has_role? "owner"
-      can :manage, :all
-    end
+    can :read, Cardlist#, :user_id => user.id
+    can :edit, Cardlist#, :user_id => user.id
+    can :create, Cardlist
+    
+    can :add_card
     
     if user.has_role? "admin"
       can :manage, Card

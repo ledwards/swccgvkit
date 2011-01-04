@@ -20,6 +20,7 @@ group :test do
   gem 'database_cleaner'
   gem 'factory_girl'
   gem 'factory_girl_rails'
+  gem "fakeweb"
   gem 'fixture_builder'
   gem 'gherkin'
   gem 'launchy'
@@ -27,5 +28,4 @@ group :test do
   gem 'ruby-debug'
   gem 'spork'
   gem "vcr"
-  gem "webmock"
 end

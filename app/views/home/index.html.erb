@@ -1,12 +1,12 @@
 <div class="left">
-  <div class="saved_cardlists">
+  <div id="saved_cardlists">
     <%= render :partial => "saved_cardlists" %>
   </div>
 </div>
 
 <div class="right">
-  <div class="current_cardlist">
-    <%= render :partial => "current_cardlist" %>
+  <div id="current_cardlist">
+    <%= render :partial => "current_cardlist", :object => @cardlist %>
   </div>
 </div>
 

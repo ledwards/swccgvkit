@@ -1,26 +1,29 @@
 <h1>
-	<% if @current_cardlist.nil? %>
+	<% if current_cardlist.nil? %>
 		New Cardlist
 	<% else %>	
-	  <%= @current_cardlist.title || "New Cardlist" %> (<%= @current_cardlist.total_quantity %>)
+	  <%= "Current Cardlist" %> (<%= current_cardlist.card_count %>)
 	<% end %>
 </h1>
 
-<% if @current_cardlist.nil? or @current_cardlist.cardlist_items.empty? %>
+<% if current_cardlist.nil? %>
   <h2>Use Search to add cards.</h2>
 <% else %>
-  <%= render :partial => "cardlist_item", :collection => @current_cardlist.new_record? ? @current_cardlist.cardlist_items : [] %>
+	<h2><%= current_cardlist.title %></h2>
+	<ul id="cardlist">
+  	<%= render :partial => "home/cardlist_item", :collection => current_cardlist.cardlist_items.sort{ |a,b| a.card.title <=> b.card.title } %>
+	</ul>
 <% end %>
 
-<% if not @current_cardlist.cardlist_items.empty? %>
+<% if current_cardlist && current_cardlist.cardlist_items.any? %>
 	<div class = "button_container">
-	    <%= form_tag("/cardlists/#{@current_cardlist.id.to_s}.pdf", :method => "get") do %>
+	    <%= form_tag("/cardlists/#{current_cardlist.id.to_s}.pdf", :method => "get") do %>
 	      <%= submit_tag "Print" , :class => "button" %>
 	    <% end %>
 	</div>
 
 	<div class = "button_container">
-	    <%= form_remote_tag :url => { :action => "clear_current_cardlist" }, :confirm => "Are you sure?" do %>
+	    <%= form_tag :url => { :action => "clear_current_cardlist" }, :remote => true do %>
 	      <%= submit_tag "Clear" , :class => "button" %>
 	    <% end %>
 	</div>

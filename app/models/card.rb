@@ -1,10 +1,12 @@
-class Card < ActiveRecord::Base    
-  validates_presence_of :title, :card_type, :expansion
-  
+class Card < ActiveRecord::Base      
   has_and_belongs_to_many :card_characteristics
   has_many :card_attributes
   
   accepts_nested_attributes_for :card_attributes
+  
+  validates :title, :presence => true
+  validates :card_type, :presence => true
+  validates :expansion, :presence => true
   
   has_attached_file :card_image,
     :default_url => "/images/missing.png",

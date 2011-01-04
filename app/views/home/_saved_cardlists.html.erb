@@ -1,10 +1,10 @@
-<h1>Saved Cardlists</h1>
+<h1>Cardlist History</h1>
 <div id="cardlists">
 	<% if @cardlists.empty? %>
   		<h2>No saved cardlists</h2>
  	<% else %>
 		<ul>
-		 	<%= render :partial => "cardlist", :collection => @cardlists %>
+			<%= render :partial => "home/saved_cardlist", :collection => @cardlists %>
 		</ul>
 	<% end %>
 	<div class = "button_container">

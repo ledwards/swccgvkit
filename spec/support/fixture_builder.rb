@@ -11,8 +11,11 @@ FixtureBuilder.configure do |fbuilder|
     User.last.roles << Role.last
     
     f.name(:card, Factory(:card))
+    f.name(:other_card, Factory(:card))
     
     f.name(:card_attribute, Factory(:card_attribute))
     f.name(:card_characteristic, Factory(:card_characteristic))
+    
+    f.name(:cardlist, Factory(:cardlist))
   end
 end
