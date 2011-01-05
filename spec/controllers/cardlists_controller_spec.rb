@@ -1,10 +1,7 @@
 require 'spec_helper'
 
 describe CardlistsController do
-  fixtures :users, :roles, :cards, :cardlists
-  
-  describe "create" do
-  end
+  fixtures :users, :roles, :cards, :cardlists, :cardlist_items
   
   describe "add_card" do
     before do
@@ -40,6 +37,7 @@ describe CardlistsController do
     context "current cardlist exists" do
       before do
         @cardlist = cardlists(:cardlist)
+        @user.cardlists << @cardlist
         @valid_params_with_cardlist = { :cardlist_id => @cardlist.id, :card_id => @card.id }
       end
       
@@ -50,7 +48,35 @@ describe CardlistsController do
       it "adds a card to the existing cardlist" do
         expect { post :add_card, @valid_params_with_cardlist; @cardlist.reload }.should change(@cardlist, :card_count).by(1)
       end
-      
     end
   end
+  
+  describe "update_quantity" do
+    before do
+      @user = users(:user)
+      sign_in @user
+      
+      @cardlist_item = cardlist_items(:cardlist_item)
+      @user.cardlists << @cardlist_item.cardlist
+      @valid_params = { :cardlist_item_id => @cardlist_item.id, :quantity => "10" }
+    end
+    
+    context "for valid params" do
+      it "is a success" do
+        post :update_quantity, :format => :js, :cardlist_item_id => @cardlist_item.id, :quantity => "2"
+        response.should be_success
+      end
+      
+      it "updates the quantity of the cardlist item" do
+        expect { post(:update_quantity, :format => :js, :cardlist_item_id => @cardlist_item.id, :quantity => "2"); @cardlist_item.reload }.should change(@cardlist_item, :quantity).by(1)
+      end
+    end
+    
+    context "for invalid params" do
+      it "does not update the quantity of the cardlist item" do
+        expect { post(:update_quantity, :format => :js, :cardlist_item_id => @cardlist_item.id, :quantity => "foo"); @cardlist_item.reload }.should_not change(@cardlist_item, :quantity)
+      end
+    end
+  end
+  
 end

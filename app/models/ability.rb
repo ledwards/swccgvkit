@@ -4,11 +4,24 @@ class Ability
   def initialize(user)
     can :read, Card
     
-    can :read, Cardlist#, :user_id => user.id
-    can :edit, Cardlist#, :user_id => user.id
+    can :read, Cardlist do |cardlist|
+      cardlist.user_id == user.id
+    end
+    can :edit, Cardlist do |cardlist|
+      cardlist.user_id == user.id
+    end
     can :create, Cardlist
     
+    can :read, CardlistItem do |cardlist_item|
+      cardlist_item.cardlist.user_id == user.id
+    end
+    can :edit, CardlistItem do |cardlist_item|
+      cardlist_item.cardlist.user_id == user.id
+    end
+    can :create, CardlistItem
+    
     can :add_card
+    can :update_quantity
     
     if user.has_role? "admin"
       can :manage, Card

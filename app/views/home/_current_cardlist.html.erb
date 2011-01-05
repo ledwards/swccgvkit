@@ -11,7 +11,9 @@
 <% else %>
 	<h2><%= current_cardlist.title %></h2>
 	<ul id="cardlist">
-  	<%= render :partial => "home/cardlist_item", :collection => current_cardlist.cardlist_items.sort{ |a,b| a.card.title <=> b.card.title } %>
+		<%= form_tag "#", :autocomplete => "off" do %>
+  		<%= render :partial => "home/cardlist_item", :collection => current_cardlist.cardlist_items.sort{ |a,b| a.card.title <=> b.card.title } %>
+		<% end %>
 	</ul>
 <% end %>
 

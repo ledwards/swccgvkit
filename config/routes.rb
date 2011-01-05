@@ -4,7 +4,9 @@ Swccgvkit::Application.routes.draw do
   get "home/index", :as => :home
   get "home/about", :as => :about
   get "home/settings", :as => :settings
-  post "add_card", :to => "cardlists#add_card", :as => "add_card"
+  
+  post "cardlists/add_card", :to => "cardlists#add_card", :as => "add_card"
+  post "cardlists/update_quantity", :to => "cardlists#update_quantity", :as => "update_quantity"
   
   resources :cards
   resources :users
