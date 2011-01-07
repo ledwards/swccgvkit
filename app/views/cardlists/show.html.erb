@@ -1,0 +1,34 @@
+<div id="cards">
+	<h2><%= @cardlist.title %> (<%= @cardlist.card_count %>)</h2>
+	<p>Printed on <%= l Time.now.localtime, :format => :default_in_words %> by <%= current_user.email %></p>
+		
+	<table>
+		<th class="qty"></th>
+		<th class="title">Title</th>
+		<th class="side">Side</th>
+		<th class="expansion">Expansion</th>
+		
+		<% @cardlist.cardlist_items.each do |cli| %>
+			<tr>
+				<td class="qty"><%= cli.quantity %>x</td>
+				<td class="title"><%= cli.card.title %></td>
+				<td class="side"><%= cli.card.side %></td>
+				<td class="expansion"><%= cli.card.expansion %></td>
+			</tr>
+		<% end %>
+	</table>
+	<p id="footer">
+		The permanent web address for this printout is at: <%= link_to "http://www.swccgvkit.com/cardlists/#{@cardlist.id}.pdf" %>.
+	</p>
+</div>
+
+<div id="vslips">
+	<% @cardlist.cardlist_items.each do |cli| %>
+		<% if cli.card.has_vslip_image? %>
+			<% cli.quantity.times do %>
+				<%= image_tag cli.card.vslip_image.url(:full_size) %>
+				<%= image_tag cli.card.vslip_back_image.url(:full_size) if cli.card.has_vslip_back_image? %>
+			<% end %>
+		<% end %>
+	<% end %>
+</div>

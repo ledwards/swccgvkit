@@ -1,6 +1,7 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
+require 'princely/rails'
 
 # If you have a Gemfile, require the gems listed there, including any gems
 # you've limited to :test, :development, or :production.
@@ -45,5 +46,8 @@ module Swccgvkit
     
     # Hack to make Paperclip work with Rails 3
     Paperclip::Railtie.insert
+    
+    # Princely throws an error without this
+    ActionView::Helpers::AssetTagHelper::STYLESHEETS_DIR = "#{Rails.root}/public/stylesheets/"
   end
 end

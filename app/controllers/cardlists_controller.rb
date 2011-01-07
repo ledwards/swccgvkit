@@ -2,7 +2,18 @@ class CardlistsController < ApplicationController
   before_filter :authenticate_user!
   helper_method :sort_column, :sort_direction
   
-  def create
+  def show
+    @cardlist = Cardlist.find(params[:id])
+    authorize!(:show, @cardlist)
+    
+    respond_to do |format|      
+      format.pdf do
+        render  :pdf => "#{@cardlist.title}",
+                :template => "cardlists/show.html.erb",
+                :layout => "print.html.erb",
+                :stylesheets => "print"
+      end
+    end
   end
   
   def add_card
