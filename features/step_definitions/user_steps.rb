@@ -6,11 +6,11 @@ end
 
 Given /^a logged in (admin|user)$/ do |role_name|
   role = Role.find_or_create_by_name(role_name)
-  user = Factory.create(:user)
-  user.roles << role
+  @user = Factory.create(:user)
+  @user.roles << role
   visit new_user_session_path
-  fill_in "user_email", :with => user.email
-  fill_in "user_password", :with => user.password
+  fill_in "user_email", :with => @user.email
+  fill_in "user_password", :with => @user.password
   click_button "Sign in"
 end
 

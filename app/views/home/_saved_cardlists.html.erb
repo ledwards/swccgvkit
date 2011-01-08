@@ -1,15 +1,13 @@
 <h1>Cardlist History</h1>
 <div id="cardlists">
-	<% if @cardlists.empty? %>
+	<% if current_user.cardlists.empty? %>
   		<h2>No saved cardlists</h2>
  	<% else %>
 		<ul>
-			<%= render :partial => "home/saved_cardlist", :collection => @cardlists %>
+			<%= render :partial => "home/saved_cardlist", :collection => current_user.cardlists %>
 		</ul>
 	<% end %>
 	<div class = "button_container">
-		<%= form_tag :url => { :action => "new_cardlist" }, :remote => true do %>
-			<%= submit_tag "New", :class => "button" %>
-		<% end %>
+		<%= button_to "New", { :controller => "home", :action => "index", :params => params }, { :class => "button", :method => :get } %>
 	</div>
 </div>

@@ -3,8 +3,7 @@ class HomeController < ApplicationController
   
   def index
     @cards = Card.virtual.search(params[:search]).expansion(params[:expansion]).side(params[:side]).paginate(:per_page => 20, :page => params[:page])
-    @cardlists = current_user.cardlists
-    @cardlist = current_user.cardlists.last
+    @cardlist = Cardlist.find_by_id(params[:cardlist_id]) || Cardlist.new
     @cards.first.try(:id) #this is here because of a very strange bug where the first element of @cards doesn't return its id the first time it's called
   end
   
@@ -12,9 +11,6 @@ class HomeController < ApplicationController
   end
   
   def settings
-  end
-  
-  def clear_current_cardlist
   end
 
 end

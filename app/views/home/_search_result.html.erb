@@ -1,7 +1,7 @@
 <div class = "search-result-wrapper">
 	<%= form_tag add_card_path, :format => :js, :remote => true do %>
 		<%= hidden_field_tag :card_id, search_result.id, :id => nil %>
-		<%= hidden_field_tag :cardlist_id, @cardlist ? @cardlist.id : "", :id => nil %>
+		<%= hidden_field_tag :cardlist_id, @cardlist ? @cardlist.id : "", { :id => nil, :class => "cardlist_id_hidden_field" } %>
 		<div class = "results-thumbnail">
 			<%= link_to image_tag(search_result.card_image.url(:thumbnail)), card_path(search_result) %>			
 		</div>

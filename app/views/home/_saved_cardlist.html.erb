@@ -1,4 +1,4 @@
 <li>
-	<%= link_to saved_cardlist.title, "#" %>
+	<%= link_to saved_cardlist.title, { :action => "index", :cardlist_id => saved_cardlist.id } %>
 	<%= l saved_cardlist.updated_at.localtime, :format => :without_time_short %>
 </li>
