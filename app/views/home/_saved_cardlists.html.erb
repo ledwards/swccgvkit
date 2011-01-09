@@ -4,7 +4,7 @@
   		<h2>No saved cardlists</h2>
  	<% else %>
 		<ul>
-			<%= render :partial => "home/saved_cardlist", :collection => current_user.cardlists %>
+			<%= render :partial => "home/saved_cardlist", :collection => current_user.cardlists.reverse.first(10) %>
 		</ul>
 	<% end %>
 	<div class = "button_container">

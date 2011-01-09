@@ -1,15 +1,15 @@
 #header { text-align: center; margin-bottom: 25px; }
 #first_page { page-break-after: always; }
 #cards { text-align: left; page-break-after: always; }
-#card p, #cards h2 { text-align: center; }
+#cards p, #cards h2 { text-align: center; }
 #vslips { text-align: left; }
-#vslips img { margin: -3px -1px; }
+#vslips img { margin: -3px -1px; prince-image-resolution: 139dpi; }
 p#footer { text-align: center; }
 
 .qty { text-align: right; }
-.title { width: 60%; text-align: left; }
+.title { width: 50%; text-align: left; }
 .expansion, .side, .updated { text-align: center; }
 table td { margin: 5px; }
 
-@page { margin: .48in; }
-@prince-pdf { prince-pdf-print-scaling: none }
+@page { margin: .45in; }
+@prince-pdf { prince-pdf-print-scaling: none; prince-shrink-to-fit: none; }
