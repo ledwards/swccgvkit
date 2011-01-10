@@ -6,10 +6,11 @@
 	<% end %>
 </h1>
 
-<% if current_cardlist.new_record? %>
-  <h2>Use Search to add cards.</h2>
+<% if current_cardlist.new_record? || current_cardlist.cardlist_items.empty? %>
+  <h2>Use Search and click <%= image_tag "/images/add.png", :class => "inline_add_button" %> to add cards.</h2>
 <% else %>
-	<h2><%= current_cardlist.title %></h2>
+	<h2><span class="cardlist_title" id = "<%= current_cardlist.id %>"><%= current_cardlist.title %></span></h2>
+	<%= link_to "Rename this cardlist", "#", :id => "edit_title_link" %>
 	<ul id="cardlist">
 		<%= form_tag "#", :autocomplete => "off" do %>
   		<%= render :partial => "home/cardlist_item", :collection => current_cardlist.cardlist_items.sort{ |a,b| a.card.title <=> b.card.title } %>
@@ -19,9 +20,9 @@
 
 <% if current_cardlist && current_cardlist.cardlist_items.any? %>
 	<div class = "button_container">
-	    <%= form_tag("/cardlists/#{current_cardlist.id.to_s}.pdf", :method => "get") do %>
-	      <%= submit_tag "Print" , :class => "button" %>
-	    <% end %>
+		<%= form_tag("/cardlists/#{current_cardlist.id.to_s}.pdf", :method => "get") do %>
+			<%= submit_tag "Print" , :class => "button" %>
+		<% end %>
 	</div>
 <% end %>
   

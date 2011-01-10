@@ -7,6 +7,7 @@ Swccgvkit::Application.routes.draw do
   
   post "cardlists/add_card", :to => "cardlists#add_card", :as => "add_card"
   post "cardlists/update_quantity", :to => "cardlists#update_quantity", :as => "update_quantity"
+  post "cardlists/update_title", :to => "cardlists#update_title", :as => "update_title"
   
   resources :cards
   resources :users

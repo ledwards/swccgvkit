@@ -21,6 +21,7 @@ function assign_login_callbacks() {
 
 function assign_current_cardlist_callbacks() {
 	update_on_blur(".quantity");
+	make_inline_editable(".cardlist_title", "#edit_title_link", "/cardlists/update_title");
 };
 
 function set_hint_text(selector, text) {
@@ -56,4 +57,20 @@ function update_on_blur(selector) {
 	});
 	
 	// bind the post action to pressing enter as well
+};
+
+function make_inline_editable(target_selector, link_selector, post_url) {
+	$(target_selector).editable(post_url, {
+		event: "make_editable",
+		submit: 'ok',
+		callback: function(value, settings) {
+			var id = $(this).attr("id");
+			$("#saved_cardlist_" + id + " a").html(value);
+		}
+	});
+	$(link_selector).click(function() {
+		$(target_selector).trigger('make_editable');
+		$(target_selector + " input").select();
+		return false;
+	});
 };

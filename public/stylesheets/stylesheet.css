@@ -223,3 +223,6 @@ div#current_cardlist li { margin-left: 5px; }
 
 #search_results a.title { font-size: 14px; }
 #search_results p.date { margin-top: 10px; }
+
+a#edit_title_link { text-align: center; margin-left: 78px; }
+.inline_add_button { margin-bottom: -4px; margin-left: 2px; }

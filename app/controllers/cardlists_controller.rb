@@ -1,5 +1,5 @@
 class CardlistsController < ApplicationController
-  load_and_authorize_resource :except => ["add_card", "update_quantity"]
+  load_and_authorize_resource :except => ["add_card", "update_quantity", "update_title"]
   
   before_filter :authenticate_user!
   helper_method :sort_column, :sort_direction
@@ -15,6 +15,17 @@ class CardlistsController < ApplicationController
                 :layout => "print.html.erb",
                 :stylesheets => "print"
       end
+    end
+  end
+  
+  def update_title
+    @cardlist = Cardlist.find(params[:id])
+    authorize!(:edit, @cardlist)
+    
+    @cardlist.update_attribute(:title, params[:value])
+    
+    respond_to do |format|
+      format.js { render :text => @cardlist.title }
     end
   end
   

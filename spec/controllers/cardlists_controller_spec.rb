@@ -3,6 +3,26 @@ require 'spec_helper'
 describe CardlistsController do
   fixtures :users, :roles, :cards, :cardlists, :cardlist_items
   
+  describe "update_title" do
+    before do
+      @user = users(:user)
+      sign_in @user
+      @cardlist = cardlists(:cardlist)
+      @user.cardlists << @cardlist
+    end
+    
+    it "should respond with the new title" do
+      new_title = "Foo"
+      post :update_title, :format => :js, :id => @cardlist.id, :value => new_title
+      response.body.should == new_title
+    end
+    
+    it "should change the title of the cardlist" do
+      expect { post :update_title, :format => :js, :id => @cardlist.id, :value => "Foo"; @cardlist.reload }.should change(@cardlist, :title)
+    end
+    
+  end
+  
   describe "add_card" do
     before do
       @user = users(:user)
