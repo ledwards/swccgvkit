@@ -1,11 +1,17 @@
 class CardsController < ApplicationController
   before_filter :authenticate_user!
   load_and_authorize_resource
+  skip_authorize_resource :only => [:show, :index]
   respond_to :html, :xml
   helper_method :sort_column, :sort_direction
   
   def index
-    @cards = Card.search(params[:search]).expansion(params[:expansion]).side(params[:side]).order(sort_column + ' ' + sort_direction).paginate(:per_page => 20, :page => params[:page])
+    if request.format.symbol == :xml
+      @cards = Card.all
+    else
+      @cards = Card.search(params[:search]).expansion(params[:expansion]).side(params[:side]).order(sort_column + ' ' + sort_direction).paginate(:per_page => 20, :page => params[:page])
+    end
+    
     respond_with @cards
   end
 
