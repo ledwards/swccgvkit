@@ -1,6 +1,7 @@
 class CardsController < ApplicationController
-  before_filter :authenticate_user!
-  load_and_authorize_resource, :except => [:show, :index]
+  before_filter :authenticate_user!, :except => [:show, :index]
+  load_and_authorize_resource
+  skip_authorize_resource :only => [:show, :index]
   respond_to :html, :xml
   helper_method :sort_column, :sort_direction
   
