@@ -5,7 +5,6 @@ tmp/**/*
 tmp/*
 config/s3.yml
 config/database.yml
-config/deploy.rb
 public/images/psd
 public/images/vslips/*
 public/images/vslips/**/*
