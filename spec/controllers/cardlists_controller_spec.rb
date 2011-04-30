@@ -20,6 +20,15 @@ describe CardlistsController do
     it "should change the title of the cardlist" do
       expect { post :update_title, :format => :js, :id => @cardlist.id, :value => "Foo"; @cardlist.reload }.should change(@cardlist, :title)
     end
+
+    it "assigns the filtering ivars" do
+      post :update_title, :format => :js, :id => @cardlist.id, :value => "Foo", :search => "search term", :direction => "dir", :sort => "title", :side => "Dark", :expansion => "Premiere"
+      assigns[:search].should == "search term"
+      assigns[:direction].should == "dir"
+      assigns[:sort].should == "title"
+      assigns[:side].should == "Dark"
+      assigns[:expansion].should == "Premiere"
+    end
     
   end
   
@@ -68,6 +77,15 @@ describe CardlistsController do
       it "adds a card to the existing cardlist" do
         expect { post :add_card, @valid_params_with_cardlist; @cardlist.reload }.should change(@cardlist, :card_count).by(1)
       end
+
+      it "assigns the filtering ivars" do
+        post :add_card, @valid_params_with_cardlist.merge({:search => "search term", :direction => "dir", :sort => "title", :side => "Dark", :expansion => "Premiere"})
+        assigns[:search].should == "search term"
+        assigns[:direction].should == "dir"
+        assigns[:sort].should == "title"
+        assigns[:side].should == "Dark"
+        assigns[:expansion].should == "Premiere"
+      end
     end
   end
   
@@ -97,6 +115,14 @@ describe CardlistsController do
         expect { post(:update_quantity, :format => :js, :cardlist_item_id => @cardlist_item.id, :quantity => "foo"); @cardlist_item.reload }.should_not change(@cardlist_item, :quantity)
       end
     end
+
+    it "assigns the filtering ivars" do
+      post :update_quantity, :format => :js, :cardlist_item_id => @cardlist_item.id, :quantity => "foo", :search => "search term", :direction => "dir", :sort => "title", :side => "Dark", :expansion => "Premiere"
+      assigns[:search].should == "search term"
+      assigns[:direction].should == "dir"
+      assigns[:sort].should == "title"
+      assigns[:side].should == "Dark"
+      assigns[:expansion].should == "Premiere"
+    end
   end
-  
 end

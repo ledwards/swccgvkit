@@ -12,12 +12,13 @@ module ApplicationHelper
   
   def card_params
     {
-      :search => params[:search],
-      :direction => params[:direction],
-      :expansion => params[:expansion],
-      :side => params[:side],
-      :sort => params[:sort],
+      :search => @search,
+      :direction => @direction,
+      :expansion => @expansion,
+      :side => @side,
+      :sort => @sort,
+      :cardlist_id => (@cardlist.id if @cardlist),
       :page => nil
-    }
+    }.reject{ |k,v| (v.blank? && k != :page) || k == :utf8 || k == :authenticity_token }
   end
 end

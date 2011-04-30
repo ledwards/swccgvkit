@@ -11,9 +11,9 @@
 </div>
 
 <div class="center">
-	<%= render "shared/search_details" %>
-	<div class="search_results" id ="search_results">
-		<%= render :partial => "search_result", :collection => @cards %>
-	</div>
-	<p><%= will_paginate @cards %></p>
+  <%= render "shared/search_details" %>
+  <div class="search_results" id ="search_results">
+    <%= render :partial => "search_result", :collection => @cards %>
+  </div>
+  <p><%= will_paginate @cards %></p>
 </div>

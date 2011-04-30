@@ -1,24 +1,29 @@
 <div class = "search-result-wrapper">
-	<%= form_tag add_card_path, :format => :js, :remote => true do %>
-		<%= hidden_field_tag :card_id, search_result.id, :id => nil %>
-		<%= hidden_field_tag :cardlist_id, @cardlist ? @cardlist.id : "", { :id => nil, :class => "cardlist_id_hidden_field" } %>
-		<div class = "results-thumbnail">
-			<%= link_to image_tag(search_result.card_image.url(:thumbnail)), card_path(search_result) %>			
-		</div>
-		<div class = "results-name">
-			<%= link_to search_result.truncated_formatted_title(30), card_path(search_result), :class => "title" %>
-			<p>
-				<%= link_to search_result.expansion, card_params.merge(:expansion => search_result.expansion) %>
-			</p>
-			<p>
-				<%= link_to "#{search_result.side} Side", card_params.merge(:side => search_result.side) %>
-			</p>
-			<p class="date">
-				Last update: <%= l search_result.updated_at.localtime, :format => :without_time %>
-			</p>
-		</div>
-		<div class = "results-add">
-			<%= image_submit_tag "/images/add.png", :class => "add_button", :value => "add" %>
-		</div>
-	<% end %>
+  <%= form_tag add_card_path, :format => :js, :remote => true do %>
+    <%= hidden_field_tag :card_id, search_result.id, :id => nil %>
+    <%= hidden_field_tag :search, @search if @search.present? %>
+    <%= hidden_field_tag :direction, @direction if @direction.present? %>
+    <%= hidden_field_tag :sort, @sort if @sort.present? %>
+    <%= hidden_field_tag :side, @side if @side.present?%>
+    <%= hidden_field_tag :expansion, @expansion if @expansion.present? %>
+    <%= hidden_field_tag :cardlist_id, @cardlist ? @cardlist.id : params[:cardlist_id], { :id => nil, :class => "cardlist_id_hidden_field" } %>
+    <div class = "results-thumbnail">
+      <%= link_to image_tag(search_result.card_image.url(:thumbnail)), card_path(search_result) %>
+    </div>
+    <div class = "results-name">
+      <%= link_to search_result.truncated_formatted_title(30), card_path(search_result), :class => "title" %>
+      <p>
+        <%= link_to search_result.expansion, card_params.merge(:expansion => search_result.expansion) %>
+      </p>
+      <p>
+        <%= link_to "#{search_result.side} Side", card_params.merge(:side => search_result.side) %>
+      </p>
+      <p class="date">
+        Last update: <%= l search_result.updated_at.localtime, :format => :without_time %>
+      </p>
+    </div>
+    <div class = "results-add">
+      <%= image_submit_tag "/images/add.png", :class => "add_button", :value => "add" %>
+    </div>
+  <% end %>
 </div>

@@ -6,4 +6,12 @@ class ApplicationController < ActionController::Base
     flash[:alert] = exception.message
     redirect_to root_url
   end
+
+  def preserve_params
+    @search = params[:search]
+    @direction = params[:direction]
+    @sort = params[:sort]
+    @side = params[:side]
+    @expansion = params[:expansion]
+  end
 end

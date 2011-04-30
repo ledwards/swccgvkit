@@ -19,7 +19,7 @@ class Cardlist < ActiveRecord::Base
       cardlist_item.update_attributes({ :quantity => 1, :card_id => card.id })
     else
       cardlist_item.update_attribute(:quantity, cardlist_item.quantity + 1)
-    end    
+    end
   end
   
   protected

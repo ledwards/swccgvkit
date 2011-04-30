@@ -7,8 +7,8 @@ class CardlistsController < ApplicationController
   def show
     @cardlist = Cardlist.find(params[:id])
     authorize!(:show, @cardlist)
-    
-    respond_to do |format|      
+
+    respond_to do |format|
       format.pdf do
         render  :pdf => "#{@cardlist.title}",
                 :template => "cardlists/show.html.erb",
@@ -21,6 +21,7 @@ class CardlistsController < ApplicationController
   def update_title
     @cardlist = Cardlist.find(params[:id])
     authorize!(:edit, @cardlist)
+    preserve_params 
     
     @cardlist.update_attribute(:title, params[:value])
     
@@ -32,11 +33,10 @@ class CardlistsController < ApplicationController
   def add_card
     @cardlist = Cardlist.find_by_id(params[:cardlist_id]) || Cardlist.create(:user_id => current_user.id)
     authorize!(:edit, @cardlist)
+    preserve_params 
     
     @card = Card.find(params[:card_id])
     @cardlist.add_card(@card)
-    
-    session[:current_cardlist_id] = @cardlist.id
     
     respond_to do |format|
       format.js { render :layout => false }
@@ -46,12 +46,13 @@ class CardlistsController < ApplicationController
   def update_quantity
     @cardlist_item = CardlistItem.find(params[:cardlist_item_id])
     authorize!(:edit, @cardlist_item)
+    preserve_params 
 
     @cardlist_item.update_attribute(:quantity, params[:quantity]) if params[:quantity].to_i > 0
-    
     @cardlist = @cardlist_item.cardlist
     respond_to do |format|
       format.js { render :layout => false }
     end
   end
+
 end

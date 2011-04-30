@@ -1,14 +1,14 @@
 <div class="header">
-	<div id="notice_box">
-		<%= image_tag '/images/ajax-loader.gif', :id => 'spinner', :style => "display:none;" %>
-		<p id="notice">
-			<%= flash[:alert] || flash[:notice] || "Welcome, #{current_user.email}" %>
-			</p>
-	</div>
-	
-	<a href="/" id="logo">SWCCG vkit Online - Create custom virtual card pages for Star Wars CCG.</a>
-	
-	<%= render :partial => "shared/search_pane" %>
-	
-	<p id = "links"><%= render :partial => "shared/links" %></p>
+  <div id="notice_box">
+    <%= image_tag '/images/ajax-loader.gif', :id => 'spinner', :style => "display:none;" %>
+    <p id="notice">
+      <%= flash[:alert] || flash[:notice] || "Welcome, #{current_user.email}" %>
+      </p>
+  </div>
+  
+  <a href="/" id="logo">SWCCG vkit Online - Create custom virtual card pages for Star Wars CCG.</a>
+  
+  <%= render :partial => "shared/search_pane" %>
+  
+  <p id = "links"><%= render :partial => "shared/links" %></p>
 </div>

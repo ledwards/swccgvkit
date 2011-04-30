@@ -36,4 +36,6 @@ Swccgvkit::Application.configure do
   
   config.vslip_image_import_path = "#{Rails.root}/../shared/vslips"
   config.card_image_import_path = "#{Rails.root}/../shared/cards"
+
+  Capybara.default_wait_time = 10  
 end

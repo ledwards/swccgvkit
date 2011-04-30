@@ -1,13 +1,20 @@
 <h1>Cardlist History</h1>
 <div id="cardlists">
-	<% if current_user.cardlists.empty? %>
-  		<h2>No saved cardlists</h2>
- 	<% else %>
-		<ul>
-			<%= render :partial => "home/saved_cardlist", :collection => current_user.cardlists.reverse.first(10) %>
-		</ul>
-	<% end %>
-	<div class = "button_container">
-		<%= button_to "New", { :controller => "home", :action => "index", :params => params }, { :class => "button", :method => :get } %>
-	</div>
+  <% if current_user.cardlists.empty? %>
+      <h2>No saved cardlists</h2>
+   <% else %>
+    <ul>
+      <%= render :partial => "home/saved_cardlist", :collection => current_user.cardlists.reverse.first(10) %>
+    </ul>
+  <% end %>
+  <div class = "button_container">
+    <%= form_tag root_path, :method => "get" do %>
+      <%= hidden_field_tag :search, @search if @search.present? %>
+      <%= hidden_field_tag :direction, @direction if @direction.present? %>
+      <%= hidden_field_tag :sort, @sort if @sort.present? %>
+      <%= hidden_field_tag :side, @side if @side.present?%>
+      <%= hidden_field_tag :expansion, @expansion if @expansion.present? %>
+      <%= submit_tag "New", :name => nil, :class => "button" %>
+    <% end %>
+  </div>
 </div>
