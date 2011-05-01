@@ -11,7 +11,7 @@ gem "capistrano"
 gem "devise"
 gem 'jquery-rails'
 gem "paperclip"
-gem 'princely'
+gem "wicked_pdf"
 gem 'will_paginate', '~> 3.0.beta'
 
 group :test do

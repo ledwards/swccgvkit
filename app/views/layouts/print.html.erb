@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <%= stylesheet_link_tag "#{@host_with_port}/stylesheets/print.css" %>
 </head>
 <body>
-	<div id="first_page">
-		<div id="header">
-			<%= image_tag "vkit_logo.gif" %>
-			<p>http://www.swccgvkit.com</p>
-			<h2>Tips for proper printing:</h2>
-			<%= image_tag "vkit_printing_hint.png" %>
-		</div>
-	</div>
-	<%= yield %>
+  <div id="first_page">
+    <div id="header">
+      <%= image_tag "#{@host_with_port}/images/vkit_logo.gif" %>
+      <p><%= @host %></p>
+      <h2>Tips for proper printing:</h2>
+      <%= image_tag "#{@host_with_port}/images/vkit_printing_hint.png" %>
+    </div>
+  </div>
+  <%= yield %>
 </body>
 </html>

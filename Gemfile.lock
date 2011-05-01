@@ -114,7 +114,6 @@ GEM
       activesupport
     pg (0.10.0)
     polyglot (0.3.1)
-    princely (1.2.5)
     rack (1.2.1)
     rack-mount (0.6.13)
       rack (>= 1.0.0)
@@ -164,6 +163,7 @@ GEM
     vcr (1.4.0)
     warden (1.0.3)
       rack (>= 1.0.0)
+    wicked_pdf (0.6.0)
     will_paginate (3.0.pre2)
     xml-simple (1.0.12)
     xpath (0.1.2)
@@ -192,10 +192,10 @@ DEPENDENCIES
   mysql
   paperclip
   pg
-  princely
   rails (= 3.0.3)
   rspec-rails
   ruby-debug
   spork
   vcr
+  wicked_pdf
   will_paginate (~> 3.0.beta)

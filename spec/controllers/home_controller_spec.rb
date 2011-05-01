@@ -10,7 +10,7 @@ describe HomeController do
     end
 
     it "is successful" do
-      get 'index'      
+      get 'index'
       response.should be_success
     end
 
@@ -23,5 +23,4 @@ describe HomeController do
       assigns[:expansion].should == "Premiere"
     end
   end
-
 end
