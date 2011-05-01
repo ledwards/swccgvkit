@@ -12,28 +12,36 @@ class Card < ActiveRecord::Base
     :default_url => "/images/missing.png",
     :styles => { :full_size =>"100%", :thumbnail =>"50" },
     :storage => :s3,
-    :s3_credentials => "#{Rails.root}/config/s3.yml",
+    :bucket => Swccgvkit::Application.config.s3_bucket,
+    :s3_credentials => {:access_key_id => ENV["S3_KEY"],
+                        :secret_access_key => ENV["S3_SECRET"]},
     :path => "card_images/:id/:style.:extension"
     
   has_attached_file :vslip_image,
     :default_url => "/images/missing.png",
     :styles => { :full_size => "350" },
     :storage => :s3,
-    :s3_credentials => "#{Rails.root}/config/s3.yml",
+    :bucket => Swccgvkit::Application.config.s3_bucket,
+    :s3_credentials => {:access_key_id => ENV["S3_KEY"],
+                        :secret_access_key => ENV["S3_SECRET"]},
     :path => "vslip_images/:id/:style.:extension"
     
   has_attached_file :card_back_image,
     :default_url => "/images/missing.png",
     :styles => { :full_size => "100%", :thumbnail =>"50" },
     :storage => :s3,
-    :s3_credentials => "#{Rails.root}/config/s3.yml",
+    :bucket => Swccgvkit::Application.config.s3_bucket,
+    :s3_credentials => {:access_key_id => ENV["S3_KEY"],
+                        :secret_access_key => ENV["S3_SECRET"]},
     :path => "card_back_images/:id/:style.:extension"
     
   has_attached_file :vslip_back_image,
     :default_url => "/images/missing.png",
     :styles => { :full_size => "350" },
     :storage => :s3,
-    :s3_credentials => "#{Rails.root}/config/s3.yml",
+    :bucket => Swccgvkit::Application.config.s3_bucket,
+    :s3_credentials => {:access_key_id => ENV["S3_KEY"],
+                        :secret_access_key => ENV["S3_SECRET"]},
     :path => "vslip_back_images/:id/:style.:extension"
     
   scope :virtual, lambda {

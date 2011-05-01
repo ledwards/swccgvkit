@@ -34,6 +34,8 @@ Swccgvkit::Application.configure do
   Paperclip.options[:command_path] = "/opt/local/bin"
   Paperclip.options[:swallow_stderr] = false
   
+  config.s3_bucket = "ledwards-swccgvkit-test"
+  
   config.vslip_image_import_path = "#{Rails.root}/../shared/vslips"
   config.card_image_import_path = "#{Rails.root}/../shared/cards"
 

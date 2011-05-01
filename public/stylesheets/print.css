@@ -9,6 +9,9 @@ p#footer { text-align: center; }
 .qty { text-align: right; }
 .title { width: 50%; text-align: left; }
 .expansion, .side, .updated { text-align: center; }
+table { width: 100%; }
 table td { margin: 5px; }
+table th.title { width: 50%; }
+table th.expansion { width: 25%; }
 
 @page { margin: .45in; }

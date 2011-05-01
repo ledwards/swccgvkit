@@ -40,6 +40,8 @@ Swccgvkit::Application.configure do
   # Enable threaded mode
   # config.threadsafe!
 
+  config.s3_bucket = "ledwards-swccgvkit-staging"
+
   config.vslip_image_import_path = "#{Rails.root}/../../shared/vslips"
   config.card_image_import_path = "#{Rails.root}/../../shared/cards"
 end
