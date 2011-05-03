@@ -13,6 +13,7 @@ class CardlistsController < ApplicationController
         @host_with_port = "#{request.protocol}#{request.host_with_port}"
         @host = "#{request.protocol}#{request.host}"
         render :pdf => "#{@cardlist.title}.pdf",
+                :wkhtmltopdf => Rails.root.join('lib', 'wkhtmltopdf-amd64').to_s,
                 :template => "cardlists/show.html.erb",
                 :layout => "print.html",
                 :user_style_sheet => "#{request.protocol}#{request.host_with_port}/stylesheets/print.css",
