@@ -27,4 +27,9 @@ Swccgvkit::Application.configure do
   
   config.vslip_image_import_path = "#{Rails.root}/../shared/vslips"
   config.card_image_import_path = "#{Rails.root}/../shared/cards"
+
+  config.after_initialize do
+    WICKED_PDF[:exe_path] = "/usr/local/bin/wkhtmltopdf"
+  end
+  
 end
