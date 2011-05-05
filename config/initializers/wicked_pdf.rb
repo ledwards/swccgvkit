@@ -14,7 +14,7 @@ WICKED_PDF = {
 }
 
 class WickedPdf
-  @@config = {}
+  @@config = WICKED_PDF
   cattr_accessor :config
 
   def initialize(wkhtmltopdf_binary_path = nil)
