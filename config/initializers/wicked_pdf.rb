@@ -10,8 +10,7 @@ require 'wicked_pdf_railtie'
 require 'wicked_pdf_tempfile'
 
 WICKED_PDF = {
-  :exe_path => Rails.root.join('bin', 'wkhtmltopdf-amd64').to_s,
-  :show_as_html => params[:debug]
+  :exe_path => Rails.root.join('bin', 'wkhtmltopdf-amd64').to_s
 }
 
 class WickedPdf

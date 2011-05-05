@@ -18,7 +18,8 @@ class CardlistsController < ApplicationController
                 :user_style_sheet => "#{request.protocol}#{request.host_with_port}/stylesheets/print.css",
                 :page_size => "Letter",
                 :dpi => 300,
-                :low_quality => false
+                :low_quality => false,
+  :show_as_html => params[:debug]
       end
     end
   end
