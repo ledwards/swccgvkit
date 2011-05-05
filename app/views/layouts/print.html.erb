@@ -6,10 +6,10 @@
 <body>
   <div id="first_page">
     <div id="header">
-      <%= image_tag "#{Rails.root}/public/images/vkit_logo.gif" %>
+      <%= wicked_pdf_image_tag "vkit_logo.gif" %>
       <p><%= @host %></p>
       <h2>Tips for proper printing:</h2>
-      <%= image_tag "#{Rails.root}/public/images/vkit_printing_hint.png" %>
+      <%= wicked_pdf_image_tag "vkit_printing_hint.png" %>
     </div>
   </div>
   <%= yield %>
