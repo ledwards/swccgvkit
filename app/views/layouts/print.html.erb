@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <%= stylesheet_link_tag "#{@host_with_port}/stylesheets/print.css" %>
+  <%= stylesheet_link_tag "#{@host_with_port}/stylesheets/print.css", :media => "print" %>
 </head>
 <body>
   <div id="first_page">
     <div id="header">
+      <%= image_tag "#{Rails.root}/public/images/vkit_logo.gif" %>
       <p><%= @host %></p>
       <h2>Tips for proper printing:</h2>
+      <%= image_tag "#{Rails.root}/public/images/vkit_printing_hint.png" %>
     </div>
   </div>
   <%= yield %>

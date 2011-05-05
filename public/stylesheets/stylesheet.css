@@ -13,7 +13,7 @@ h1, h2, table#cards th a { font: 18px/20px "Lucida Sans",Helvetica, Arial, sans-
 h3 { color: #FFDE71; font: 11px/16px 'Lucida Grande','Lucida Sans Unicode',Verdana, sans-serif; }
 table#cards th a:hover { color: #fff; }
 div.header { z-index: 5; position: relative; width: auto; height: 65px; top: 0px; margin-bottom: 15px; padding-left: 15px; padding-bottom: 10px;
-			border-bottom: 1px solid #333; margin-top: -10px; background: #242424; }
+      border-bottom: 1px solid #333; margin-top: -10px; background: #242424; }
 div.left, div.right { background: #434343 url(/images/box_bottom.gif) left bottom no-repeat; position: relative; font: 11px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-serif; color: #898989; padding: 38px 10px 15px 10px; width: 263px; }
 div.left { min-height: 50px; float: left;  margin-right: 20px; margin-left: 30px;  margin-bottom: 35px; }
 div.right { min-height: 25px; float: right;  margin-left: 20px; margin-right: 30px;  margin-bottom: 35px; }
@@ -23,34 +23,34 @@ div.center h1{ display: none }
 div.right form { clear: none; display: inline;}
 
 a#logo { 
-		background: transparent url(/images/vkit_logo_sm.gif) no-repeat scroll left top;
-		border: medium none;
-		float: left;
-		font-size: 0;
-		height: 69px;
-		margin-top: 6px;
-		text-indent: -9009px;
-		width: 241px;
-		z-index: 90;
+    background: transparent url(/images/vkit_logo_sm.gif) no-repeat scroll left top;
+    border: medium none;
+    float: left;
+    font-size: 0;
+    height: 69px;
+    margin-top: 6px;
+    text-indent: -9009px;
+    width: 241px;
+    z-index: 90;
 }
 
 .header #search_box { float: left; max-width: 420px; margin: 30px 0 0 15px; }
 .button_container .button { float: left; margin-top: 25px; margin-left: 10px; }
 
 #notice_box {
-	background:transparent url(/images/notice.png) no-repeat left top;
-	position: relative;
-	float: right;
-	margin-top: -3px;
-	z-index: 3;
-	text-align: center;
-	font: 11px "Lucida Grande", "Lucida Sans Unicode", Verdana; color: #ffde71; 
-	width: 200px;
-	margin-top: 30px;
-	padding-right: 30px;
-	padding-top: 6px;
-	height: 23px;
-	margin: 28px 20px 0 0;
+  background:transparent url(/images/notice.png) no-repeat left top;
+  position: relative;
+  float: right;
+  margin-top: -3px;
+  z-index: 3;
+  text-align: center;
+  font: 11px "Lucida Grande", "Lucida Sans Unicode", Verdana; color: #ffde71; 
+  width: 200px;
+  margin-top: 30px;
+  padding-right: 30px;
+  padding-top: 6px;
+  height: 23px;
+  margin: 28px 20px 0 0;
 }
 
 #notice_box a { margin-left: 5px; }
@@ -84,7 +84,7 @@ div.left ul { margin-left: 10px; }
 #saved_cardlists { width: 200px; }
 .search-results { text-align: center; margin: 0px; min-height: 450px;}
 .search-result-wrapper { width: 345px; text-align: center; margin: 0 auto; font: 11px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-serif;
-	color: #898989; height: 32px; background: url(/images/search_result_bg.gif) top left no-repeat; }
+  color: #898989; height: 32px; background: url(/images/search_result_bg.gif) top left no-repeat; }
 .results_thumbnail { float: left; width: 25px; margin: -2px 10px; }
 .results_thumbnail input { float: left; height: 35px; }
 .results_name { float: left; width: 240px; margin: 0 5px; text-align: left;  font: 11px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-serif; color: #CCCCCC}
@@ -96,9 +96,9 @@ div.left ul { margin-left: 10px; }
 #current_item { color: #ffde71 }
 
 input.button { border: none; background: url(/images/button.png) 0px 0px no-repeat;
-	font-family: "Lucida Grande","Lucida Sans Unicode",Arial,Verdana,sans-serif;
-	font-size: 12px; color: #fad575;  padding-bottom: 7px; text-align: center;
-	height:30px; width: 84px; vertical-align: middle; }
+  font-family: "Lucida Grande","Lucida Sans Unicode",Arial,Verdana,sans-serif;
+  font-size: 12px; color: #fad575;  padding-bottom: 7px; text-align: center;
+  height:30px; width: 84px; vertical-align: middle; }
 
 input.button:hover { background-position: 0px -29px; color: #fff; cursor: pointer; }
 
@@ -109,9 +109,9 @@ input.button:hover { background-position: 0px -29px; color: #fff; cursor: pointe
 
 .button_container { margin: 0 auto; float: left; }
 #advanced_search { width: 345px; text-align: center; margin: 0 auto;
-	font: 11px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-serif;
-	color: #898989; height: 6px; padding: 5px;
-	background: url(/images/advanced_search.gif) top left no-repeat; margin-bottom: 5px; }
+  font: 11px 'Lucida Grande','Lucida Sans Unicode',Arial,Verdana,sans-serif;
+  color: #898989; height: 6px; padding: 5px;
+  background: url(/images/advanced_search.gif) top left no-repeat; margin-bottom: 5px; }
 #footer { width: 200px; margin: 0 auto; margin-top: 20px; padding-bottom: 25px; border-top-width:2px; border-top-style:solid; border-top-color:#ccc; }
 
 .prototip .darkgrey .content { background: #555 !important; }
@@ -192,17 +192,17 @@ div.results-name { margin-top: 5px; }
 .results-add a { margin-top: 32px; float: left; }
 
 #user_email, #user_password, #user_password_confirmation {
-	background: url("/images/login_box_bg.png") no-repeat scroll left top transparent;
-	border: medium none;
-	color: #CCCCCC;
-	display: block;
-	font: 10px "Lucida Grande","Lucida Sans Unicode",Verdana;
-	height: 27px;
-	letter-spacing: 1px;
-	margin: 0 auto 10px;
-	overflow: hidden;
-	text-align: center;
-	width: 222px;
+  background: url("/images/login_box_bg.png") no-repeat scroll left top transparent;
+  border: medium none;
+  color: #CCCCCC;
+  display: block;
+  font: 10px "Lucida Grande","Lucida Sans Unicode",Verdana;
+  height: 27px;
+  letter-spacing: 1px;
+  margin: 0 auto 10px;
+  overflow: hidden;
+  text-align: center;
+  width: 222px;
 }
 
 #welcome_login input.text-field, #welcome_signup input.text-field { margin-top: 15px; margin-bottom: 15px; }
