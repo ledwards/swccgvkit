@@ -11,6 +11,7 @@ gem "capistrano"
 gem "devise"
 gem 'jquery-rails'
 gem "paperclip"
+gem "wicked_pdf"
 gem "wkhtmltopdf"
 gem 'will_paginate', '~> 3.0.beta'
 

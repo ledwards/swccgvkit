@@ -163,6 +163,7 @@ GEM
     vcr (1.4.0)
     warden (1.0.3)
       rack (>= 1.0.0)
+    wicked_pdf (0.6.0)
     will_paginate (3.0.pre2)
     wkhtmltopdf (0.1.2)
     xml-simple (1.0.12)
@@ -197,5 +198,6 @@ DEPENDENCIES
   ruby-debug
   spork
   vcr
+  wicked_pdf
   will_paginate (~> 3.0.beta)
   wkhtmltopdf
