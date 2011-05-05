@@ -9,10 +9,6 @@ require 'active_support/core_ext/class/attribute_accessors'
 require 'wicked_pdf_railtie'
 require 'wicked_pdf_tempfile'
 
-WICKED_PDF = {
-  :exe_path => Rails.root.join('bin', 'wkhtmltopdf-amd64').to_s
-}
-
 class WickedPdf
   @@config = {}
   cattr_accessor :config
