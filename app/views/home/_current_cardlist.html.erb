@@ -20,7 +20,7 @@
 
 <% if current_cardlist && current_cardlist.cardlist_items.any? %>
   <div class = "button_container">
-    <%= form_tag("/cardlists/#{current_cardlist.id.to_s}.pdf", :method => "get") do %>
+    <%= form_tag("/cardlists/#{current_cardlist.id.to_s}.pdf", :method => "get", :target => "_blank") do %>
       <%= submit_tag "Print" , :class => "button" %>
     <% end %>
   </div>
