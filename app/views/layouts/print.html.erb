@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <%= stylesheet_link_tag "print" %>
-</head>
-<body>
-  <div id="first_page">
-    <div id="header">
-      <%= image_tag "http://ledwards-swccgvkit-production.s3.amazonaws.com/static/vkit_logo.gif" %>
-      <p><%= @host %></p>
-      <h2>Tips for proper printing:</h2>
-      <%= image_tag "http://ledwards-swccgvkit-production.s3.amazonaws.com/static/vkit_printing_hint.png" %>
+  <head>
+    <% if ENV["RACK_ENV"] == "development" %>
+      <%= stylesheet_link_tag "http://localhost:3000/stylesheets/print.css", :media => "print" %>
+    <% else %>
+      <%= stylesheet_link_tag "print" %>
+    <% end %>
+  </head>
+  <body>
+    <div id="first_page">
+      <div id="header">
+        <%= image_tag "http://ledwards-swccgvkit-production.s3.amazonaws.com/static/vkit_logo.gif" %>
+        <p><%= @host %></p>
+        <h2>Tips for proper printing:</h2>
+        <%= image_tag "http://ledwards-swccgvkit-production.s3.amazonaws.com/static/vkit_printing_hint.png" %>
+      </div>
     </div>
-  </div>
-  <%= yield %>
-</body>
+    <%= yield %>
+  </body>
 </html>

@@ -17,7 +17,8 @@ class CardlistsController < ApplicationController
                 :page_size => "Letter",
                 :dpi => 300,
                 :margin => {:left => 5 },
-                :low_quality => false
+                :low_quality => false,
+                :show_as_html => params[:debug]
       end
     end
   end
