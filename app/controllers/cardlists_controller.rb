@@ -16,7 +16,7 @@ class CardlistsController < ApplicationController
                 :layout => "print.html",
                 :page_size => "Letter",
                 :dpi => 300,
-                :margin => {:left => 4.5, :right => 4.5},
+                :margin => {:left => 5 },
                 :low_quality => false
       end
     end
