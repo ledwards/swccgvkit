@@ -15,7 +15,6 @@ class CardlistsController < ApplicationController
         render :pdf => "#{@cardlist.title}.pdf",
                 :template => "cardlists/show.html.erb",
                 :layout => "print.html",
-                :user_style_sheet => "#{request.protocol}#{request.host_with_port}/stylesheets/print.css",
                 :page_size => "Letter",
                 :dpi => 300,
                 :margin => {:left => 4.5, :right => 4.5},
