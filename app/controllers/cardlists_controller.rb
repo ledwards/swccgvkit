@@ -10,7 +10,6 @@ class CardlistsController < ApplicationController
 
     respond_to do |format|
       format.pdf do
-        @host_with_port = "#{request.protocol}#{request.host_with_port}"
         @host = "#{request.protocol}#{request.host}"
         render :pdf => "#{@cardlist.title}.pdf",
                 :template => "cardlists/show.html.erb",

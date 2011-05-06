@@ -45,15 +45,5 @@ module Swccgvkit
 
     # Hack to make Paperclip work with Rails 3
     Paperclip::Railtie.insert
-
-    #For wicked_pdf
-    config.after_initialize do
-      ActionController::Base.asset_host = Proc.new do |source, request|
-        if request.format == 'pdf'
-          "file://#{Rails.root.join('public')}"
-        end
-      end
-    end
-
   end
 end

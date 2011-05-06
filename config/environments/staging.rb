@@ -44,4 +44,13 @@ Swccgvkit::Application.configure do
 
   config.vslip_image_import_path = "#{Rails.root}/../../shared/vslips"
   config.card_image_import_path = "#{Rails.root}/../../shared/cards"
+
+  #For wicked_pdf
+  config.after_initialize do
+    ActionController::Base.asset_host = Proc.new do |source, request|
+      if request.format == 'pdf'
+        "file://#{Rails.root.join('public')}"
+      end
+    end
+  end
 end
