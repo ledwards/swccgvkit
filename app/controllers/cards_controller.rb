@@ -12,6 +12,7 @@ class CardsController < ApplicationController
       @cards = Card.search(params[:search]).expansion(params[:expansion]).side(params[:side]).order(sort_column + ' ' + sort_direction).paginate(:per_page => 20, :page => params[:page])
     end
     
+    preserve_params
     respond_with @cards
   end
 

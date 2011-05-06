@@ -1,36 +1,36 @@
 <div id="image_header">
-	<%= image_tag "card_database.gif", {:alt => "Card Database", :id => ""} %>
+  <%= image_tag "card_database.gif", {:alt => "Card Database", :id => ""} %>
 </div>
 
 <div class="center">
-	<%= render "shared/search_details" %>
-	<% unless @cards.empty? %>
-		<table id="cards">
-			<tr>
-				<th>
-					<%= sortable "title" %>
-				</th>
-				<th>
-					<%= sortable "expansion" %>
-				</th>
-				<th>
-					<%= sortable "side" %>
-				</th>
-				<% if can? :manage, Card %>
-					<th>
-						<h2>Admin</h2>
-					</th>
-				<% end %>
-			</tr>
-			<%= render :partial => "card", :collection => @cards %>
-		</table>
-		<p><%= will_paginate @cards %></p>
-	
-		<% if can? :create, Card %>
-			<div id="admin_functions">
-				<h2>Admin functions:</h2>
-				<p><%= link_to 'Add a card', new_card_path %></p>
-			</div>
-		<% end %>
-	<% end %>
+  <%= render "shared/search_details" %>
+  <% unless @cards.empty? %>
+    <table id="cards">
+      <tr>
+        <th>
+          <%= sortable "title" %>
+        </th>
+        <th>
+          <%= sortable "expansion" %>
+        </th>
+        <th>
+          <%= sortable "side" %>
+        </th>
+        <% if can? :manage, Card %>
+          <th>
+            <h2>Admin</h2>
+          </th>
+        <% end %>
+      </tr>
+      <%= render :partial => "card", :collection => @cards %>
+    </table>
+    <p><%= will_paginate @cards %></p>
+  
+    <% if can? :create, Card %>
+      <div id="admin_functions">
+        <h2>Admin functions:</h2>
+        <p><%= link_to 'Add a card', new_card_path %></p>
+      </div>
+    <% end %>
+  <% end %>
 </div>

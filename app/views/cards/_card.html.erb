@@ -1,24 +1,24 @@
 <tr class="card">
-	<td>
-		<%= link_to card.formatted_title, card_path(card) %>
-	</td>
+  <td>
+    <%= link_to card.formatted_title, card_path(card) %>
+  </td>
 
-	<td>
-		<%= link_to card.expansion, cards_path(card_params.merge(:expansion => card.expansion)) %>
-	</td>
+  <td>
+    <%= link_to card.expansion, cards_path(card_params.merge(:expansion => card.expansion)) %>
+  </td>
 
-	<td>
-		<%= link_to card.side, cards_path(card_params.merge(:side => card.side)) %>
-	</td>
-		
-	<% if can?(:manage, card) %>
-		<td>
-			<% if can?(:edit, card) %>
-				<%= link_to "[Edit]", edit_card_path(card) %>
-			<% end %>
-			<% if can?(:delete, card) %>
-				<%= link_to '[Delete]', card, :confirm => 'Are you sure? This will remove the card from all decklists as well.', :method => :delete  %>
-			<% end %>
-		<% end %>
-	</td>
+  <td>
+    <%= link_to card.side, cards_path(card_params.merge(:side => card.side)) %>
+  </td>
+    
+  <% if can?(:manage, card) %>
+    <td>
+      <% if can?(:edit, card) %>
+        <%= link_to "[Edit]", edit_card_path(card) %>
+      <% end %>
+      <% if can?(:delete, card) %>
+        <%= link_to '[Delete]', card, :confirm => 'Are you sure? This will remove the card from all decklists as well.', :method => :delete  %>
+      <% end %>
+    <% end %>
+  </td>
 </tr>

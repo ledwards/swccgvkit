@@ -15,6 +15,16 @@ describe CardsController do
       get 'index', :page => 1
       assigns(:cards).map(&:title).should =~ Card.paginate(:page => 1, :order => 'title DESC').map(&:title)
     end
+
+    it "assigns the filtering ivars" do
+      sign_in users(:user)
+      get 'index', :search => "search term", :direction => "dir", :sort => "title", :side => "Dark", :expansion => "Premiere"
+      assigns[:search].should == "search term"
+      assigns[:direction].should == "dir"
+      assigns[:sort].should == "title"
+      assigns[:side].should == "Dark"
+      assigns[:expansion].should == "Premiere"
+    end
   end
 
   describe "GET 'new'" do
