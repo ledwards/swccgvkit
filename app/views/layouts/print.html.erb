@@ -6,10 +6,10 @@
 <body>
   <div id="first_page">
     <div id="header">
-      <%= "http://#{request.host}/images/vkit_logo.gif" %>
+      <%= image_tag "http://ledwards-swccgvkit-production.s3.amazonaws.com/static/vkit_logo.gif" %>
       <p><%= @host %></p>
       <h2>Tips for proper printing:</h2>
-      <%= "http://#{request.host}/images/vkit_printing_hint.png" %>
+      <%= image_tag "http://ledwards-swccgvkit-production.s3.amazonaws.com/static/vkit_printing_hint.png" %>
     </div>
   </div>
   <%= yield %>
