@@ -26,7 +26,7 @@ class CardlistsController < ApplicationController
   def update_title
     @cardlist = Cardlist.find(params[:id])
     authorize!(:edit, @cardlist)
-    preserve_params 
+    preserve_params
 
     @cardlist.update_attribute(:title, params[:value])
 
@@ -38,7 +38,7 @@ class CardlistsController < ApplicationController
   def add_card
     @cardlist = Cardlist.find_by_id(params[:cardlist_id]) || Cardlist.create(:user_id => current_user.id)
     authorize!(:edit, @cardlist)
-    preserve_params 
+    preserve_params
 
     @card = Card.find(params[:card_id])
     @cardlist.add_card(@card)
@@ -51,7 +51,7 @@ class CardlistsController < ApplicationController
   def update_quantity
     @cardlist_item = CardlistItem.find(params[:cardlist_item_id])
     authorize!(:edit, @cardlist_item)
-    preserve_params 
+    preserve_params
 
     @cardlist_item.update_attribute(:quantity, params[:quantity]) if params[:quantity].to_i > 0
     @cardlist = @cardlist_item.cardlist

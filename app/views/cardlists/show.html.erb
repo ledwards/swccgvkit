@@ -8,7 +8,7 @@
     <th class="side">Side</th>
     <th class="expansion">Expansion</th>
     
-    <% @cardlist.cardlist_items.each do |cli| %>
+    <% @cardlist.cardlist_items.sort_by{|c|c.card.vslip_image_file_size}.each do |cli| %>
       <tr>
         <td class="qty"><%= cli.quantity %>x</td>
         <td class="title"><%= cli.card.title %></td>
@@ -23,7 +23,7 @@
 </div>
 
 <div id="vslips">
-  <% @cardlist.cardlist_items.each do |cli| %>
+  <% @cardlist.cardlist_items.sort_by{|c|c.card.vslip_image_file_size}.each do |cli| %>
     <% if cli.card.has_vslip_image? %>
       <% cli.quantity.times do %>
         <%= image_tag cli.card.vslip_image.url(:full_size) %>

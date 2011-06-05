@@ -125,4 +125,23 @@ describe CardlistsController do
       assigns[:expansion].should == "Premiere"
     end
   end
+
+  describe "GET: show" do
+    before do
+      @user = users(:user)
+      sign_in @user
+      @cardlist = Factory.create(:cardlist, :user_id => @user.id)
+      
+    end
+
+    it "is successful" do
+      get :show, :id => @cardlist.id, :format => :pdf
+      response.should be_success
+    end
+
+    it "assigns the specified cardlist" do
+      get :show, :id => @cardlist.id, :format => :pdf
+      assigns(:cardlist).should == @cardlist
+    end
+  end
 end
