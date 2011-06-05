@@ -40,4 +40,13 @@ Swccgvkit::Application.configure do
   config.card_image_import_path = "#{Rails.root}/../shared/cards"
 
   Capybara.default_wait_time = 10  
+
+  config.after_initialize do
+    WICKED_PDF[:exe_path] = "/usr/local/bin/wkhtmltopdf"
+    ActionController::Base.asset_host = Proc.new do |source, request|
+      if request.format == 'pdf'
+        "http://#{Rails.root.join('public')}"
+      end
+    end
+  end
 end
