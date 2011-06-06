@@ -8,6 +8,15 @@
   <%= javascript_include_tag :defaults, "jquery.jeditable" %>
   <%= csrf_meta_tag %>
   
+<script type="text/javascript">
+  var uvOptions = {};
+  (function() {
+    var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
+    uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/Rz4ldo9qT46bjMXnG5pKag.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
+  })();
+</script>
+
 </head>
 <body class ="<%= params[:controller].gsub('/',' ') %>">
 
