@@ -9,7 +9,7 @@ class CardsController < ApplicationController
     if request.format.symbol == :xml
       @cards = Card.all
     else
-      @cards = Card.search(params[:search]).expansion(params[:expansion]).side(params[:side]).order(sort_column + ' ' + sort_direction).paginate(:per_page => 20, :page => params[:page])
+      @cards = Card.virtual.search(params[:search]).expansion(params[:expansion]).side(params[:side]).order(sort_column + ' ' + sort_direction).paginate(:per_page => 20, :page => params[:page])
     end
     
     preserve_params
