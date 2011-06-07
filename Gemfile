@@ -31,3 +31,7 @@ group :test do
   gem 'spork'
   gem "vcr"
 end
+
+group :production do
+  gem 'newrelic_rpm'
+end
