@@ -34,4 +34,5 @@ end
 
 group :production do
   gem 'newrelic_rpm'
+  gem 'hoptoad_notifier'
 end

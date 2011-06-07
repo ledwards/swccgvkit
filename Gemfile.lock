@@ -84,6 +84,9 @@ GEM
       json (~> 1.4.6)
       term-ansicolor (~> 1.0.5)
     highline (1.6.1)
+    hoptoad_notifier (2.4.11)
+      activesupport
+      builder
     i18n (0.5.0)
     jquery-rails (0.2.5)
       rails (~> 3.0)
@@ -189,6 +192,7 @@ DEPENDENCIES
   fakeweb
   fixture_builder
   gherkin
+  hoptoad_notifier
   jquery-rails
   launchy
   mysql
