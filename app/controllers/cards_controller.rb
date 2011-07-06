@@ -23,6 +23,7 @@ class CardsController < ApplicationController
 
   def new
     @card = Card.new
+    render :edit
   end
 
   def edit

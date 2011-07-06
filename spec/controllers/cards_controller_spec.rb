@@ -20,8 +20,11 @@ describe CardsController do
     end
 
     it "shows only virtual cards" do
-      Card.should_receive(:virtual)
+      match = Factory.create(:card, :expansion => "Virtual Set 1")
+      Factory.create(:card, :expansion => "Death Star II")
+      Card.stub_chain(:virtual, :search, :expansion, :side, :order, :paginate).and_return([match])
       get 'index'
+      assigns(:cards).should == [match]
     end
 
     it "assigns the filtering ivars" do
@@ -35,12 +38,19 @@ describe CardsController do
   end
 
   describe "GET 'new'" do
-    it "should be successful for any logged in admin" do
+    before do
       @admin = users(:admin)
-      @admin.has_role?(:admin).should be_true
       sign_in @admin
+    end
+
+    it "should be successful for any logged in admin" do
       get 'new'
       response.should be_success
+    end
+
+    it "renders the edit form" do
+      get 'new'
+      response.should render_template :edit
     end
   end
 
