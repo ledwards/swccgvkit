@@ -6,10 +6,12 @@ Feature: Admin manages cards
   
   Scenario: admin creates new cards
     Given a logged in admin
+    And a card with card type "Interrupt"
+    And a card with expansion "Death Star III"
     And I go to new card
-    And I fill in "card_title" with "Huge Explosion"
-    And I fill in "card_card_type" with "Interrupt"
-    And I fill in "card_expansion" with "Death Star III"
+    And I fill in "Title" with "Huge Explosion"
+    And I select "Interrupt" from "Type"
+    And I select "Death Star III" from "Expansion"
     And I press "Save"
     Then I should see "Card was successfully created."
   

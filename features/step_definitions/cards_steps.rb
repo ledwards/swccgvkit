@@ -1,5 +1,9 @@
-Given /^a card(?: with title "([^"]*)")?$/ do |title|
-  title.present? ? Factory.create(:card, :title => title) : Factory.create(:card)
+Given /^a card$/ do
+  Factory.create(:card)
+end
+
+Given /^a card with ([^"]*) "([^"]*)"$/ do |attr, val|
+  Factory.create(:card, attr.gsub(" ", "_").to_sym => val)
 end
 
 When /^I edit the card with title "([^"]*)"$/ do |title|

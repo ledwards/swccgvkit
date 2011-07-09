@@ -24,7 +24,7 @@ module NavigationHelpers
       '/cards/1/edit'
 
     when /^the card page for "(.*)"$/
-      card_path(:id => Card.find_by_title($1).to_param)
+      card_path(Card.find_by_title($1))
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
