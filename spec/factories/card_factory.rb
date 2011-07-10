@@ -7,4 +7,5 @@ Factory.define :card do |f|
   f.expansion "Virtual Block 1"
   f.side "Light"
   f.card_type "Character"
+  f.vslip_image_file_name "placeholder.jpg"
 end

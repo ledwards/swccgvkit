@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe HomeController do
-
   describe "GET 'home/index'" do
     before do
       @some_user = User.new(:email => "someuser@gmail.com", :password => "foobar", :password_confirmation => "foobar")
@@ -21,6 +20,13 @@ describe HomeController do
       assigns[:sort].should == "title"
       assigns[:side].should == "Dark"
       assigns[:expansion].should == "Premiere"
+    end
+
+    it "calls the appropriate scopes on Card" do
+      card = mock("Card")
+      Card.stub_chain(:virtual, :vslip_present, :search, :expansion, :side, :paginate).and_return([card])
+      get :index
+      assigns[:cards].should == [card]
     end
   end
 end

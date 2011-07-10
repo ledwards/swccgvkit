@@ -47,6 +47,7 @@ class Card < ActiveRecord::Base
   scope :virtual, lambda {
     where("cards.expansion LIKE ?", "Virtual%")
   }
+  scope :vslip_present, where("cards.vslip_image_file_name IS NOT NULL")
   
   before_save :enforce_consistency_of_string_values
   

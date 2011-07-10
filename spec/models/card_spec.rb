@@ -35,6 +35,15 @@ describe Card do
     @card.should_not be_valid
   end
   
+  describe ".vslip_present" do
+    it "includes only cards with vslip_image defined" do
+      included_card = Factory.create(:card, :vslip_image_file_name => "something")
+      Factory.create(:card, :vslip_image_file_name => nil)
+
+      Card.vslip_present.should == [included_card]
+    end
+  end
+
   describe ".expansion" do
     it "includes only cards with expansion equal to the parameter" do
       @included_card = Factory.create(:card, :expansion => "included")
