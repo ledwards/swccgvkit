@@ -7,16 +7,20 @@ Feature: User creates cardlists
   @javascript
   Scenario: Creating the first new cardlist
     Given a logged in user
-    And some cards
+    And cards with the following attributes:
+      | title          |
+      | Darth Vader    |
     And I am on the home page
-    When I fill in "search_box" with "Card"
+    When I fill in "search_box" with "Vader"
     And I add a card to the current cardlist
-    Then I should see "Card" within "#current_cardlist"
+    Then I should see "Vader" within "#current_cardlist"
     
   @javascript
   Scenario: Creating a second cardlist
     Given a logged in user
-    And some cards
+    And cards with the following attributes:
+      | title          |
+      | Darth Vader    |
     And a cardlist named "Old Cardlist"
     And I am on the home page
 
@@ -25,5 +29,5 @@ Feature: User creates cardlists
     Then I should see "New Cardlist" within "#current_cardlist"
     
     And I add a card to the current cardlist
-    Then I should see "Card" within "ul#cardlist"
+    Then I should see "Vader" within "ul#cardlist"
 
