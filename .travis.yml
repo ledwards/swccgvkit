@@ -1,0 +1,6 @@
+rvm: 1.9.2
+postgres:
+  adapter: postgresql
+  database: swccgvkit_test
+  username: postgres
+
