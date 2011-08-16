@@ -45,4 +45,3 @@ Feature: User indexes cards
 
     When I follow "Remove" within "#search_details h2"
     Then I should not see "Vader" within "#search_details h2"
-

@@ -1,9 +1,10 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.3'
+gem 'rails', '3.0.7'
 gem 'bundler'
 gem 'mysql'
 gem "pg"
+gem "rake", "0.8.7"
 
 gem 'aws-s3', :require => 'aws/s3'
 gem "cancan"
@@ -13,7 +14,7 @@ gem 'jquery-rails'
 gem "paperclip"
 gem "wicked_pdf"
 gem "wkhtmltopdf"
-gem 'will_paginate', '~> 3.0.beta'
+gem 'will_paginate', '~> 3.0.pre2'
 
 group :test do
   gem 'capybara'

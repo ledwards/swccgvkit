@@ -1,4 +1,4 @@
-rvm: 1.9.2
+rvm: ree-1.8.7-2010.02
 postgres:
   adapter: postgresql
   database: swccgvkit_test

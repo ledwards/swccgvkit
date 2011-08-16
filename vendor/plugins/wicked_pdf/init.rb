@@ -10,5 +10,3 @@ unless ActionView::Base.instance_methods.collect(&:to_s).include? "wicked_pdf_st
   require 'wicked_pdf_helper'
   ActionView::Base.send :include, WickedPdfHelper
 end
-
-Mime::Type.register 'application/pdf', :pdf
