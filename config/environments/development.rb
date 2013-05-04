@@ -11,20 +11,19 @@ Swccgvkit::Application.configure do
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
-  config.action_view.debug_rjs             = true
   config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false
-  
+
   #Deprecation warnings
   config.active_support.deprecation :log
-  
+
   #Paperclip.options[:command_path] = "/opt/local/bin" # useful for some OS X installations of ImageMagick (identify)
   Paperclip.options[:swallow_stderr] = false
 
   config.s3_bucket = "ledwards-swccgvkit-development"
-  
+
   config.vslip_image_import_path = "#{Rails.root}/../shared/vslips"
   config.card_image_import_path = "#{Rails.root}/../shared/cards"
 
