@@ -1,13 +1,17 @@
 <div id="search">
   <div class="button_container">
     <%= form_tag controller_index, :method => "get" do %>
+      <span id="legacy-input">
+        <%= label_tag :legacy %>
+        <%= check_box_tag :legacy, "1", params[:legacy] %>
+      </span>
       <%= text_field_tag :search, {}, :size => 32, :value => "Search for cards", :id => "search_box" %>
       <%= hidden_field_tag :direction, @direction if @direction.present? %>
       <%= hidden_field_tag :sort, @sort if @sort.present? %>
       <%= hidden_field_tag :side, @side if @side.present?%>
       <%= hidden_field_tag :expansion, @expansion if @expansion.present? %>
       <%= hidden_field_tag :cardlist_id, @cardlist ? @cardlist.id : params[:cardlist_id], { :id => nil, :class => "cardlist_id_hidden_field" } %>
-      <%= submit_tag "Search", :name => nil, :class => "button" %>
+        <%= submit_tag "Search", :name => nil, :class => "button", :id => "search-button" %>
     <% end %>
   </div>
 </div>

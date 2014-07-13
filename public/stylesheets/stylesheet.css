@@ -97,7 +97,7 @@ div.left ul { margin-left: 10px; }
 
 input.button { border: none; background: url(/images/button.png) 0px 0px no-repeat;
   font-family: "Lucida Grande","Lucida Sans Unicode",Arial,Verdana,sans-serif;
-  font-size: 12px; color: #fad575;  padding-bottom: 7px; text-align: center;
+  font-size: 12px; color: #fad575;  padding-bottom: 4px; padding-top: 3px; text-align: center;
   height:30px; width: 84px; vertical-align: middle; }
 
 input.button:hover { background-position: 0px -29px; color: #fff; cursor: pointer; }
@@ -226,3 +226,13 @@ div#current_cardlist li { margin-left: 5px; }
 
 a#edit_title_link { text-align: center; margin-left: 78px; }
 .inline_add_button { margin-bottom: -4px; margin-left: 2px; }
+
+#legacy-input {
+  position: relative;
+  top: 51px;
+  left: -180px;
+}
+
+#search-button {
+  margin-top: 7px;
+}

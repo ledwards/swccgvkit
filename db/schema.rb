@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110712030007) do
+ActiveRecord::Schema.define(:version => 20140713160034) do
 
   create_table "card_attributes", :force => true do |t|
     t.string  "name"
@@ -73,7 +73,10 @@ ActiveRecord::Schema.define(:version => 20110712030007) do
     t.string   "vslip_back_image_content_type"
     t.integer  "vslip_back_image_file_size"
     t.datetime "vslip_back_image_updated_at"
+    t.boolean  "legacy",                        :default => false, :null => false
   end
+
+  add_index "cards", ["legacy"], :name => "index_cards_on_legacy"
 
   create_table "roles", :force => true do |t|
     t.string "name"

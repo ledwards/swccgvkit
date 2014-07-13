@@ -21,6 +21,10 @@
       <%= select :card, :expansion, Card.expansions %>
       </p>
       <p>
+      <%= f.label :legacy %>
+      <%= f.check_box :legacy %>
+      </p>
+      <p>
       <%= f.label :card_type, "Type" %> <%= link_to "[+]", "#" %><br />
       <%= select :card, :card_type, Card.card_types %>
       </p>
